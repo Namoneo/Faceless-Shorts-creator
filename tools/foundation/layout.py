@@ -1,4 +1,4 @@
-"""Caption box estimate. This is not a browser shaper; see FOUNDATION.md."""
+"""Advisory caption width estimate. The pass/fail check is Chrome geometry in qa.py."""
 
 from __future__ import annotations
 

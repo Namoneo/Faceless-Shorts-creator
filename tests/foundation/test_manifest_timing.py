@@ -11,10 +11,12 @@ import unittest
 from pathlib import Path
 
 from tests.foundation.support import FIXTURE, HOLD, HOOK, REPO, copy_fixture, load_fixture
+from tools.foundation.cache import scene_job
 from tools.foundation.layout import caption_overflow
-from tools.foundation.manifest import ManifestError, validate_manifest
+from tools.foundation.manifest import ManifestError, load_manifest, timeline, validate_manifest
 from tools.foundation.qa import check_captions
-from tools.foundation.timing import TimingError, display_words, resolve_timing
+from tools.foundation.render import _props
+from tools.foundation.timing import TimingError, display_words, line_for_scene, load_timing, resolve_timing
 
 HASH_A = "a" * 64
 HASH_B = "b" * 64
@@ -48,6 +50,58 @@ class ManifestTests(unittest.TestCase):
         allowed = check_captions(overflowing)
         self.assertTrue(all(item["pass"] for item in allowed))
         self.assertTrue(any(item["detail"].get("detected") and item["detail"].get("allowed") for item in allowed))
+        self.assertTrue(all(item["detail"].get("verified") for item in allowed))
+
+    def test_wide_text_fails_geometry_when_the_estimate_fits(self) -> None:
+        doc = load_fixture()
+        doc["scenes"][0]["text"]["uz-Latn"] = "W" * 17
+        doc["scenes"][0]["caption"] = {"fontScale": 0.045, "maxLines": 1}
+        estimate = caption_overflow(
+            "W" * 17,
+            1080,
+            1920,
+            doc["scenes"][0]["safe"],
+            doc["scenes"][0]["caption"],
+        )
+        self.assertFalse(estimate["overflow"], estimate)
+        items = check_captions(doc)
+        portrait = next(item for item in items if item["detail"]["formatId"] == "portrait" and item["detail"]["sceneId"] == "scene-hook")
+        self.assertTrue(portrait["detail"]["verified"])
+        self.assertTrue(portrait["detail"]["detected"])
+        self.assertTrue(portrait["detail"]["estimateMissed"])
+        self.assertFalse(portrait["pass"])
+        doc["qa"]["allowCaptionOverflow"] = True
+        allowed = check_captions(doc)
+        portrait_ok = next(item for item in allowed if item["detail"]["formatId"] == "portrait" and item["detail"]["sceneId"] == "scene-hook")
+        self.assertTrue(portrait_ok["pass"])
+        self.assertTrue(portrait_ok["detail"]["detected"])
+
+    def test_both_formats_keep_the_same_apostrophe_codepoints(self) -> None:
+        manifest = load_manifest(FIXTURE / "manifest.json")
+        timing = resolve_timing(
+            load_timing(FIXTURE / "timing" / "narration-main.json"),
+            HASH_A,
+            {scene["id"] for scene in manifest["scenes"]},
+        )
+        props = _props(manifest, timeline(manifest), timing)
+        hook = props["scenes"][0]["text"]
+        hold = props["scenes"][1]["text"]
+        self.assertEqual(hook, HOOK)
+        self.assertEqual(hold, HOLD)
+        self.assertEqual([ord(ch) for ch in hook if ord(ch) > 127], [0x02BB, 0x02BB])
+        self.assertEqual([ord(ch) for ch in hold if ord(ch) > 127], [0x2018, 0x2018, 0x2018])
+        self.assertNotIn("'", hook)
+        self.assertNotIn("\u2019", hook)
+        seen: dict[str, set[str]] = {}
+        for fmt in manifest["formats"]:
+            for scene, row in zip(manifest["scenes"], timeline(manifest)):
+                line = line_for_scene(timing, scene["id"])
+                self.assertIsNotNone(line)
+                assert line is not None
+                job = scene_job(manifest, scene, fmt, row, line, "n" * 64, "v" * 64, Path("scene.mp4"))
+                seen.setdefault(scene["id"], set()).add(job["parameter"]["text"])
+        self.assertEqual(seen["scene-hook"], {HOOK})
+        self.assertEqual(seen["scene-hold"], {HOLD})
 
     def test_rejects_generation_providers_and_bad_shapes(self) -> None:
         for provider in ("elevenlabs", "fal", "fal.ai", "gemini", "voicestudio", "flow", "openai"):

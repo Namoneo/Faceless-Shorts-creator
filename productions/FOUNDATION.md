@@ -52,10 +52,10 @@ Outputs stay in `productions/fixtures/foundation/out/` and are gitignored. `repo
 
 These checks ran on the fixture. They do not prove pronunciation or Uzbek alignment.
 
-- Black: one `signalstats` YAVG sample at each scene midpoint. Below 20 fails. Limited-range black measures about 16, and the fixture background measures about 51. This is not every frame.
-- Silence: `volumedetect` on each scene window and clipping on the whole file. Silence is max volume at or below -45 dB. A quiet gap shorter than the window can be missed. Clipping is max volume above -0.5 dB.
+- Black: ffmpeg `blackdetect` over the whole stream (`d=0.001`, pixel threshold 0.10, 98% of the picture). A black frame that is not the scene midpoint still fails. Limited-range black measures about 16. A small dark object that does not cover the frame is not detected. `allowBlack` still reports the intervals.
+- Silence: ffmpeg `silencedetect` at -45 dB with a minimum of 0.05 s. A silent stretch inside a scene fails even when the rest of the scene is loud. A dropout shorter than 0.05 s can pass. Clipping is still whole-file max volume above -0.5 dB. `allowSilence` still reports the intervals.
 - `allowBlack`, `allowSilence`, `allowClipping`, and `allowCaptionOverflow` are required booleans. Detection still runs. The report records `detected` and `allowed`. An allowance does not turn the detector off.
-- Caption overflow is `ceil(len(text) * fontPx * 0.62 / safeWidth)` against `maxLines`. It is not HarfBuzz and not Chrome line breaking.
+- Caption overflow is measured in headless Chrome with DejaVu Sans, the caption width, and the real font size. The pass uses that geometry. The 0.62 em estimate is advisory and cannot pass a caption by itself. If Chrome or the font cannot be measured, the caption check fails as unverified. The status chip (`REVIEW`, `UNALIGNED`) is not part of the measured string. This is not a read-back of encoded pixels, and it does not prove pronunciation.
 - Duration may differ by up to two frames. AAC priming and encoder rounding are the reason.
 - Loudnorm is single-pass and depends on the local ffmpeg. The sine hash is stable on one machine. It is not a portable golden file.
 - Transitions in this tranche are cuts of zero duration. The timeline must equal `episodeDurationSec` within one frame, and each narration in/out must match its scene.

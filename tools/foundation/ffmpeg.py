@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 from pathlib import Path
 
@@ -80,6 +81,77 @@ def _db(text: str, label: str) -> float | None:
             except ValueError:
                 return None
     return None
+
+
+def black_intervals(path: Path) -> list[dict[str, float]]:
+    """Stream-wide black frames. One black frame is enough. A midpoint sample is not."""
+    result = subprocess.run(
+        [
+            "ffmpeg",
+            "-hide_banner",
+            "-nostats",
+            "-i",
+            str(path),
+            "-vf",
+            "blackdetect=d=0.001:pix_th=0.10:pic_th=0.98",
+            "-f",
+            "null",
+            "-",
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    if result.returncode != 0:
+        raise MediaError(f"blackdetect failed for {path}\n{result.stderr[-1500:]}")
+    duration = duration_seconds(probe(path)) or 0.0
+    found = []
+    for match in re.finditer(r"black_start:([0-9.]+)", result.stderr):
+        line = result.stderr[match.start():result.stderr.find("\n", match.start())]
+        start = float(match.group(1))
+        end_match = re.search(r"black_end:([0-9.]+)", line)
+        end = float(end_match.group(1)) if end_match else duration
+        found.append({"start": start, "end": end, "duration": max(0.0, end - start)})
+    return found
+
+
+def silence_intervals(path: Path, noise_db: float = -45.0, min_duration: float = 0.05) -> list[dict[str, float]]:
+    """Silence stretches inside the file, including a gap that is not the whole scene."""
+    result = subprocess.run(
+        [
+            "ffmpeg",
+            "-hide_banner",
+            "-nostats",
+            "-i",
+            str(path),
+            "-af",
+            f"silencedetect=noise={noise_db}dB:d={min_duration}",
+            "-f",
+            "null",
+            "-",
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    if result.returncode != 0:
+        raise MediaError(f"silencedetect failed for {path}\n{result.stderr[-1500:]}")
+    duration = duration_seconds(probe(path)) or 0.0
+    found = []
+    pending: float | None = None
+    for line in result.stderr.splitlines():
+        start_match = re.search(r"silence_start:\s*([0-9.]+)", line)
+        if start_match:
+            pending = float(start_match.group(1))
+            continue
+        end_match = re.search(r"silence_end:\s*([0-9.]+)", line)
+        if end_match and pending is not None:
+            end = float(end_match.group(1))
+            found.append({"start": pending, "end": end, "duration": max(0.0, end - pending)})
+            pending = None
+    if pending is not None:
+        found.append({"start": pending, "end": duration, "duration": max(0.0, duration - pending)})
+    return found
 
 
 def frame_luma(path: Path, time_sec: float) -> float | None:

@@ -5,13 +5,14 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from tools.foundation.ffmpeg import duration_seconds, frame_luma, probe, stream_of, volume_detect
+from tools.foundation.caption_measure import CaptionMeasureError, measure_captions
+from tools.foundation.ffmpeg import black_intervals, duration_seconds, probe, silence_intervals, stream_of, volume_detect
 from tools.foundation.layout import caption_overflow
 from tools.foundation.manifest import timeline
 from tools.foundation.timing import line_for_scene
 
-BLACK_LUMA = 20.0
 SILENCE_MAX_DB = -45.0
+SILENCE_MIN_SEC = 0.05
 CLIP_MAX_DB = -0.5
 DURATION_FRAMES = 2
 
@@ -48,26 +49,67 @@ def check_timeline(manifest: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def check_captions(manifest: dict[str, Any]) -> list[dict[str, Any]]:
-    items = []
     language = manifest["language"]
+    cases = []
+    specs = []
     for scene in manifest["scenes"]:
         text = scene["text"][language]
+        allowed = bool(manifest["qa"]["allowCaptionOverflow"] or scene.get("qa", {}).get("allowCaptionOverflow"))
         for fmt in manifest["formats"]:
-            box = caption_overflow(text, fmt["width"], fmt["height"], scene["safe"], scene["caption"])
-            allowed = bool(manifest["qa"]["allowCaptionOverflow"] or scene.get("qa", {}).get("allowCaptionOverflow"))
-            items.append(
-                _item(
-                    "caption-overflow",
-                    (not box["overflow"]) or allowed,
-                    {
-                        "sceneId": scene["id"],
-                        "formatId": fmt["id"],
-                        "detected": box["overflow"],
-                        "allowed": allowed,
-                        "estimate": box,
-                    },
-                )
+            estimate = caption_overflow(text, fmt["width"], fmt["height"], scene["safe"], scene["caption"])
+            case_id = f"{scene['id']}:{fmt['id']}"
+            cases.append(
+                {
+                    "id": case_id,
+                    "text": text,
+                    "widthPx": estimate["maxWidthPx"],
+                    "fontPx": estimate["fontPx"],
+                    "maxLines": estimate["maxLines"],
+                }
             )
+            specs.append((scene["id"], fmt["id"], allowed, estimate))
+    try:
+        measured = {item["id"]: item for item in measure_captions(cases)}
+    except CaptionMeasureError as exc:
+        return [
+            _item(
+                "caption-overflow",
+                False,
+                {
+                    "sceneId": scene_id,
+                    "formatId": format_id,
+                    "detected": None,
+                    "allowed": allowed,
+                    "verified": False,
+                    "reason": str(exc),
+                    "estimate": estimate,
+                    "estimateRole": "advisory",
+                },
+            )
+            for scene_id, format_id, allowed, estimate in specs
+        ]
+    items = []
+    for scene_id, format_id, allowed, estimate in specs:
+        box = measured[f"{scene_id}:{format_id}"]
+        verified = bool(box.get("fontOk"))
+        detected = bool(box.get("overflow"))
+        items.append(
+            _item(
+                "caption-overflow",
+                verified and ((not detected) or allowed),
+                {
+                    "sceneId": scene_id,
+                    "formatId": format_id,
+                    "detected": detected,
+                    "allowed": allowed,
+                    "verified": verified,
+                    "geometry": box,
+                    "estimate": estimate,
+                    "estimateRole": "advisory",
+                    "estimateMissed": (not estimate["overflow"]) and detected,
+                },
+            )
+        )
     return items
 
 
@@ -181,13 +223,22 @@ def check_levels(path: Path, allow_silence: bool, allow_clipping: bool, label: s
     ]
 
 
-def check_black(path: Path, time_sec: float, allow_black: bool, label: str) -> dict[str, Any]:
-    luma = frame_luma(path, time_sec)
-    detected = luma is None or luma < BLACK_LUMA
+def check_black_span(path: Path, start: float, end: float, allow_black: bool, label: str) -> dict[str, Any]:
+    intervals = [item for item in black_intervals(path) if _overlap(item["start"], item["end"], start, end) > 0.001]
+    detected = bool(intervals)
     return _item(
         "black-frame",
         (not detected) or allow_black,
-        {"label": label, "timeSec": time_sec, "luma": luma, "detected": detected, "allowed": allow_black, "threshold": BLACK_LUMA},
+        {
+            "label": label,
+            "detected": detected,
+            "allowed": allow_black,
+            "intervals": intervals,
+            "method": "ffmpeg-blackdetect",
+            "minDurationSec": 0.001,
+            "pictureBlackRatio": 0.98,
+            "pixelBlackThreshold": 0.10,
+        },
     )
 
 
@@ -200,19 +251,26 @@ def _scene_picture_and_audio(path: Path, manifest: dict[str, Any], label: str) -
         scene = next(item for item in manifest["scenes"] if item["id"] == row["id"])
         scene_black = allow_black or bool(scene.get("qa", {}).get("allowBlack"))
         scene_silence = allow_silence or bool(scene.get("qa", {}).get("allowSilence"))
-        midpoint = (float(row["startSec"]) + float(row["endSec"])) / 2
-        items.append(check_black(path, midpoint, scene_black, f"{label}:{row['id']}"))
-        levels = volume_detect(path, start=float(row["startSec"]), duration=float(row["durationSec"]))
-        silent = levels["max_db"] is None or levels["max_db"] <= SILENCE_MAX_DB
+        items.append(
+            check_black_span(path, float(row["startSec"]), float(row["endSec"]), scene_black, f"{label}:{row['id']}")
+        )
+        gaps = [
+            item
+            for item in silence_intervals(path, noise_db=SILENCE_MAX_DB, min_duration=SILENCE_MIN_SEC)
+            if _overlap(item["start"], item["end"], float(row["startSec"]), float(row["endSec"])) > 0.001
+        ]
         items.append(
             _item(
                 "scene-silence",
-                (not silent) or scene_silence,
+                (not gaps) or scene_silence,
                 {
                     "label": f"{label}:{row['id']}",
-                    "detected": silent,
+                    "detected": bool(gaps),
                     "allowed": scene_silence,
-                    "levels": levels,
+                    "intervals": gaps,
+                    "method": "ffmpeg-silencedetect",
+                    "noiseDb": SILENCE_MAX_DB,
+                    "minDurationSec": SILENCE_MIN_SEC,
                 },
             )
         )
@@ -226,6 +284,10 @@ def _scene_picture_and_audio(path: Path, manifest: dict[str, Any], label: str) -
         )
     )
     return items
+
+
+def _overlap(start: float, end: float, window_start: float, window_end: float) -> float:
+    return max(0.0, min(end, window_end) - max(start, window_start))
 
 
 def _fps(value: Any) -> float | None:

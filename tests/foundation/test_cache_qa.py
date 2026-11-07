@@ -11,11 +11,11 @@ from pathlib import Path
 from typing import Any
 
 from tests.foundation.support import copy_fixture, write_color
-from tools.foundation.ffmpeg import volume_detect
+from tools.foundation.ffmpeg import frame_luma, volume_detect
 from tools.foundation.hashutil import sha256_file
 from tools.foundation.manifest import ManifestError, load_manifest
 from tools.foundation.narration import prepare_narration, prepare_one
-from tools.foundation.qa import check_black, check_levels, check_media, check_timeline
+from tools.foundation.qa import check_black_span, check_levels, check_media, check_timeline
 from tools.foundation.render import RenderFailure, run_episode
 
 
@@ -177,8 +177,8 @@ class QaNegativeTests(unittest.TestCase):
             ["ffmpeg", "-y", "-hide_banner", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=440:sample_rate=48000:duration=0.3,volume=20dB", "-c:a", "pcm_s16le", str(clipped)],
             check=True,
         )
-        blocked = check_black(black, 0.05, allow_black=False, label="black")
-        allowed = check_black(black, 0.05, allow_black=True, label="black")
+        blocked = check_black_span(black, 0.0, 0.3, allow_black=False, label="black")
+        allowed = check_black_span(black, 0.0, 0.3, allow_black=True, label="black")
         self.assertFalse(blocked["pass"])
         self.assertTrue(blocked["detail"]["detected"])
         self.assertTrue(allowed["pass"])
@@ -198,6 +198,99 @@ class QaNegativeTests(unittest.TestCase):
         self.assertTrue(allowed_clip["detail"]["detected"])
         self.assertTrue(allowed_clip["detail"]["allowed"])
         self.assertGreater(volume_detect(clipped)["max_db"], -0.5)
+
+    def test_black_away_from_the_midpoint_fails_until_allowed(self) -> None:
+        root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, root)
+        path = root / "transient.mp4"
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-y",
+                "-hide_banner",
+                "-v",
+                "error",
+                "-f",
+                "lavfi",
+                "-i",
+                "color=c=0x1e2a3a:s=320x180:r=30:d=2",
+                "-f",
+                "lavfi",
+                "-i",
+                "color=c=black:s=320x180:r=30:d=2",
+                "-filter_complex",
+                "[0][1]overlay=enable='between(n,3,6)'",
+                "-frames:v",
+                "60",
+                "-c:v",
+                "libx264",
+                "-pix_fmt",
+                "yuv420p",
+                str(path),
+            ],
+            check=True,
+        )
+        midpoint = frame_luma(path, 1.0)
+        self.assertIsNotNone(midpoint)
+        assert midpoint is not None
+        self.assertGreaterEqual(midpoint, 20.0)
+        blocked = check_black_span(path, 0.0, 2.0, allow_black=False, label="scene")
+        self.assertFalse(blocked["pass"])
+        self.assertTrue(blocked["detail"]["detected"])
+        self.assertLess(blocked["detail"]["intervals"][0]["end"], 0.5)
+        allowed = check_black_span(path, 0.0, 2.0, allow_black=True, label="scene")
+        self.assertTrue(allowed["pass"])
+        self.assertTrue(allowed["detail"]["detected"])
+        self.assertTrue(allowed["detail"]["allowed"])
+
+    def test_silence_inside_a_scene_fails_when_the_window_is_not_wholly_silent(self) -> None:
+        root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, root)
+        path = root / "gap.mp4"
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-y",
+                "-hide_banner",
+                "-v",
+                "error",
+                "-f",
+                "lavfi",
+                "-i",
+                "color=c=0x1e2a3a:s=320x180:r=30:d=2",
+                "-f",
+                "lavfi",
+                "-i",
+                "sine=frequency=440:sample_rate=48000:duration=2,volume=volume='if(between(t,0.40,0.70),0,1)':eval=frame",
+                "-c:v",
+                "libx264",
+                "-pix_fmt",
+                "yuv420p",
+                "-c:a",
+                "aac",
+                "-shortest",
+                str(path),
+            ],
+            check=True,
+        )
+        manifest = {
+            "fps": 30,
+            "episodeDurationSec": 2,
+            "qa": {"allowBlack": False, "allowSilence": False, "allowClipping": False, "allowCaptionOverflow": False},
+            "scenes": [{"id": "scene-hook", "durationSec": 2}],
+            "transitions": [],
+        }
+        fmt = {"id": "landscape", "width": 320, "height": 180}
+        blocked = [item for item in check_media(path, fmt, manifest) if item["id"] == "scene-silence"]
+        self.assertTrue(blocked)
+        self.assertFalse(blocked[0]["pass"])
+        self.assertTrue(blocked[0]["detail"]["detected"])
+        self.assertGreater(volume_detect(path)["max_db"], -45)
+        manifest["qa"]["allowSilence"] = True
+        allowed = [item for item in check_media(path, fmt, manifest) if item["id"] == "scene-silence"]
+        self.assertTrue(allowed[0]["pass"])
+        self.assertTrue(allowed[0]["detail"]["detected"])
+        self.assertTrue(allowed[0]["detail"]["allowed"])
 
     def test_wrong_ratio_fps_and_duration_fail(self) -> None:
         root = Path(tempfile.mkdtemp())
