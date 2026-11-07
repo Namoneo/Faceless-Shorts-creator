@@ -4,6 +4,7 @@
 # dependencies / build output
 node_modules/
 remotion/out/
+.remotion/
 __pycache__/
 *.pyc
 venv/
@@ -22,6 +23,9 @@ vox-shorts/*/output/
 # live in media/projects/<name>/ where the composition reads them via staticFile()
 ai-shorts/*/shots/*.mp4
 ai-shorts/*/bakeoff/*.mp4
+
+# offline foundation fixture renders (rebuilt by tools.foundation)
+productions/fixtures/foundation/out/
 
 # local editor config
 .vscode/

@@ -1,0 +1,33 @@
+{
+  "assetId": "narration-main",
+  "language": "uz-Latn",
+  "audioContentHash": null,
+  "lines": [
+    {
+      "sceneId": "scene-hook",
+      "state": "review",
+      "text": "Qani, tanla! O\u02bbzbekcha g\u02bbalaba.",
+      "words": [
+        {"w": "Qani,", "start": 0.1, "end": 0.4, "state": "review"},
+        {"w": "tanla!", "start": 0.45, "end": 0.9, "state": "review"},
+        {"w": "Ozbekcha", "start": 1.0, "end": 1.4, "state": "review"},
+        {"w": "g\u02bbalaba.", "start": 1.45, "end": 1.9, "state": "review"}
+      ]
+    },
+    {
+      "sceneId": "scene-hold",
+      "state": "unaligned",
+      "text": "o\u2018g\u2018 varianti: g\u2018alaba."
+    }
+  ],
+  "corrections": [
+    {
+      "id": "corr-modifier",
+      "sceneId": "scene-hook",
+      "wordIndex": 2,
+      "replacement": "O\u02bbzbekcha",
+      "reason": "preserve the modifier letter in the display text",
+      "audioContentHash": null
+    }
+  ]
+}
