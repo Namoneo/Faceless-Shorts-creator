@@ -27,7 +27,7 @@ Stop and wait for an explicit answer at each of these. Do not continue past one 
 
 1. Outline, script, and storyboard approval.
 2. Flow. The packet status must go `planned` → `awaiting_manual_generation` → `awaiting_import` → `validated` → `approved`. The person exports the clip in Flow. You only import the file they give you. `python3 -m tools.foundation.cli flow-generate` exits 2.
-3. Narration import. `python3 -m tools.foundation.cli narration-door --door import` is the open door. `--door voicestudio` exits 1. The Uzbek config requests engine Navoiy, model Navoiy, and voice Nodira, and then refuses. Do not call the Mac app. `en` and `nl` have no voice configured and do not fall back to OmniVoice.
+3. Narration import. `python3 -m tools.foundation.cli narration-door --door import` is the open door. `--door voicestudio` exits 1. The Uzbek config requests engine `cosyvoice`, voice profile Nodira, and `require_navoiy` true, then refuses. `voiceConsent` is unset, so commercial use is blocked. Do not call the Mac app. `en` and `nl` have no voice configured and do not fall back to OmniVoice.
 4. Assembly approval, after the packet is `approved` and the narration file is imported.
 
 A credit figure from `productions/flow-price-table.json` is an estimate. Say that, and tell the person to check the price in Flow before they approve. It is not a quote.

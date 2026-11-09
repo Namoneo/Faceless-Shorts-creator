@@ -10,7 +10,7 @@ right skill is picked automatically from the request:
 | "vox style / documentary / explainer short" | `/make-vox` | layered paper-collage (AI images + cutouts) | `vox-shorts/vox-N-<topic>/` |
 | a long episode, 16:9, then Shorts | `/make-long` then `/repurpose-short` | offline import plus a manual Flow export; no provider call | `productions/` |
 
-The first three tracks are unchanged and still call their own providers when you run them. `/make-long` and `/repurpose-short` do not. Flow is a packet a person exports by hand. fal stays off that path. VoiceStudio is a fail-closed stub: the Uzbek request is engine Navoiy, model Navoiy, voice Nodira, and the command refuses before any runtime call. See `productions/FOUNDATION.md`.
+The first three tracks are unchanged and still call their own providers when you run them. `/make-long` and `/repurpose-short` do not. Flow is a packet a person exports by hand. fal stays off that path. VoiceStudio is a fail-closed stub: the Uzbek request is engine `cosyvoice`, voice profile Nodira, `require_navoiy` true, and `voiceConsent` unset. The command refuses before any runtime call. See `productions/FOUNDATION.md`.
 
 All three share the same backbone: a `beats.json` contract, ElevenLabs voice with word-exact
 captions (`gen_voice.py`), frame-by-frame QA at phone scale, library-first SFX (`/suggest-sfx`),

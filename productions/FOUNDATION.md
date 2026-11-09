@@ -100,7 +100,7 @@ Naming `flow` as an asset provider still fails. The approved file enters as `imp
 
 ## VoiceStudio names
 
-The adapter config is `productions/voicestudio-voices.json`. For `uz-Latn` it requests engine `Navoiy`, model `Navoiy`, and voice `Nodira`. `en` and `nl` are unconfigured. There is no OmniVoice fallback. `synthesize` and `narration-door voicestudio` raise before any audio, download, or localhost call. The Mac runner is not approved.
+The adapter config is `productions/voicestudio-voices.json`. For `uz-Latn` it requests engine `cosyvoice`, voice profile `Nodira`, and `require_navoiy` true. `voiceConsent` is required and unset, so commercial use stays blocked. `navoiyActive` is false: this copy does not treat the checkpoint as active, and it does not ask the Mac. `en` and `nl` are unconfigured. There is no OmniVoice fallback. `synthesize` and `narration-door voicestudio` raise before any audio, download, or localhost call. The Mac runner is not approved. `upstreamCatalogMatch` is false.
 
 Checked on 9 Nov 2026 against `debpalash/VoiceStudio` `main` (`backend/config/models.yaml`, `backend/config/model_licenses.json` at commit `06c6e077f0fc35149efefc3561e9be5ae835d916`, `docs/engines/omnivoice.md`, `docs/licensing/model-inventory.md`) and against `aisha-org/navoiy-tts` README, NOTICE, and `inference.py`. No weights were downloaded.
 
@@ -110,7 +110,7 @@ The inventory says: "`commercial_use: true` means the recorded distribution scop
 
 Aisha's card says: "Lison Navoiy TTS is Aisha's public Uzbek expressive text-to-speech model artifact built on CosyVoice2." The summary lists `License | Apache-2.0` and `Base model | FunAudioLLM/CosyVoice2-0.5B`. The NOTICE says the CosyVoice components are "licensed under the Apache License, Version 2.0." `inference.py` selects the speaker with `--reference`, described as "Consented reference-speaker WAV", and the checkpoint with `--checkpoint`. It has no `--voice Nodira` flag. The demo manifest's reference is `zero_shot_prompt.wav`.
 
-So Sherzod's commercial-use statement matches the Aisha Apache-2.0 card, not VoiceStudio's inventory. VoiceStudio still defaults to OmniVoice and has not recorded a cleared Navoiy model. Nodira was not found as a selectable voice in either place. The config stores the requested names anyway and marks `upstreamCatalogMatch` false.
+A read-only check of Sherzod's Mac on 9 Nov 2026, after that upstream inspection: VoiceStudio 0.5.7 is running at 127.0.0.1:3900 and discovery responds. His local checkout has uncommitted additions that are not upstream: `backend/engines/cosyvoice_subprocess/navoiy.py`, `tests/test_navoiy_adapter.py`, and edits to `tts_backend.py` and `docs/engines/cosyvoice.md`. Navoiy is an opt-in checkpoint (`aisha-org/navoiy-tts`, Apache-2.0, CosyVoice2) loaded through engine `cosyvoice` when `OMNIVOICE_NAVOIY_DIR` is set. It advertises Uzbek only. It requires a permitted reference-speaker recording. The docs say commercial production needs your own recording or a reference with explicit commercial voice-synthesis permission. Nodira is a VoiceStudio voice profile. His worker config uses engine `cosyvoice`, voice profile `Nodira`, and `require_navoiy` true. This repo stores that selection and still does not call the Mac. `upstreamCatalogMatch` stays false because those Navoiy files are not on published upstream.
 
 ## Still out of scope
 

@@ -61,8 +61,9 @@ def plan_long(
         "voicestudio": "fail-closed",
         "uzLatnRequest": {
             "engine": uzbek["engine"],
-            "model": uzbek["model"],
-            "voice": uzbek["voice"],
+            "voice_profile": uzbek["voice_profile"],
+            "require_navoiy": uzbek["require_navoiy"],
+            "voiceConsent": voice.get("voiceConsent"),
         },
         "note": "Do not call VoiceStudio. Import a file the rights owner already has.",
     }

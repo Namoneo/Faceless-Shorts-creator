@@ -24,6 +24,8 @@ def load_voice_config(path: Path | None = None) -> dict[str, Any]:
         raise VoiceStudioBlocked(f"{target} is not a VoiceStudio voice config")
     if doc.get("status") != "fail-closed" or doc.get("callsRuntime") is not False:
         raise VoiceStudioBlocked("VoiceStudio config must stay fail-closed and must not call the runtime")
+    if "voiceConsent" not in doc:
+        raise VoiceStudioBlocked("VoiceStudio config requires voiceConsent")
     languages = doc.get("languages")
     if not isinstance(languages, dict) or "uz-Latn" not in languages:
         raise VoiceStudioBlocked("VoiceStudio config needs a uz-Latn entry")
@@ -38,12 +40,45 @@ def voice_for(language: str, config: dict[str, Any] | None = None) -> dict[str, 
             f"VoiceStudio has no configured voice for {language}. "
             "It does not fall back to OmniVoice. Set that language in the voice config, or import audio."
         )
-    for key in ("engine", "model", "voice"):
-        if not isinstance(row.get(key), str) or not row[key]:
-            raise VoiceStudioBlocked(f"VoiceStudio {language} is missing {key}")
-    if row["engine"] == "OmniVoice" or row["model"] == "OmniVoice":
+    engine = row.get("engine")
+    profile = row.get("voice_profile")
+    if not isinstance(engine, str) or not engine or not isinstance(profile, str) or not profile:
+        raise VoiceStudioBlocked(f"VoiceStudio {language} needs engine and voice_profile")
+    if engine == "OmniVoice" or row.get("model") == "OmniVoice":
         raise VoiceStudioBlocked("OmniVoice is not the default. Configure another engine explicitly.")
-    return {"language": language, "engine": row["engine"], "model": row["model"], "voice": row["voice"]}
+    if row.get("require_navoiy") is not True:
+        raise VoiceStudioBlocked(
+            f"VoiceStudio {language} fails closed: require_navoiy must be true so a run without the Navoiy checkpoint is refused."
+        )
+    return {
+        "language": language,
+        "engine": engine,
+        "voice_profile": profile,
+        "require_navoiy": True,
+        "voiceConsent": doc.get("voiceConsent"),
+        "navoiyActive": doc.get("navoiyActive") is True,
+    }
+
+
+def _refuse(row: dict[str, Any]) -> None:
+    consent = row.get("voiceConsent")
+    consent_note = (
+        "voiceConsent is unset, so commercial use is blocked. "
+        "Commercial production needs your own recording or a reference with explicit commercial voice-synthesis permission."
+        if not consent
+        else "voiceConsent is set. Commercial use still waits on an approved runner."
+    )
+    active = (
+        "The Navoiy checkpoint is marked active in this config."
+        if row.get("navoiyActive")
+        else "require_navoiy is true and the Navoiy checkpoint is not active here. This stub does not query the Mac."
+    )
+    raise VoiceStudioBlocked(
+        "VoiceStudio is gated until the Mac runner is approved. "
+        f"The {row['language']} request would be engine {row['engine']}, voice_profile {row['voice_profile']}. "
+        f"{active} {consent_note} "
+        "This stub does not call VoiceStudio, download a model, or synthesize audio. Import a user-owned file."
+    )
 
 
 def narration_door(door: str, language: str = "uz-Latn") -> str:
@@ -51,21 +86,11 @@ def narration_door(door: str, language: str = "uz-Latn") -> str:
     if cleaned == "import":
         return "import"
     if cleaned == "voicestudio":
-        row = voice_for(language)
-        raise VoiceStudioBlocked(
-            "VoiceStudio is gated until the Mac runner is approved. "
-            f"The {language} request would be engine {row['engine']}, model {row['model']}, voice {row['voice']}. "
-            "This stub does not call VoiceStudio, download a model, or synthesize audio. Import a user-owned file."
-        )
+        _refuse(voice_for(language))
     raise VoiceStudioBlocked(f"unknown narration door {door!r}; the open door is import")
 
 
 def synthesize(language: str, text: str, config: dict[str, Any] | None = None) -> None:
     if not isinstance(text, str) or not text.strip():
         raise VoiceStudioBlocked("refusing an empty VoiceStudio request")
-    row = voice_for(language, config)
-    raise VoiceStudioBlocked(
-        "VoiceStudio is gated until the Mac runner is approved. "
-        f"Requested {row['language']}: engine {row['engine']}, model {row['model']}, voice {row['voice']}. "
-        "This stub does not call VoiceStudio, download a model, or synthesize audio."
-    )
+    _refuse(voice_for(language, config))

@@ -5,12 +5,23 @@
   "downloadsModels": false,
   "replacesDefault": "OmniVoice",
   "upstreamCatalogMatch": false,
+  "upstreamCatalogNote": "Published VoiceStudio main does not contain Navoiy. Sherzod's local checkout, not upstream, adds backend/engines/cosyvoice_subprocess/navoiy.py and tests/test_navoiy_adapter.py, and edits tts_backend.py and docs/engines/cosyvoice.md. Engine cosyvoice itself is upstream. Nodira is his local voice profile.",
+  "voiceConsent": null,
+  "navoiyActive": false,
   "languages": {
     "uz-Latn": {
       "configured": true,
-      "engine": "Navoiy",
-      "model": "Navoiy",
-      "voice": "Nodira"
+      "engine": "cosyvoice",
+      "voice_profile": "Nodira",
+      "require_navoiy": true,
+      "navoiy": {
+        "checkpoint": "aisha-org/navoiy-tts",
+        "license": "Apache-2.0",
+        "base": "CosyVoice2",
+        "languages": ["uz"],
+        "activation": "OMNIVOICE_NAVOIY_DIR",
+        "reference": "a permitted reference-speaker recording"
+      }
     },
     "en": {
       "configured": false,
