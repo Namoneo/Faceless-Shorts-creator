@@ -8,7 +8,7 @@ Each Short must stand on its own: its own hook card, the reused moment, and its 
 
 - Take narration and visual assets from the episode by sha256.
 - A matching hash is reused. A mismatch fails. Nothing is regenerated to "fix" a hash.
-- A portrait version of an approved Flow master is a local pad. It does not create a Flow packet.
+- A portrait version of an approved Flow master is a local layout: blurred fill, the clip placed by the focal point, and a caption at portrait size. It is not a pad onto empty bars, and it does not create a Flow packet.
 - A separate Flow variant needs a written reason and goes back to `/make-long`'s manual stop.
 - Hook audio is optional and must be a separate imported file. It is not VoiceStudio and not ElevenLabs.
 

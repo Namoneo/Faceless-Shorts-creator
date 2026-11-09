@@ -10,7 +10,7 @@ from typing import Any
 from tools.foundation.ffmpeg import MediaError, duration_seconds, probe, run, stream_of
 from tools.foundation.hashutil import sha256_file
 from tools.foundation.manifest import REQUIRED_FPS
-from tools.foundation.pictures import place_video
+from tools.foundation.pictures import DESIGNED_LAYOUT, STAND_IN_LABEL, portrait_layout, stand_in_filter
 
 STATUSES = (
     "planned",
@@ -205,12 +205,20 @@ def plan_separate_variant(packet: dict[str, Any], reason: str, ratio: str = "9:1
     return variant
 
 
-def derive_reframe(packet: dict[str, Any], out_path: Path, width: int, height: int) -> dict[str, Any]:
+def derive_reframe(
+    packet: dict[str, Any],
+    out_path: Path,
+    width: int,
+    height: int,
+    focal: dict[str, Any] | None = None,
+    caption: str = "",
+) -> dict[str, Any]:
     if packet.get("status") != "approved":
         raise FlowError("a derived reframe requires an approved master and does not generate a new clip")
     source = Path(packet["cachedPath"])
     if sha256_file(source) != packet["sourceHash"]:
         raise FlowError("cached Flow master does not match the approved hash")
+    used_focal = focal or packet.get("focal") or {"x": 0.5, "y": 0.5}
     sidecar = out_path.with_suffix(".reframe.json")
     if out_path.is_file() and sidecar.is_file():
         previous = json.loads(sidecar.read_text(encoding="utf-8"))
@@ -218,16 +226,22 @@ def derive_reframe(packet: dict[str, Any], out_path: Path, width: int, height: i
             previous.get("sourceHash") == packet["sourceHash"]
             and previous.get("width") == width
             and previous.get("height") == height
+            and previous.get("layout") == DESIGNED_LAYOUT
+            and previous.get("caption") == caption
+            and previous.get("focal") == used_focal
             and previous.get("derivativeHash") == sha256_file(out_path)
         ):
             return {**previous, "action": "skipped", "packetStatus": packet["status"], "regenerated": False}
-    place_video(source, out_path, width, height, float(packet["durationSec"]), int(packet["fps"]))
+    portrait_layout(source, out_path, width, height, float(packet["durationSec"]), int(packet["fps"]), used_focal, caption)
     record = {
         "action": "derived",
+        "layout": DESIGNED_LAYOUT,
         "sourceHash": packet["sourceHash"],
         "derivativeHash": sha256_file(out_path),
         "width": width,
         "height": height,
+        "focal": used_focal,
+        "caption": caption,
         "packetStatus": packet["status"],
         "regenerated": False,
     }
@@ -240,6 +254,8 @@ def write_synthetic_stand_in(packet: dict[str, Any], dest: Path) -> Path:
         raise FlowError("refusing to invent a Flow export; only the labelled synthetic stand-in can be built locally")
     dest.parent.mkdir(parents=True, exist_ok=True)
     duration = float(packet["durationSec"])
+    label_file = dest.with_suffix(".label.txt")
+    label_file.write_text(STAND_IN_LABEL, encoding="utf-8")
     run(
         [
             "ffmpeg",
@@ -255,6 +271,12 @@ def write_synthetic_stand_in(packet: dict[str, Any], dest: Path) -> Path:
             "lavfi",
             "-i",
             f"sine=frequency=440:sample_rate=48000:duration={duration:.3f}",
+            "-filter_complex",
+            f"[0:v]{stand_in_filter(label_file, int(packet['width']), int(packet['height']))}[v]",
+            "-map",
+            "[v]",
+            "-map",
+            "1:a",
             "-shortest",
             "-c:v",
             "libx264",
@@ -274,7 +296,7 @@ def write_synthetic_stand_in(packet: dict[str, Any], dest: Path) -> Path:
         ]
     )
     dest.with_suffix(".txt").write_text(
-        "Synthetic ffmpeg test pattern standing in for a manual Flow export. Not a Flow render. Not fal.\n",
+        STAND_IN_LABEL + "\nSynthetic ffmpeg test pattern. Not a Flow render. Not fal. Not TTS.\n",
         encoding="utf-8",
     )
     return dest

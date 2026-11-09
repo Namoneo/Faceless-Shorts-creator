@@ -12,7 +12,7 @@ from tools.foundation.flow import FlowError, derive_reframe, read_packet
 from tools.foundation.hashutil import parameter_hash, sha256_file
 from tools.foundation.manifest import ManifestError, load_manifest, timeline, validate_manifest
 from tools.foundation.narration import prepare_one
-from tools.foundation.pictures import place_video, render_card
+from tools.foundation.pictures import DESIGNED_LAYOUT, NATIVE_CARD, render_card
 from tools.foundation.qa import check_episode
 from tools.foundation.render import RenderFailure, _assemble
 from tools.foundation.timing import line_for_scene, resolve_timing
@@ -99,7 +99,7 @@ def _one_short(
     for name, duration, _text, mode in pieces:
         scene = next(item for item in manifest["scenes"] if item["id"] == f"{spec['id']}-{name}")
         output = short_out / "scenes" / f"{name}.mp4"
-        source_hash = _source_hash(name, mode, scene, language, duration, moment, episode_out, packet)
+        source_hash, reported_hash, layout = _identity(name, mode, scene, language, duration, moment, packet)
         part = short_out / "audio" / f"{name}.wav"
         if name == "moment" or hook_audio is None:
             start = float(moment["narration"]["inSec"]) if name == "moment" else 0.0
@@ -116,7 +116,7 @@ def _one_short(
         if decide(job, read_sidecar(sidecar), output) == "skip":
             action = "skipped"
         else:
-            _produce_piece(name, mode, scene, output, duration, language, moment, episode_out, packet)
+            _produce_piece(name, mode, scene, output, duration, language, moment, packet)
             action = "rendered"
             write_sidecar(
                 sidecar,
@@ -127,7 +127,8 @@ def _one_short(
                     "dependencies": job["dependencies"],
                     "output": str(output),
                     "outputContentHash": sha256_file(output),
-                    "sourceHash": source_hash,
+                    "sourceHash": reported_hash,
+                    "layout": layout,
                     "regenerated": False,
                 },
             )
@@ -140,7 +141,8 @@ def _one_short(
                 "dependencies": job["dependencies"],
                 "output": str(output),
                 "outputContentHash": sha256_file(output),
-                "sourceHash": source_hash,
+                "sourceHash": reported_hash,
+                "layout": layout,
                 "regenerated": False,
             }
         )
@@ -165,28 +167,40 @@ def _one_short(
         "assembled": assembled["records"],
         "scenes": scene_rows,
         "momentSourceHash": moment_row["sourceHash"],
+        "layout": moment_row["layout"],
         "regenerated": False,
         "hookAudioHash": hook_hash,
         "episodeNarrationHash": canonical_hash,
     }
 
 
-def _source_hash(
+def _identity(
     name: str,
     mode: str,
     scene: dict[str, Any],
     language: str,
     duration: float,
     moment: dict[str, Any],
-    episode_out: Path,
     packet: dict[str, Any],
-) -> str:
-    if name != "moment":
-        return parameter_hash({"role": name, "text": scene["text"][language], "durationSec": duration})
-    if mode == "flow-master":
-        return str(packet["sourceHash"])
-    source = episode_out / "scenes" / "landscape" / f"{moment['id']}.mp4"
-    return sha256_file(source)
+) -> tuple[str, str, str]:
+    text = scene["text"][language]
+    if name != "moment" or mode != "flow-master":
+        reported = parameter_hash(
+            {"layout": NATIVE_CARD, "role": name, "text": text, "durationSec": duration, "width": 1080, "height": 1920}
+        )
+        return reported, reported, NATIVE_CARD
+    focal = moment.get("focal") or {"x": 0.5, "y": 0.5}
+    cache_key = parameter_hash(
+        {
+            "layout": DESIGNED_LAYOUT,
+            "master": packet["sourceHash"],
+            "focal": focal,
+            "caption": text,
+            "width": 1080,
+            "height": 1920,
+        }
+    )
+    return cache_key, str(packet["sourceHash"]), DESIGNED_LAYOUT
 
 
 def _produce_piece(
@@ -197,17 +211,13 @@ def _produce_piece(
     duration: float,
     language: str,
     moment: dict[str, Any],
-    episode_out: Path,
     packet: dict[str, Any],
 ) -> None:
-    if name != "moment":
-        render_card(output, 1080, 1920, duration, scene["text"][language])
+    text = scene["text"][language]
+    if mode == "flow-master" and name == "moment":
+        derive_reframe(packet, output, 1080, 1920, focal=moment.get("focal"), caption=text)
         return
-    if mode == "flow-master":
-        derive_reframe(packet, output, 1080, 1920)
-        return
-    source = episode_out / "scenes" / "landscape" / f"{moment['id']}.mp4"
-    place_video(source, output, 1080, 1920, duration)
+    render_card(output, 1080, 1920, duration, text)
 
 
 def _short_manifest(episode: dict[str, Any], spec: dict[str, Any], pieces: list[tuple[str, float, dict[str, str], str]]) -> dict[str, Any]:

@@ -12,6 +12,8 @@ from pathlib import Path
 from tests.foundation.support import REPO, load_fixture
 from tools.foundation.ffmpeg import run
 from tools.foundation.hashutil import sha256_file
+from tools.foundation.pictures import DESIGNED_LAYOUT, NATIVE_CARD, STAND_IN_LABEL, portrait_layout, render_card
+from tools.foundation.qa import check_portrait_fill, check_uzbek_apostrophes
 from tools.foundation.flow import (
     ESTIMATE_LABEL,
     FlowError,
@@ -211,8 +213,12 @@ class LongformTests(unittest.TestCase):
             ["flow-pattern"],
         )
         stand_in = out / "stand-in.mp4"
-        if not stand_in.is_file():
+        label = stand_in.with_suffix(".label.txt")
+        labeled = label.is_file() and label.read_text(encoding="utf-8") == STAND_IN_LABEL
+        if not labeled:
             write_synthetic_stand_in(packet, stand_in)
+            if packet_path.is_file():
+                packet_path.unlink()
         if not packet_path.is_file():
             approved = approve(
                 import_export(
@@ -261,11 +267,26 @@ class LongformTests(unittest.TestCase):
         self.assertEqual([item["id"] for item in shorts["shorts"]], ["short-pattern", "short-middle"])
         pattern, middle = shorts["shorts"]
         self.assertEqual(pattern["momentSourceHash"], first["flow"]["sourceHash"])
+        self.assertEqual(pattern["layout"], DESIGNED_LAYOUT)
         self.assertFalse(pattern["regenerated"])
         self.assertIsNotNone(pattern["hookAudioHash"])
         middle_source = out / "scenes" / "landscape" / "scene-mid.mp4"
-        self.assertEqual(middle["momentSourceHash"], sha256_file(middle_source))
+        self.assertEqual(middle["layout"], NATIVE_CARD)
+        self.assertNotEqual(middle["momentSourceHash"], sha256_file(middle_source))
         self.assertFalse(middle["regenerated"])
+        self.assertGreater(_max_dark_row(out / "assemble" / "landscape.mp4", 8.0, 20, 120, 1920, 1080), 0.30)
+        self.assertGreater(
+            _max_dark_row(out / "shorts" / "short-pattern" / "assemble" / "portrait.mp4", 7.0, 80, 200, 1080, 1920),
+            0.30,
+        )
+        hook_ink = _ink_box(out / "shorts" / "short-middle" / "scenes" / "hook.mp4", 1080, 1920)
+        moment_ink = _ink_box(out / "shorts" / "short-middle" / "scenes" / "moment.mp4", 1080, 1920)
+        self.assertGreaterEqual(moment_ink[3] - moment_ink[2], (hook_ink[3] - hook_ink[2]) * 0.7)
+        for short_id in ("short-pattern", "short-middle"):
+            for name in ("hook", "ending") if short_id == "short-pattern" else ("hook", "moment", "ending"):
+                box = _ink_box(out / "shorts" / short_id / "scenes" / f"{name}.mp4", 1080, 1920)
+                self.assertGreater(box[0], 8, f"{short_id} {name}")
+                self.assertLess(box[1], 1080 - 8, f"{short_id} {name}")
         self.assertIsNone(middle["hookAudioHash"])
         again = run_repurpose(LONGFORM / "manifest.json", LONGFORM / "shorts.json", out, packet_path)
         for item in again["shorts"]:
@@ -294,3 +315,188 @@ class LongformTests(unittest.TestCase):
             else:
                 self.assertEqual(video["width"], 1080)
                 self.assertEqual(video["height"], 1920)
+
+    def test_portrait_pad_fails_and_fixture_apostrophes_are_u02bb(self) -> None:
+        manifest = {"scenes": [{"id": "only", "durationSec": 0.4}], "transitions": []}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            padded = root / "pad.mp4"
+            run(
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-hide_banner",
+                    "-v",
+                    "error",
+                    "-f",
+                    "lavfi",
+                    "-i",
+                    "color=c=0x1e2a3a:s=270x480:r=30:d=0.4",
+                    "-f",
+                    "lavfi",
+                    "-i",
+                    "testsrc2=size=270x152:rate=30:duration=0.4",
+                    "-filter_complex",
+                    "[0:v][1:v]overlay=(W-w)/2:(H-h)/2",
+                    "-frames:v",
+                    "12",
+                    "-c:v",
+                    "libx264",
+                    "-pix_fmt",
+                    "yuv420p",
+                    str(padded),
+                ]
+            )
+            card = root / "card.mp4"
+            render_card(card, 270, 480, 0.4, "O\u02bbrta sahna. Alohida turadi.")
+            wide = root / "wide.mp4"
+            run(
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-hide_banner",
+                    "-v",
+                    "error",
+                    "-f",
+                    "lavfi",
+                    "-i",
+                    "testsrc2=size=480x270:rate=30:duration=0.4",
+                    "-frames:v",
+                    "12",
+                    "-c:v",
+                    "libx264",
+                    "-pix_fmt",
+                    "yuv420p",
+                    str(wide),
+                ]
+            )
+            laid = root / "laid.mp4"
+            portrait_layout(wide, laid, 270, 480, 0.4, 30, {"x": 0.5, "y": 0.5}, "Naqsh. Qo\u02bblda olingan tasvir.")
+            solid = root / "solid.mp4"
+            run(
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-hide_banner",
+                    "-v",
+                    "error",
+                    "-f",
+                    "lavfi",
+                    "-i",
+                    "color=c=0x1e2a3a:s=270x480:r=30:d=0.4",
+                    "-frames:v",
+                    "12",
+                    "-c:v",
+                    "libx264",
+                    "-pix_fmt",
+                    "yuv420p",
+                    str(solid),
+                ]
+            )
+            pad_check = check_portrait_fill(padded, 270, 480, manifest)
+            self.assertFalse(pad_check[0]["pass"], pad_check[0])
+            self.assertLess(pad_check[0]["detail"]["contentArea"], 0.70)
+            for path in (card, laid, solid):
+                result = check_portrait_fill(path, 270, 480, manifest)
+                self.assertTrue(result[0]["pass"], result[0])
+        bad = check_uzbek_apostrophes({"scenes": [{"id": "bad", "text": {"uz-Latn": "O'zbekcha O'rta o'zi"}}]})
+        self.assertFalse(bad[0]["pass"])
+        self.assertEqual(bad[0]["detail"]["marks"], [
+            {"letters": "O'", "mark": "U+0027"},
+            {"letters": "O'", "mark": "U+0027"},
+            {"letters": "o'", "mark": "U+0027"},
+        ])
+        good = check_uzbek_apostrophes(
+            {"scenes": [{"id": "good", "text": {"uz-Latn": "O\u02bbzbekcha O\u02bbrta o\u02bbzi"}}]}
+        )
+        self.assertTrue(good[0]["pass"])
+        self.assertEqual([item["mark"] for item in good[0]["detail"]["marks"]], ["U+02BB", "U+02BB", "U+02BB"])
+        held = check_uzbek_apostrophes(load_fixture())
+        self.assertTrue(all(item["pass"] for item in held))
+        hold_marks = [mark["mark"] for item in held for mark in item["detail"]["marks"]]
+        self.assertIn("U+02BB", hold_marks)
+        self.assertIn("U+2018", hold_marks)
+        self.assertNotIn("U+0027", hold_marks)
+        fixture_marks = []
+        for path in (
+            LONGFORM / "manifest.json",
+            LONGFORM / "timing" / "narration-main.json",
+            LONGFORM / "shorts.json",
+        ):
+            fixture_marks.extend(_og_marks(json.dumps(json.loads(path.read_text(encoding="utf-8")), ensure_ascii=False)))
+        self.assertTrue(fixture_marks)
+        self.assertTrue(all(mark == "U+02BB" for mark in fixture_marks))
+
+
+def _og_marks(text: str) -> list[str]:
+    found = []
+    for index, char in enumerate(text[:-1]):
+        nxt = text[index + 1]
+        if char in "OoGg" and nxt in "\u0027\u02bb\u2018\u2019\u02bc":
+            found.append(f"U+{ord(nxt):04X}")
+    return found
+
+
+def _ink_box(path: Path, width: int, height: int) -> tuple[int, int, int, int]:
+    raw = subprocess.check_output(
+        [
+            "ffmpeg",
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-i",
+            str(path),
+            "-frames:v",
+            "1",
+            "-f",
+            "rawvideo",
+            "-pix_fmt",
+            "rgb24",
+            "-",
+        ]
+    )
+    min_x, max_x, min_y, max_y = width, -1, height, -1
+    for y in range(0, height, 2):
+        for x in range(0, width, 2):
+            index = (y * width + x) * 3
+            if raw[index] > 200 and raw[index + 1] > 200 and raw[index + 2] > 200:
+                min_x = min(min_x, x)
+                max_x = max(max_x, x)
+                min_y = min(min_y, y)
+                max_y = max(max_y, y)
+    return min_x, max_x, min_y, max_y
+
+
+def _max_dark_row(path: Path, time_sec: float, y0: int, y1: int, width: int, height: int) -> float:
+    raw = subprocess.check_output(
+        [
+            "ffmpeg",
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-i",
+            str(path),
+            "-ss",
+            f"{time_sec:.3f}",
+            "-frames:v",
+            "1",
+            "-f",
+            "rawvideo",
+            "-pix_fmt",
+            "rgb24",
+            "-",
+        ]
+    )
+    peak = 0.0
+    for y in range(y0, y1):
+        dark = 0
+        total = 0
+        for x in range(0, width, 4):
+            index = (y * width + x) * 3
+            luma = 0.2126 * raw[index] + 0.7152 * raw[index + 1] + 0.0722 * raw[index + 2]
+            total += 1
+            if luma < 40:
+                dark += 1
+        if total:
+            peak = max(peak, dark / total)
+    return peak

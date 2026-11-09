@@ -32,7 +32,7 @@ Stop and wait for an explicit answer at each of these. Do not continue past one 
 
 A credit figure from `productions/flow-price-table.json` is an estimate. Say that, and tell the person to check the price in Flow before they approve. It is not a quote.
 
-A derived portrait pad does not send the scene back to Flow. If the person needs a separate portrait or landscape generation, record the reason on a new `planned` packet and stop again. fal is not a substitute.
+A derived portrait layout does not send the scene back to Flow. It fills the frame and places the approved master by its focal point. It is not a pad onto empty bars. If the person needs a separate portrait or landscape generation, record the reason on a new `planned` packet and stop again. fal is not a substitute.
 
 ## After the approvals
 

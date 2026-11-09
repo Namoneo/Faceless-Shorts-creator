@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +27,7 @@ def check_episode(
     checks: list[dict[str, Any]] = []
     checks.extend(check_timeline(manifest))
     checks.extend(check_captions(manifest))
+    checks.extend(check_uzbek_apostrophes(manifest))
     checks.extend(check_timing_binding(manifest, timing_by_asset))
     for fmt in manifest["formats"]:
         path = assembled[fmt["id"]]
@@ -202,7 +205,143 @@ def check_media(path: Path, fmt: dict[str, Any], manifest: dict[str, Any]) -> li
         )
     )
     items.extend(_scene_picture_and_audio(path, manifest, label))
+    if height > width:
+        items.extend(check_portrait_fill(path, width, height, manifest))
     return items
+
+
+MIN_PORTRAIT_CONTENT = 0.70
+DENSE_PICTURE = 0.50
+APOSTROPHE_MARKS = "\u0027\u02bb\u2018\u2019\u02bc"
+ASCII_OG = re.compile(r"[OoGg]\u0027")
+
+
+def check_uzbek_apostrophes(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    """Fail when an Uzbek o' or g' is a straight ASCII apostrophe (U+0027).
+
+    U+02BB and U+2018 stay legal. They are different letters and are not folded.
+    """
+    items = []
+    for scene in manifest["scenes"]:
+        text = scene.get("text", {}).get("uz-Latn", "")
+        if not isinstance(text, str):
+            continue
+        pairs = []
+        for match in re.finditer(r"[OoGg].", text):
+            mark = match.group(0)[1]
+            if mark in APOSTROPHE_MARKS:
+                pairs.append({"letters": match.group(0)[0] + mark, "mark": f"U+{ord(mark):04X}"})
+        hits = [match.group(0) for match in ASCII_OG.finditer(text)]
+        items.append(
+            _item(
+                "uzbek-apostrophe",
+                not hits,
+                {"sceneId": scene["id"], "hits": hits, "marks": pairs},
+            )
+        )
+    return items
+
+
+def check_portrait_fill(path: Path, width: int, height: int, manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    """Fail a portrait frame whose picture is a small dense block on empty bars.
+
+    A full-frame field, a text card, and a blurred fill all pass. A 16:9 picture
+    padded into the portrait frame does not.
+    """
+    items = []
+    for row in timeline(manifest):
+        mid = (float(row["startSec"]) + float(row["endSec"])) / 2
+        frame = _read_frame(path, mid, width, height)
+        if frame is None:
+            items.append(_item("portrait-fill", False, {"sceneId": row["id"], "problem": "could not read a frame"}))
+            continue
+        verdict = _portrait_content(frame, width, height)
+        items.append(_item("portrait-fill", not verdict["padded"], {"sceneId": row["id"], **verdict}))
+    return items
+
+
+def _read_frame(path: Path, time_sec: float, width: int, height: int) -> bytes | None:
+    result = subprocess.run(
+        [
+            "ffmpeg",
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-i",
+            str(path),
+            "-ss",
+            f"{time_sec:.3f}",
+            "-frames:v",
+            "1",
+            "-f",
+            "rawvideo",
+            "-pix_fmt",
+            "rgb24",
+            "-",
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    expected = width * height * 3
+    if result.returncode != 0 or len(result.stdout) != expected:
+        return None
+    return result.stdout
+
+
+def _portrait_content(frame: bytes, width: int, height: int) -> dict[str, Any]:
+    def channel(x: int, y: int) -> tuple[int, int, int]:
+        index = (y * width + x) * 3
+        return frame[index], frame[index + 1], frame[index + 2]
+
+    bg = channel(min(2, width - 1), 0)
+
+    def is_bg(x: int, y: int) -> bool:
+        red, green, blue = channel(x, y)
+        return abs(red - bg[0]) + abs(green - bg[1]) + abs(blue - bg[2]) < 36
+
+    min_x = width
+    max_x = -1
+    min_y = height
+    max_y = -1
+    ink = 0
+    samples = 0
+    for y in range(0, height, 2):
+        for x in range(0, width, 2):
+            samples += 1
+            if is_bg(x, y):
+                continue
+            ink += 1
+            min_x = min(min_x, x)
+            max_x = max(max_x, x)
+            min_y = min(min_y, y)
+            max_y = max(max_y, y)
+    if ink == 0 or max_x < min_x:
+        return {"contentArea": 1.0, "padded": False, "kind": "full-frame", "density": 0.0, "threshold": MIN_PORTRAIT_CONTENT}
+    box_w = max_x - min_x + 2
+    box_h = max_y - min_y + 2
+    area = (box_w * box_h) / float(width * height)
+    inside = 0
+    inside_ink = 0
+    for y in range(min_y, max_y + 1, 2):
+        for x in range(min_x, max_x + 1, 2):
+            inside += 1
+            inside_ink += not is_bg(x, y)
+    density = inside_ink / inside if inside else 0.0
+    # Text on a full-bleed field has a small, sparse glyph box. A padded 16:9
+    # picture is a dense rectangle that does not fill the portrait frame.
+    padded = density >= DENSE_PICTURE and area < MIN_PORTRAIT_CONTENT
+    kind = "padded-source" if padded else ("text-on-field" if density < DENSE_PICTURE else "filled")
+    reported = 1.0 if kind != "padded-source" else area
+    return {
+        "contentArea": reported,
+        "bandArea": area,
+        "padded": padded,
+        "kind": kind,
+        "density": density,
+        "threshold": MIN_PORTRAIT_CONTENT,
+        "samples": samples,
+    }
 
 
 def check_levels(path: Path, allow_silence: bool, allow_clipping: bool, label: str) -> list[dict[str, Any]]:
