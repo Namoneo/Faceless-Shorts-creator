@@ -12,6 +12,7 @@ from pathlib import Path
 
 from tools.foundation.flow import FlowError
 from tools.foundation.longform import plan_long, run_longform
+from tools.foundation.pilot import PilotError, make_pilot
 from tools.foundation.manifest import ManifestError, load_manifest
 from tools.foundation.narration import prepare_narration
 from tools.foundation.render import RenderFailure, run_episode
@@ -48,6 +49,11 @@ def main(argv: list[str] | None = None) -> int:
     shorts.add_argument("--selection", required=True)
     shorts.add_argument("--out", required=True)
     shorts.add_argument("--packet", required=True)
+    pilot = sub.add_parser("make-pilot", help="Assemble episode 001 from a narration folder and a stills folder.")
+    pilot.add_argument("--episode", required=True)
+    pilot.add_argument("--narration", required=True)
+    pilot.add_argument("--stills", required=True)
+    pilot.add_argument("--out", required=True)
     args = parser.parse_args(argv)
     if args.command in {"generate", "flow-generate"}:
         print("refusing generation request; this runner is offline and does not call providers", file=sys.stderr)
@@ -55,6 +61,10 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.command == "narration-door":
             print(narration_door(args.door, args.language))
+            return 0
+        if args.command == "make-pilot":
+            report = make_pilot(Path(args.episode), Path(args.narration), Path(args.stills), Path(args.out))
+            print(json.dumps({"placeholder": report["placeholder"], "final": report["final"], "qaPass": report["qaPass"], "episode": report["episode"], "shorts": report["shorts"], "cost": report["cost"]}, ensure_ascii=False, indent=2))
             return 0
         if args.command == "plan-long":
             doc = plan_long(args.topic, args.language, args.duration, args.audience, Path(args.out), pilot=args.pilot)
@@ -76,7 +86,7 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(records, ensure_ascii=False, indent=2))
             return 0
         report = run_episode(manifest, out)
-    except (ManifestError, TimingError, RenderFailure, FlowError, VoiceStudioBlocked, OSError) as exc:
+    except (ManifestError, TimingError, RenderFailure, FlowError, VoiceStudioBlocked, PilotError, OSError) as exc:
         print(str(exc), file=sys.stderr)
         return 1
     if args.command == "qa" and not report["qaPass"]:

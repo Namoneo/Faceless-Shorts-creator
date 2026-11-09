@@ -14,6 +14,7 @@ from tools.foundation.ffmpeg import run
 from tools.foundation.hashutil import sha256_file
 from tools.foundation.pictures import DESIGNED_LAYOUT, NATIVE_CARD, STAND_IN_LABEL, portrait_layout, render_card
 from tools.foundation.qa import check_portrait_fill, check_uzbek_address, check_uzbek_apostrophes
+from tools.foundation.pilot import build_placeholder_timings
 from tools.foundation.flow import (
     ESTIMATE_LABEL,
     FlowError,
@@ -461,6 +462,97 @@ class LongformTests(unittest.TestCase):
             fixture_marks.extend(_og_marks(json.dumps(json.loads(path.read_text(encoding="utf-8")), ensure_ascii=False)))
         self.assertTrue(fixture_marks)
         self.assertTrue(all(mark == "U+02BB" for mark in fixture_marks))
+
+    def test_still_import_accepts_a_wide_jpeg_and_rejects_a_square(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            wide = root / "still-wide.jpg"
+            square = root / "still-square.jpg"
+            _jpeg(wide, 320, 180)
+            _jpeg(square, 320, 320)
+            packet = release_for_manual(_still_packet())
+            packet = mark_ready_to_import(packet)
+            validated = import_export(
+                packet,
+                wide,
+                {"tool": "Flow", "origin": "uzbekajon.com", "note": "Nano Banana 2.1 still, 0 credits."},
+                root / "cache",
+            )
+            self.assertEqual(validated["status"], "validated")
+            self.assertEqual(validated["sourceHash"], sha256_file(wide))
+            self.assertEqual(validated["deliveredWidth"], 320)
+            self.assertEqual(validated["deliveredHeight"], 180)
+            self.assertEqual(validated["history"][-1], "validated")
+            with self.assertRaises(FlowError):
+                import_export(
+                    mark_ready_to_import(release_for_manual(_still_packet())),
+                    square,
+                    {"tool": "Flow", "origin": "uzbekajon.com", "note": "square"},
+                    root / "cache",
+                )
+        scenes = json.loads((REPO / "productions" / "episode-001" / "scenes.json").read_text(encoding="utf-8"))
+        timings = build_placeholder_timings(scenes)
+        self.assertTrue(timings["placeholder"])
+        self.assertEqual([item["id"] for item in timings["sections"]], [item["id"] for item in scenes])
+        for scene, section in zip(scenes, timings["sections"]):
+            self.assertEqual(section["text"], scene["text"])
+            self.assertEqual(section["start"], scene["startSec"])
+            self.assertAlmostEqual(section["end"], scene["startSec"] + scene["durationSec"], places=3)
+        for scene in scenes:
+            if scene.get("role") != "countdown":
+                continue
+            covered = [chunk for chunk in timings["chunks"] if chunk["sectionId"] == scene["id"]]
+            self.assertTrue(covered)
+            self.assertAlmostEqual(covered[-1]["end"], scene["startSec"] + scene["durationSec"] - 2.0, places=3)
+
+
+def _still_packet() -> dict:
+    return {
+        "schemaVersion": 1,
+        "id": "still-wide",
+        "sceneId": "choice",
+        "status": "planned",
+        "prompt": "A wide still.",
+        "referenceAssetIds": [],
+        "referenceFiles": [],
+        "requestedModel": "flow-image",
+        "ratio": "16:9",
+        "width": 1920,
+        "height": 1080,
+        "durationSec": 4,
+        "fps": 30,
+        "audio": "none",
+        "focal": {"x": 0.5, "y": 0.5},
+        "safe": {"top": 0.08, "bottom": 0.18, "left": 0.06, "right": 0.06},
+        "dualFormat": {"reuseMasterFor": ["portrait"], "separateVariantReason": None},
+        "creditEstimate": {"known": False, "amount": None, "currency": "credits"},
+        "provenance": None,
+        "sourceHash": None,
+        "cachedPath": None,
+        "cacheAction": None,
+        "variantOf": None,
+        "history": ["planned"],
+        "mediaKind": "still",
+    }
+
+
+def _jpeg(path: Path, width: int, height: int) -> None:
+    run(
+        [
+            "ffmpeg",
+            "-y",
+            "-hide_banner",
+            "-v",
+            "error",
+            "-f",
+            "lavfi",
+            "-i",
+            f"color=c=0x336699:s={width}x{height}",
+            "-frames:v",
+            "1",
+            str(path),
+        ]
+    )
 
 
 def _og_marks(text: str) -> list[str]:

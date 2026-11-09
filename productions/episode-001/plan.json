@@ -377,87 +377,115 @@
   "flowPackets": [
     {
       "id": "still-palov",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "33a027c88e0e12653356aa13c71a729bc9978b08f80c570441b7336c78e015e2",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-somsa",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "4d060aac5d1fb2fdf1214a92b99a6ceed4490bbad55eee74b3148e046f28625c",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-choy",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "3f2718b73ee90aef609c2b3ea6cdd688098948ec9fa89493b2f3c013d3358821",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-qatiq",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "b1b9896cfb84acdbf19f5673d050188102d1766b60653ee144bbbfd1d329928a",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-samarqand",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "22f1ad1a79af011e2b57918b620dcd9ffb8c695831c29e2137aebb2dcc9096fd",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-buxoro",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "51594fd267ff2e5e61b62b37efdb4bc90a27c68c07645202e07c11c311be64ff",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-doira",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "cb05ecbb908ec697166e29bab0c52e1ae9d1d8e5fbef5343d1257719e189ae8e",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-rubob",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "edf4f6542dc4e3fba4d1e9faf40d02e35e53a604dcf7fe135228a5a353d5b327",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-kurash",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "6152125bb2124cc582e65401f0874476cefd5ca087f9a66ddb11ca8d7271ff55",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-futbol",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "2c01dc5ea73d4707c3d44ea7a95ac24980d0a5f9d5d903c8826e0692e230a46d",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-sumalak",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "b21b46bfd16c18aded3a8d81d156f75decfd14c85e730a868a4ee687b814d3cd",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-holva",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "4c9be5b0c528a56d6852f468f3bee6176ad25075605495f23568b44f09c812a0",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-bozor",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "2d8d0d0beeea621e219b5632f09d3ad248a13fe700ed65fe9f7ab09584bdc3d6",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     },
     {
       "id": "still-hovli",
-      "status": "planned",
-      "sourceHash": null,
-      "model": "flow-image"
+      "status": "validated",
+      "sourceHash": "50634627212fbcda65e5ddb973d6ebdf8c3e5a715578dc7428ec2be57d5c1d9d",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
     }
   ],
   "candidateShorts": [

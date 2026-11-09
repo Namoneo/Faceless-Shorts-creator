@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "still-palov",
   "sceneId": "r1-choice",
-  "status": "planned",
+  "status": "validated",
   "prompt": "A family-friendly photograph of Uzbek palov in a wide copper kazan: rice, carrot, and meat, light steam, warm indoor light. No people. No written text. No logo.",
   "referenceAssetIds": [],
   "referenceFiles": [],
@@ -39,15 +39,27 @@
     "note": "No row in the local price table.",
     "planningNote": "Stills have no per-second rate in this brief. See plan.md."
   },
-  "provenance": null,
-  "sourceHash": null,
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "33a027c88e0e12653356aa13c71a729bc9978b08f80c570441b7336c78e015e2",
   "cachedPath": null,
-  "cacheAction": null,
+  "cacheAction": "stored",
   "variantOf": null,
   "history": [
-    "planned"
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
   ],
   "mediaKind": "still",
   "focalGuidance": "Keep the kazan in the lower middle so a portrait crop still holds the dish.",
-  "portrait": "Derived later from this 16:9 master. Not a second Flow generation."
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-palov.jpg",
+  "deliveredWidth": 2752,
+  "deliveredHeight": 1536
 }

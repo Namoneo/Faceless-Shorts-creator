@@ -28,6 +28,10 @@ ai-shorts/*/bakeoff/*.mp4
 productions/fixtures/foundation/out/
 productions/fixtures/longform/out/
 productions/fixtures/longform/audio/
+productions/episode-001/out/
+productions/episode-001/cache/
+productions/episode-001/placeholder/*.wav
+productions/episode-001/placeholder/chunks/
 
 # local editor config
 .vscode/

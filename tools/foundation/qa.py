@@ -57,21 +57,22 @@ def check_captions(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     cases = []
     specs = []
     for scene in manifest["scenes"]:
-        text = scene["text"][language]
+        texts = _caption_texts(scene, language)
         allowed = bool(manifest["qa"]["allowCaptionOverflow"] or scene.get("qa", {}).get("allowCaptionOverflow"))
-        for fmt in manifest["formats"]:
-            estimate = caption_overflow(text, fmt["width"], fmt["height"], scene["safe"], scene["caption"])
-            case_id = f"{scene['id']}:{fmt['id']}"
-            cases.append(
-                {
-                    "id": case_id,
-                    "text": text,
-                    "widthPx": estimate["maxWidthPx"],
-                    "fontPx": estimate["fontPx"],
-                    "maxLines": estimate["maxLines"],
-                }
-            )
-            specs.append((scene["id"], fmt["id"], allowed, estimate))
+        for index, text in enumerate(texts):
+            for fmt in manifest["formats"]:
+                estimate = caption_overflow(text, fmt["width"], fmt["height"], scene["safe"], scene["caption"])
+                case_id = f"{scene['id']}:{fmt['id']}" if len(texts) == 1 else f"{scene['id']}:{fmt['id']}:{index}"
+                cases.append(
+                    {
+                        "id": case_id,
+                        "text": text,
+                        "widthPx": estimate["maxWidthPx"],
+                        "fontPx": estimate["fontPx"],
+                        "maxLines": estimate["maxLines"],
+                    }
+                )
+                specs.append((scene["id"], fmt["id"], allowed, estimate, case_id))
     try:
         measured = {item["id"]: item for item in measure_captions(cases)}
     except CaptionMeasureError as exc:
@@ -90,11 +91,11 @@ def check_captions(manifest: dict[str, Any]) -> list[dict[str, Any]]:
                     "estimateRole": "advisory",
                 },
             )
-            for scene_id, format_id, allowed, estimate in specs
+            for scene_id, format_id, allowed, estimate, _case_id in specs
         ]
     items = []
-    for scene_id, format_id, allowed, estimate in specs:
-        box = measured[f"{scene_id}:{format_id}"]
+    for scene_id, format_id, allowed, estimate, case_id in specs:
+        box = measured[case_id]
         verified = bool(box.get("fontOk"))
         detected = bool(box.get("overflow"))
         items.append(
@@ -215,6 +216,20 @@ MIN_PORTRAIT_CONTENT = 0.70
 DENSE_PICTURE = 0.50
 APOSTROPHE_MARKS = "\u0027\u02bb\u2018\u2019\u02bc"
 ASCII_OG = re.compile(r"[OoGg]\u0027")
+
+
+def _caption_texts(scene: dict[str, Any], language: str) -> list[str]:
+    cues = scene.get("captionCues")
+    if isinstance(cues, list) and cues:
+        texts = []
+        for cue in cues:
+            if isinstance(cue, str) and cue.strip():
+                texts.append(cue)
+            elif isinstance(cue, dict) and isinstance(cue.get("text"), str) and cue["text"].strip():
+                texts.append(cue["text"])
+        if texts:
+            return texts
+    return [scene["text"][language]]
 
 
 def check_uzbek_apostrophes(manifest: dict[str, Any]) -> list[dict[str, Any]]:

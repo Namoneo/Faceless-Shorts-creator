@@ -115,15 +115,18 @@ def portrait_layout(
     min_y = label_bottom
     max_y = max(min_y, caption_top - clip_h)
     overlay_y = int(round(min_y + (max_y - min_y) * fy))
-    drawn = (
-        f"[lay]drawtext=fontfile={FONT}:textfile={label_file}:fontsize={label_size}:fontcolor=white:"
-        f"box=1:boxcolor=0x000000@0.75:boxborderw=16:x=(w-text_w)/2:y=h*0.06"
-    )
+    draws = []
+    if label.strip():
+        draws.append(
+            f"drawtext=fontfile={FONT}:textfile={label_file}:fontsize={label_size}:fontcolor=white:"
+            f"box=1:boxcolor=0x000000@0.75:boxborderw=16:x=(w-text_w)/2:y=h*0.06"
+        )
     if caption.strip():
-        drawn += (
-            f",drawtext=fontfile={FONT}:textfile={caption_file}:fontsize={font_size}:fontcolor=white:"
+        draws.append(
+            f"drawtext=fontfile={FONT}:textfile={caption_file}:fontsize={font_size}:fontcolor=white:"
             f"line_spacing=12:box=1:boxcolor=0x000000@0.55:boxborderw=14:x=(w-text_w)/2:y=h*0.78"
         )
+    drawn = "[lay]null" if not draws else "[lay]" + ",".join(draws)
     graph = (
         f"[0:v]split=2[bg][fg];"
         f"[bg]scale={width}:{height}:force_original_aspect_ratio=increase,"

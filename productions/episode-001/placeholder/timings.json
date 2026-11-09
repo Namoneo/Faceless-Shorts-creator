@@ -1,0 +1,1938 @@
+{
+  "placeholder": true,
+  "sampleRate": 24000,
+  "channels": 1,
+  "note": "Synthetic timings stub. Not a VoiceStudio recording. Each countdown section ends with 2.0 s of silence.",
+  "sections": [
+    {
+      "id": "hook",
+      "start": 0.0,
+      "end": 18.723,
+      "text": "Toʻxtang. Sizga yettita tanlov bor. Oxirigacha yetib bora olasizmi? Har safar ikkita yoʻl. Siz bittasini tanlaysiz. Notoʻgʻri javob yoʻq. Bu imtihon emas. Bu dasturxon atrofidagi oʻyin. Tayyormisiz? Unda boshlaymiz. Ekranga qarang. Ikkalasini ham koʻrib chiqing. Tanlov sizda. Bugun yettita eshik. Bittasini ham oʻtkazib yubormang."
+    },
+    {
+      "id": "rules",
+      "start": 18.723,
+      "end": 37.872,
+      "text": "Qoida oddiy. Men ikkita variantni aytaman. Ekranda ikkita rasm turadi. Sanoq chiqadi. Beshdan birgacha. Shu paytda siz tanlaysiz. Shoshilmang. Keyin bitta qisqa fakt eshitasiz. Soʻng keyingi tanlov. Yettita raund bor. Qiyinlik sekin oshadi. Birinchi raund yengil. Yettinchi raund eng qiziq. Tayyor boʻlsangiz, birinchi eshikni ochamiz."
+    },
+    {
+      "id": "r1-choice",
+      "start": 37.872,
+      "end": 60.851,
+      "text": "Birinchi tanlov. Palovmi yoki somsa? Koʻzingizni yumib koʻring. Issiq qozon. Guruch, sabzi va goʻsht birga pishadi. Uyga palov hidi kiradi. Yoki tandir. Yangi somsa. Xamir issiq. Ichlik ham issiq. Mehmonga qaysi birini qoʻyasiz? Katta laganmi? Yoki qoʻldagi somsa? Agar oila katta boʻlsa, lagan ochiladi. Agar vaqt qisqa boʻlsa, somsa qoʻlga tushadi. Qaysi birini tanlaysiz?"
+    },
+    {
+      "id": "r1-count",
+      "start": 60.851,
+      "end": 70.128,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r1-fact",
+      "start": 70.128,
+      "end": 81.192,
+      "text": "Fakt. Oʻzbekistonda shunday gap bor. Mehmonga palov tortilmaguncha, u uydan ketmaydi. Bu odat ikki ming oʻn olti yili YuNESKO roʻyxatiga kiritilgan. Birinchi tanlov boʻldi. Ikkinchisiga oʻting."
+    },
+    {
+      "id": "r2-choice",
+      "start": 81.192,
+      "end": 104.171,
+      "text": "Ikkinchi tanlov. Choy piyolasimi yoki bir qultum qatiq? Ertalab choy sekin ichiladi. Piyola qoʻlda turadi. Suhbat choʻziladi. Tushdan keyin qatiq. U salqin. Bir yutumda ham yetadi. Dasturxon har ikkalasini ham koʻtaradi. Siz qaysi paytni tanlaysiz? Ertalabki sokinlikmi? Yoki tushlikdagi salqinlik? Mehmon eshikdan kirsa, choy birinchi chiqadi. Bolalar esa qatiqni tez soʻraydi. Qaysi idishni uzatasiz?"
+    },
+    {
+      "id": "r2-count",
+      "start": 104.171,
+      "end": 113.448,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r2-fact",
+      "start": 113.448,
+      "end": 122.384,
+      "text": "Fakt. Choy avval piyolaga quyiladi. Soʻng choynakka qaytariladi. Buni uch marta qilishadi. Uchinchisidan keyin choy tayyor. Ikkinchi tanlov boʻldi. Uchinchisiga oʻting."
+    },
+    {
+      "id": "r3-choice",
+      "start": 122.384,
+      "end": 141.107,
+      "text": "Uchinchi tanlov. Samarqandmi yoki Buxoro? Samarqandda qadam keng. Maydon ochiq. Registon koʻz oldingizda. Osmon katta. Buxoroda qadam sekin. Koʻchalar tor. Soya yaqin. Devor yaqin. Siz qayerda yurasiz? Keng maydonmi? Yoki tor koʻchami? Bir kunlik sayrda bitta shahar. Ikkinchisini keyinga qoldirasiz. Qaysi eshikni bugun ochasiz?"
+    },
+    {
+      "id": "r3-count",
+      "start": 141.107,
+      "end": 150.384,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r3-fact",
+      "start": 150.384,
+      "end": 163.575,
+      "text": "Fakt. Registonda uchta madrasa bor. Ulugʻbek, Sherdor va Tillakori. Buxoroda Kalon minorasi bor. U ming bir yuz yigirma yetti yilda bitgan. Balandligi qariyb qirq olti metr. Uchinchi tanlov boʻldi. Toʻrtinchisiga oʻting."
+    },
+    {
+      "id": "r4-choice",
+      "start": 163.575,
+      "end": 182.724,
+      "text": "Toʻrtinchi tanlov. Doirami yoki rubob? Doira qoʻlda uriladi. Bayramda qoʻl yuradi. Tovush yaqin. Zal birga kiradi. Rubob torli cholgʻu. U sekin kuyni olib boradi. Tovush ingichka. Suhbat tinchlanadi. Qaysi tovush sizga yaqin? Doirami? Yoki rubobmi? Toʻyda doira yaqin turadi. Kechqurun rubob sekinroq. Qaysi tovushni eshitasiz?"
+    },
+    {
+      "id": "r4-count",
+      "start": 182.724,
+      "end": 192.001,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r4-fact",
+      "start": 192.001,
+      "end": 199.235,
+      "text": "Fakt. Doira ramkali baraban. Ichida koʻpincha metall halqalar turadi. Halqalar chalinganda jaranglaydi. Toʻrtinchi tanlov boʻldi. Beshinchisiga oʻting."
+    },
+    {
+      "id": "r5-choice",
+      "start": 199.235,
+      "end": 217.958,
+      "text": "Beshinchi tanlov. Kurashmi yoki futbol? Kurashda belbogʻ ushlanadi. Gilam ustida kuch sinashadi. Ikkita kurashchi yaqin. Nafas eshitiladi. Futbolda koptok oyoqda yuradi. Maydon keng. Ovoz baland. Qaysi tomosha sizni ushlab turadi? Gilammi? Yoki darvoza? Bolalar maydon chetida turadi. Kattalar gilam yonida turadi. Siz qayerda turasiz?"
+    },
+    {
+      "id": "r5-count",
+      "start": 217.958,
+      "end": 227.235,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r5-fact",
+      "start": 227.235,
+      "end": 235.32,
+      "text": "Fakt. Kurash belbogʻli kurash. Ikki ming oʻn sakkiz yili u Jakarta Osiyo oʻyinlarida boʻlgan. Beshinchi tanlov boʻldi. Oltinchisiga oʻting."
+    },
+    {
+      "id": "r6-choice",
+      "start": 235.32,
+      "end": 254.894,
+      "text": "Oltinchi tanlov biroz qiyinroq. Sumalakmi yoki holva? Bayram stoli yoningizda. Bitta shirinlik tanlaysiz. Sumalak Navroʻz dasturxonida turadi. U shirin. U quyuq. Qoshiq sekin yuradi. Holva ham shirin. Boʻlak kichik. Taʼmi boshqacha. Siz qaysini tanlaysiz? Qoshiqdami? Yoki boʻlakda? Onangiz qoshiq uzatadi. Qoʻshningiz boʻlak uzatadi. Qaysi birini olasiz?"
+    },
+    {
+      "id": "r6-count",
+      "start": 254.894,
+      "end": 264.171,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r6-fact",
+      "start": 264.171,
+      "end": 273.958,
+      "text": "Fakt. Navroʻz yigirma bir mart. Sumalak unib chiqqan bugʻdoydan tayyorlanadi. Sharbatini oʻn soatgacha qaynatishadi. Qozonni navbat bilan aralashtirishadi. Oltinchi tanlov boʻldi. Yettinchisiga oʻting."
+    },
+    {
+      "id": "r7-choice",
+      "start": 273.958,
+      "end": 296.086,
+      "text": "Yettinchi tanlov. Eng qiziq biri shu. Erta tongdagi bozormi yoki kechki hovlidagi dasturxon? Erta turasizmi? Yoki kech qolasizmi? Bozorda ovoz erta koʻtariladi. Savatlar toʻladi. Salomlar qisqa. Hovlida ovoz sekin tushadi. Chiroqlar yonadi. Qozon bugʻlanadi. Suhbat choʻziladi. Qaysi soat sizniki? Erta bozorda non issiq. Kechki hovlida choy ikkinchi marta. Siz qaysi soatni saqlaysiz?"
+    },
+    {
+      "id": "r7-count",
+      "start": 296.086,
+      "end": 305.363,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r7-fact",
+      "start": 305.363,
+      "end": 315.576,
+      "text": "Fakt. Non tandirga yopishishdan oldin chekich bilan bosiladi. Chekich markazda naqsh qoldiradi. Teshiklardan bugʻ chiqadi. Markaz tekis qoladi. Yettita tanlov tugadi. Siz oxirigacha yurdingiz."
+    },
+    {
+      "id": "cta",
+      "start": 315.576,
+      "end": 333.448,
+      "text": "Qaysi tanlov sizga qiyinroq boʻldi? Qaysi bittasi sizni oʻylatdi? Qaysi uchtasi oson tuyuldi? Izohda yozing. Bitta soʻz ham yetadi. Kanal nomi: Qani, tanlang! Obuna boʻling. Keyingi yettita tanlovni oʻtkazib yubormang. Doʻstingizga ham yuboring. Birga tanlang. Keyingi tanlovni ham kutib turing. Sizni kutamiz."
+    },
+    {
+      "id": "ending",
+      "start": 333.448,
+      "end": 342.384,
+      "text": "Oxirigacha yetib bordingiz. Yettita eshik ochildi. Siz tanladingiz. Rahmat. Keyingi safar yana birga tanlaysiz. Shu yerda xayrlashamiz. Tanlovingiz siz bilan qoladi."
+    }
+  ],
+  "chunks": [
+    {
+      "id": "hook-0",
+      "sectionId": "hook",
+      "start": 0.0,
+      "end": 0.426,
+      "text": "Toʻxtang."
+    },
+    {
+      "id": "hook-1",
+      "sectionId": "hook",
+      "start": 0.426,
+      "end": 2.128,
+      "text": "Sizga yettita tanlov bor."
+    },
+    {
+      "id": "hook-2",
+      "sectionId": "hook",
+      "start": 2.128,
+      "end": 3.83,
+      "text": "Oxirigacha yetib bora olasizmi?"
+    },
+    {
+      "id": "hook-3",
+      "sectionId": "hook",
+      "start": 3.83,
+      "end": 5.532,
+      "text": "Har safar ikkita yoʻl."
+    },
+    {
+      "id": "hook-4",
+      "sectionId": "hook",
+      "start": 5.532,
+      "end": 6.808,
+      "text": "Siz bittasini tanlaysiz."
+    },
+    {
+      "id": "hook-5",
+      "sectionId": "hook",
+      "start": 6.808,
+      "end": 8.085,
+      "text": "Notoʻgʻri javob yoʻq."
+    },
+    {
+      "id": "hook-6",
+      "sectionId": "hook",
+      "start": 8.085,
+      "end": 9.361,
+      "text": "Bu imtihon emas."
+    },
+    {
+      "id": "hook-7",
+      "sectionId": "hook",
+      "start": 9.361,
+      "end": 11.064,
+      "text": "Bu dasturxon atrofidagi oʻyin."
+    },
+    {
+      "id": "hook-8",
+      "sectionId": "hook",
+      "start": 11.064,
+      "end": 11.489,
+      "text": "Tayyormisiz?"
+    },
+    {
+      "id": "hook-9",
+      "sectionId": "hook",
+      "start": 11.489,
+      "end": 12.34,
+      "text": "Unda boshlaymiz."
+    },
+    {
+      "id": "hook-10",
+      "sectionId": "hook",
+      "start": 12.34,
+      "end": 13.191,
+      "text": "Ekranga qarang."
+    },
+    {
+      "id": "hook-11",
+      "sectionId": "hook",
+      "start": 13.191,
+      "end": 14.893,
+      "text": "Ikkalasini ham koʻrib chiqing."
+    },
+    {
+      "id": "hook-12",
+      "sectionId": "hook",
+      "start": 14.893,
+      "end": 15.744,
+      "text": "Tanlov sizda."
+    },
+    {
+      "id": "hook-13",
+      "sectionId": "hook",
+      "start": 15.744,
+      "end": 17.021,
+      "text": "Bugun yettita eshik."
+    },
+    {
+      "id": "hook-14",
+      "sectionId": "hook",
+      "start": 17.021,
+      "end": 18.723,
+      "text": "Bittasini ham oʻtkazib yubormang."
+    },
+    {
+      "id": "rules-0",
+      "sectionId": "rules",
+      "start": 18.723,
+      "end": 19.574,
+      "text": "Qoida oddiy."
+    },
+    {
+      "id": "rules-1",
+      "sectionId": "rules",
+      "start": 19.574,
+      "end": 21.276,
+      "text": "Men ikkita variantni aytaman."
+    },
+    {
+      "id": "rules-2",
+      "sectionId": "rules",
+      "start": 21.276,
+      "end": 22.978,
+      "text": "Ekranda ikkita rasm turadi."
+    },
+    {
+      "id": "rules-3",
+      "sectionId": "rules",
+      "start": 22.978,
+      "end": 23.829,
+      "text": "Sanoq chiqadi."
+    },
+    {
+      "id": "rules-4",
+      "sectionId": "rules",
+      "start": 23.829,
+      "end": 24.68,
+      "text": "Beshdan birgacha."
+    },
+    {
+      "id": "rules-5",
+      "sectionId": "rules",
+      "start": 24.68,
+      "end": 26.383,
+      "text": "Shu paytda siz tanlaysiz."
+    },
+    {
+      "id": "rules-6",
+      "sectionId": "rules",
+      "start": 26.383,
+      "end": 26.808,
+      "text": "Shoshilmang."
+    },
+    {
+      "id": "rules-7",
+      "sectionId": "rules",
+      "start": 26.808,
+      "end": 28.936,
+      "text": "Keyin bitta qisqa fakt eshitasiz."
+    },
+    {
+      "id": "rules-8",
+      "sectionId": "rules",
+      "start": 28.936,
+      "end": 30.212,
+      "text": "Soʻng keyingi tanlov."
+    },
+    {
+      "id": "rules-9",
+      "sectionId": "rules",
+      "start": 30.212,
+      "end": 31.489,
+      "text": "Yettita raund bor."
+    },
+    {
+      "id": "rules-10",
+      "sectionId": "rules",
+      "start": 31.489,
+      "end": 32.766,
+      "text": "Qiyinlik sekin oshadi."
+    },
+    {
+      "id": "rules-11",
+      "sectionId": "rules",
+      "start": 32.766,
+      "end": 34.042,
+      "text": "Birinchi raund yengil."
+    },
+    {
+      "id": "rules-12",
+      "sectionId": "rules",
+      "start": 34.042,
+      "end": 35.744,
+      "text": "Yettinchi raund eng qiziq."
+    },
+    {
+      "id": "rules-13",
+      "sectionId": "rules",
+      "start": 35.744,
+      "end": 37.872,
+      "text": "Tayyor boʻlsangiz, birinchi eshikni ochamiz."
+    },
+    {
+      "id": "r1-choice-0",
+      "sectionId": "r1-choice",
+      "start": 37.872,
+      "end": 38.723,
+      "text": "Birinchi tanlov."
+    },
+    {
+      "id": "r1-choice-1",
+      "sectionId": "r1-choice",
+      "start": 38.723,
+      "end": 40.0,
+      "text": "Palovmi yoki somsa?"
+    },
+    {
+      "id": "r1-choice-2",
+      "sectionId": "r1-choice",
+      "start": 40.0,
+      "end": 41.276,
+      "text": "Koʻzingizni yumib koʻring."
+    },
+    {
+      "id": "r1-choice-3",
+      "sectionId": "r1-choice",
+      "start": 41.276,
+      "end": 42.127,
+      "text": "Issiq qozon."
+    },
+    {
+      "id": "r1-choice-4",
+      "sectionId": "r1-choice",
+      "start": 42.127,
+      "end": 44.681,
+      "text": "Guruch, sabzi va goʻsht birga pishadi."
+    },
+    {
+      "id": "r1-choice-5",
+      "sectionId": "r1-choice",
+      "start": 44.681,
+      "end": 46.383,
+      "text": "Uyga palov hidi kiradi."
+    },
+    {
+      "id": "r1-choice-6",
+      "sectionId": "r1-choice",
+      "start": 46.383,
+      "end": 47.234,
+      "text": "Yoki tandir."
+    },
+    {
+      "id": "r1-choice-7",
+      "sectionId": "r1-choice",
+      "start": 47.234,
+      "end": 48.085,
+      "text": "Yangi somsa."
+    },
+    {
+      "id": "r1-choice-8",
+      "sectionId": "r1-choice",
+      "start": 48.085,
+      "end": 48.936,
+      "text": "Xamir issiq."
+    },
+    {
+      "id": "r1-choice-9",
+      "sectionId": "r1-choice",
+      "start": 48.936,
+      "end": 50.213,
+      "text": "Ichlik ham issiq."
+    },
+    {
+      "id": "r1-choice-10",
+      "sectionId": "r1-choice",
+      "start": 50.213,
+      "end": 51.915,
+      "text": "Mehmonga qaysi birini qoʻyasiz?"
+    },
+    {
+      "id": "r1-choice-11",
+      "sectionId": "r1-choice",
+      "start": 51.915,
+      "end": 52.766,
+      "text": "Katta laganmi?"
+    },
+    {
+      "id": "r1-choice-12",
+      "sectionId": "r1-choice",
+      "start": 52.766,
+      "end": 54.042,
+      "text": "Yoki qoʻldagi somsa?"
+    },
+    {
+      "id": "r1-choice-13",
+      "sectionId": "r1-choice",
+      "start": 54.042,
+      "end": 56.596,
+      "text": "Agar oila katta boʻlsa, lagan ochiladi."
+    },
+    {
+      "id": "r1-choice-14",
+      "sectionId": "r1-choice",
+      "start": 56.596,
+      "end": 59.574,
+      "text": "Agar vaqt qisqa boʻlsa, somsa qoʻlga tushadi."
+    },
+    {
+      "id": "r1-choice-15",
+      "sectionId": "r1-choice",
+      "start": 59.574,
+      "end": 60.851,
+      "text": "Qaysi birini tanlaysiz?"
+    },
+    {
+      "id": "r1-count-0",
+      "sectionId": "r1-count",
+      "start": 60.851,
+      "end": 61.66,
+      "text": "Qarang."
+    },
+    {
+      "id": "r1-count-1",
+      "sectionId": "r1-count",
+      "start": 61.66,
+      "end": 62.468,
+      "text": "Besh."
+    },
+    {
+      "id": "r1-count-2",
+      "sectionId": "r1-count",
+      "start": 62.468,
+      "end": 63.277,
+      "text": "Toʻrt."
+    },
+    {
+      "id": "r1-count-3",
+      "sectionId": "r1-count",
+      "start": 63.277,
+      "end": 64.085,
+      "text": "Uch."
+    },
+    {
+      "id": "r1-count-4",
+      "sectionId": "r1-count",
+      "start": 64.085,
+      "end": 64.894,
+      "text": "Ikki."
+    },
+    {
+      "id": "r1-count-5",
+      "sectionId": "r1-count",
+      "start": 64.894,
+      "end": 65.702,
+      "text": "Bir."
+    },
+    {
+      "id": "r1-count-6",
+      "sectionId": "r1-count",
+      "start": 65.702,
+      "end": 68.128,
+      "text": "Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r1-fact-0",
+      "sectionId": "r1-fact",
+      "start": 70.128,
+      "end": 70.554,
+      "text": "Fakt."
+    },
+    {
+      "id": "r1-fact-1",
+      "sectionId": "r1-fact",
+      "start": 70.554,
+      "end": 72.256,
+      "text": "Oʻzbekistonda shunday gap bor."
+    },
+    {
+      "id": "r1-fact-2",
+      "sectionId": "r1-fact",
+      "start": 72.256,
+      "end": 74.809,
+      "text": "Mehmonga palov tortilmaguncha, u uydan ketmaydi."
+    },
+    {
+      "id": "r1-fact-3",
+      "sectionId": "r1-fact",
+      "start": 74.809,
+      "end": 79.064,
+      "text": "Bu odat ikki ming oʻn olti yili YuNESKO roʻyxatiga kiritilgan."
+    },
+    {
+      "id": "r1-fact-4",
+      "sectionId": "r1-fact",
+      "start": 79.064,
+      "end": 80.341,
+      "text": "Birinchi tanlov boʻldi."
+    },
+    {
+      "id": "r1-fact-5",
+      "sectionId": "r1-fact",
+      "start": 80.341,
+      "end": 81.192,
+      "text": "Ikkinchisiga oʻting."
+    },
+    {
+      "id": "r2-choice-0",
+      "sectionId": "r2-choice",
+      "start": 81.192,
+      "end": 82.043,
+      "text": "Ikkinchi tanlov."
+    },
+    {
+      "id": "r2-choice-1",
+      "sectionId": "r2-choice",
+      "start": 82.043,
+      "end": 84.596,
+      "text": "Choy piyolasimi yoki bir qultum qatiq?"
+    },
+    {
+      "id": "r2-choice-2",
+      "sectionId": "r2-choice",
+      "start": 84.596,
+      "end": 86.298,
+      "text": "Ertalab choy sekin ichiladi."
+    },
+    {
+      "id": "r2-choice-3",
+      "sectionId": "r2-choice",
+      "start": 86.298,
+      "end": 87.575,
+      "text": "Piyola qoʻlda turadi."
+    },
+    {
+      "id": "r2-choice-4",
+      "sectionId": "r2-choice",
+      "start": 87.575,
+      "end": 88.426,
+      "text": "Suhbat choʻziladi."
+    },
+    {
+      "id": "r2-choice-5",
+      "sectionId": "r2-choice",
+      "start": 88.426,
+      "end": 89.703,
+      "text": "Tushdan keyin qatiq."
+    },
+    {
+      "id": "r2-choice-6",
+      "sectionId": "r2-choice",
+      "start": 89.703,
+      "end": 90.554,
+      "text": "U salqin."
+    },
+    {
+      "id": "r2-choice-7",
+      "sectionId": "r2-choice",
+      "start": 90.554,
+      "end": 92.256,
+      "text": "Bir yutumda ham yetadi."
+    },
+    {
+      "id": "r2-choice-8",
+      "sectionId": "r2-choice",
+      "start": 92.256,
+      "end": 94.384,
+      "text": "Dasturxon har ikkalasini ham koʻtaradi."
+    },
+    {
+      "id": "r2-choice-9",
+      "sectionId": "r2-choice",
+      "start": 94.384,
+      "end": 96.086,
+      "text": "Siz qaysi paytni tanlaysiz?"
+    },
+    {
+      "id": "r2-choice-10",
+      "sectionId": "r2-choice",
+      "start": 96.086,
+      "end": 96.937,
+      "text": "Ertalabki sokinlikmi?"
+    },
+    {
+      "id": "r2-choice-11",
+      "sectionId": "r2-choice",
+      "start": 96.937,
+      "end": 98.213,
+      "text": "Yoki tushlikdagi salqinlik?"
+    },
+    {
+      "id": "r2-choice-12",
+      "sectionId": "r2-choice",
+      "start": 98.213,
+      "end": 100.767,
+      "text": "Mehmon eshikdan kirsa, choy birinchi chiqadi."
+    },
+    {
+      "id": "r2-choice-13",
+      "sectionId": "r2-choice",
+      "start": 100.767,
+      "end": 102.894,
+      "text": "Bolalar esa qatiqni tez soʻraydi."
+    },
+    {
+      "id": "r2-choice-14",
+      "sectionId": "r2-choice",
+      "start": 102.894,
+      "end": 104.171,
+      "text": "Qaysi idishni uzatasiz?"
+    },
+    {
+      "id": "r2-count-0",
+      "sectionId": "r2-count",
+      "start": 104.171,
+      "end": 104.98,
+      "text": "Qarang."
+    },
+    {
+      "id": "r2-count-1",
+      "sectionId": "r2-count",
+      "start": 104.98,
+      "end": 105.788,
+      "text": "Besh."
+    },
+    {
+      "id": "r2-count-2",
+      "sectionId": "r2-count",
+      "start": 105.788,
+      "end": 106.597,
+      "text": "Toʻrt."
+    },
+    {
+      "id": "r2-count-3",
+      "sectionId": "r2-count",
+      "start": 106.597,
+      "end": 107.405,
+      "text": "Uch."
+    },
+    {
+      "id": "r2-count-4",
+      "sectionId": "r2-count",
+      "start": 107.405,
+      "end": 108.214,
+      "text": "Ikki."
+    },
+    {
+      "id": "r2-count-5",
+      "sectionId": "r2-count",
+      "start": 108.214,
+      "end": 109.022,
+      "text": "Bir."
+    },
+    {
+      "id": "r2-count-6",
+      "sectionId": "r2-count",
+      "start": 109.022,
+      "end": 111.448,
+      "text": "Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r2-fact-0",
+      "sectionId": "r2-fact",
+      "start": 113.448,
+      "end": 113.874,
+      "text": "Fakt."
+    },
+    {
+      "id": "r2-fact-1",
+      "sectionId": "r2-fact",
+      "start": 113.874,
+      "end": 115.576,
+      "text": "Choy avval piyolaga quyiladi."
+    },
+    {
+      "id": "r2-fact-2",
+      "sectionId": "r2-fact",
+      "start": 115.576,
+      "end": 116.852,
+      "text": "Soʻng choynakka qaytariladi."
+    },
+    {
+      "id": "r2-fact-3",
+      "sectionId": "r2-fact",
+      "start": 116.852,
+      "end": 118.554,
+      "text": "Buni uch marta qilishadi."
+    },
+    {
+      "id": "r2-fact-4",
+      "sectionId": "r2-fact",
+      "start": 118.554,
+      "end": 120.256,
+      "text": "Uchinchisidan keyin choy tayyor."
+    },
+    {
+      "id": "r2-fact-5",
+      "sectionId": "r2-fact",
+      "start": 120.256,
+      "end": 121.533,
+      "text": "Ikkinchi tanlov boʻldi."
+    },
+    {
+      "id": "r2-fact-6",
+      "sectionId": "r2-fact",
+      "start": 121.533,
+      "end": 122.384,
+      "text": "Uchinchisiga oʻting."
+    },
+    {
+      "id": "r3-choice-0",
+      "sectionId": "r3-choice",
+      "start": 122.384,
+      "end": 123.235,
+      "text": "Uchinchi tanlov."
+    },
+    {
+      "id": "r3-choice-1",
+      "sectionId": "r3-choice",
+      "start": 123.235,
+      "end": 124.512,
+      "text": "Samarqandmi yoki Buxoro?"
+    },
+    {
+      "id": "r3-choice-2",
+      "sectionId": "r3-choice",
+      "start": 124.512,
+      "end": 125.788,
+      "text": "Samarqandda qadam keng."
+    },
+    {
+      "id": "r3-choice-3",
+      "sectionId": "r3-choice",
+      "start": 125.788,
+      "end": 126.639,
+      "text": "Maydon ochiq."
+    },
+    {
+      "id": "r3-choice-4",
+      "sectionId": "r3-choice",
+      "start": 126.639,
+      "end": 127.916,
+      "text": "Registon koʻz oldingizda."
+    },
+    {
+      "id": "r3-choice-5",
+      "sectionId": "r3-choice",
+      "start": 127.916,
+      "end": 128.767,
+      "text": "Osmon katta."
+    },
+    {
+      "id": "r3-choice-6",
+      "sectionId": "r3-choice",
+      "start": 128.767,
+      "end": 130.043,
+      "text": "Buxoroda qadam sekin."
+    },
+    {
+      "id": "r3-choice-7",
+      "sectionId": "r3-choice",
+      "start": 130.043,
+      "end": 130.894,
+      "text": "Koʻchalar tor."
+    },
+    {
+      "id": "r3-choice-8",
+      "sectionId": "r3-choice",
+      "start": 130.894,
+      "end": 131.745,
+      "text": "Soya yaqin."
+    },
+    {
+      "id": "r3-choice-9",
+      "sectionId": "r3-choice",
+      "start": 131.745,
+      "end": 132.597,
+      "text": "Devor yaqin."
+    },
+    {
+      "id": "r3-choice-10",
+      "sectionId": "r3-choice",
+      "start": 132.597,
+      "end": 133.873,
+      "text": "Siz qayerda yurasiz?"
+    },
+    {
+      "id": "r3-choice-11",
+      "sectionId": "r3-choice",
+      "start": 133.873,
+      "end": 134.724,
+      "text": "Keng maydonmi?"
+    },
+    {
+      "id": "r3-choice-12",
+      "sectionId": "r3-choice",
+      "start": 134.724,
+      "end": 136.001,
+      "text": "Yoki tor koʻchami?"
+    },
+    {
+      "id": "r3-choice-13",
+      "sectionId": "r3-choice",
+      "start": 136.001,
+      "end": 138.128,
+      "text": "Bir kunlik sayrda bitta shahar."
+    },
+    {
+      "id": "r3-choice-14",
+      "sectionId": "r3-choice",
+      "start": 138.128,
+      "end": 139.405,
+      "text": "Ikkinchisini keyinga qoldirasiz."
+    },
+    {
+      "id": "r3-choice-15",
+      "sectionId": "r3-choice",
+      "start": 139.405,
+      "end": 141.107,
+      "text": "Qaysi eshikni bugun ochasiz?"
+    },
+    {
+      "id": "r3-count-0",
+      "sectionId": "r3-count",
+      "start": 141.107,
+      "end": 141.916,
+      "text": "Qarang."
+    },
+    {
+      "id": "r3-count-1",
+      "sectionId": "r3-count",
+      "start": 141.916,
+      "end": 142.724,
+      "text": "Besh."
+    },
+    {
+      "id": "r3-count-2",
+      "sectionId": "r3-count",
+      "start": 142.724,
+      "end": 143.533,
+      "text": "Toʻrt."
+    },
+    {
+      "id": "r3-count-3",
+      "sectionId": "r3-count",
+      "start": 143.533,
+      "end": 144.341,
+      "text": "Uch."
+    },
+    {
+      "id": "r3-count-4",
+      "sectionId": "r3-count",
+      "start": 144.341,
+      "end": 145.15,
+      "text": "Ikki."
+    },
+    {
+      "id": "r3-count-5",
+      "sectionId": "r3-count",
+      "start": 145.15,
+      "end": 145.958,
+      "text": "Bir."
+    },
+    {
+      "id": "r3-count-6",
+      "sectionId": "r3-count",
+      "start": 145.958,
+      "end": 148.384,
+      "text": "Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r3-fact-0",
+      "sectionId": "r3-fact",
+      "start": 150.384,
+      "end": 150.81,
+      "text": "Fakt."
+    },
+    {
+      "id": "r3-fact-1",
+      "sectionId": "r3-fact",
+      "start": 150.81,
+      "end": 152.512,
+      "text": "Registonda uchta madrasa bor."
+    },
+    {
+      "id": "r3-fact-2",
+      "sectionId": "r3-fact",
+      "start": 152.512,
+      "end": 154.214,
+      "text": "Ulugʻbek, Sherdor va Tillakori."
+    },
+    {
+      "id": "r3-fact-3",
+      "sectionId": "r3-fact",
+      "start": 154.214,
+      "end": 155.916,
+      "text": "Buxoroda Kalon minorasi bor."
+    },
+    {
+      "id": "r3-fact-4",
+      "sectionId": "r3-fact",
+      "start": 155.916,
+      "end": 159.32,
+      "text": "U ming bir yuz yigirma yetti yilda bitgan."
+    },
+    {
+      "id": "r3-fact-5",
+      "sectionId": "r3-fact",
+      "start": 159.32,
+      "end": 161.447,
+      "text": "Balandligi qariyb qirq olti metr."
+    },
+    {
+      "id": "r3-fact-6",
+      "sectionId": "r3-fact",
+      "start": 161.447,
+      "end": 162.724,
+      "text": "Uchinchi tanlov boʻldi."
+    },
+    {
+      "id": "r3-fact-7",
+      "sectionId": "r3-fact",
+      "start": 162.724,
+      "end": 163.575,
+      "text": "Toʻrtinchisiga oʻting."
+    },
+    {
+      "id": "r4-choice-0",
+      "sectionId": "r4-choice",
+      "start": 163.575,
+      "end": 164.426,
+      "text": "Toʻrtinchi tanlov."
+    },
+    {
+      "id": "r4-choice-1",
+      "sectionId": "r4-choice",
+      "start": 164.426,
+      "end": 165.703,
+      "text": "Doirami yoki rubob?"
+    },
+    {
+      "id": "r4-choice-2",
+      "sectionId": "r4-choice",
+      "start": 165.703,
+      "end": 166.979,
+      "text": "Doira qoʻlda uriladi."
+    },
+    {
+      "id": "r4-choice-3",
+      "sectionId": "r4-choice",
+      "start": 166.979,
+      "end": 168.256,
+      "text": "Bayramda qoʻl yuradi."
+    },
+    {
+      "id": "r4-choice-4",
+      "sectionId": "r4-choice",
+      "start": 168.256,
+      "end": 169.107,
+      "text": "Tovush yaqin."
+    },
+    {
+      "id": "r4-choice-5",
+      "sectionId": "r4-choice",
+      "start": 169.107,
+      "end": 170.384,
+      "text": "Zal birga kiradi."
+    },
+    {
+      "id": "r4-choice-6",
+      "sectionId": "r4-choice",
+      "start": 170.384,
+      "end": 171.66,
+      "text": "Rubob torli cholgʻu."
+    },
+    {
+      "id": "r4-choice-7",
+      "sectionId": "r4-choice",
+      "start": 171.66,
+      "end": 173.788,
+      "text": "U sekin kuyni olib boradi."
+    },
+    {
+      "id": "r4-choice-8",
+      "sectionId": "r4-choice",
+      "start": 173.788,
+      "end": 174.639,
+      "text": "Tovush ingichka."
+    },
+    {
+      "id": "r4-choice-9",
+      "sectionId": "r4-choice",
+      "start": 174.639,
+      "end": 175.49,
+      "text": "Suhbat tinchlanadi."
+    },
+    {
+      "id": "r4-choice-10",
+      "sectionId": "r4-choice",
+      "start": 175.49,
+      "end": 177.192,
+      "text": "Qaysi tovush sizga yaqin?"
+    },
+    {
+      "id": "r4-choice-11",
+      "sectionId": "r4-choice",
+      "start": 177.192,
+      "end": 177.618,
+      "text": "Doirami?"
+    },
+    {
+      "id": "r4-choice-12",
+      "sectionId": "r4-choice",
+      "start": 177.618,
+      "end": 178.469,
+      "text": "Yoki rubobmi?"
+    },
+    {
+      "id": "r4-choice-13",
+      "sectionId": "r4-choice",
+      "start": 178.469,
+      "end": 180.171,
+      "text": "Toʻyda doira yaqin turadi."
+    },
+    {
+      "id": "r4-choice-14",
+      "sectionId": "r4-choice",
+      "start": 180.171,
+      "end": 181.447,
+      "text": "Kechqurun rubob sekinroq."
+    },
+    {
+      "id": "r4-choice-15",
+      "sectionId": "r4-choice",
+      "start": 181.447,
+      "end": 182.724,
+      "text": "Qaysi tovushni eshitasiz?"
+    },
+    {
+      "id": "r4-count-0",
+      "sectionId": "r4-count",
+      "start": 182.724,
+      "end": 183.533,
+      "text": "Qarang."
+    },
+    {
+      "id": "r4-count-1",
+      "sectionId": "r4-count",
+      "start": 183.533,
+      "end": 184.341,
+      "text": "Besh."
+    },
+    {
+      "id": "r4-count-2",
+      "sectionId": "r4-count",
+      "start": 184.341,
+      "end": 185.15,
+      "text": "Toʻrt."
+    },
+    {
+      "id": "r4-count-3",
+      "sectionId": "r4-count",
+      "start": 185.15,
+      "end": 185.958,
+      "text": "Uch."
+    },
+    {
+      "id": "r4-count-4",
+      "sectionId": "r4-count",
+      "start": 185.958,
+      "end": 186.767,
+      "text": "Ikki."
+    },
+    {
+      "id": "r4-count-5",
+      "sectionId": "r4-count",
+      "start": 186.767,
+      "end": 187.575,
+      "text": "Bir."
+    },
+    {
+      "id": "r4-count-6",
+      "sectionId": "r4-count",
+      "start": 187.575,
+      "end": 190.001,
+      "text": "Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r4-fact-0",
+      "sectionId": "r4-fact",
+      "start": 192.001,
+      "end": 192.427,
+      "text": "Fakt."
+    },
+    {
+      "id": "r4-fact-1",
+      "sectionId": "r4-fact",
+      "start": 192.427,
+      "end": 193.703,
+      "text": "Doira ramkali baraban."
+    },
+    {
+      "id": "r4-fact-2",
+      "sectionId": "r4-fact",
+      "start": 193.703,
+      "end": 195.831,
+      "text": "Ichida koʻpincha metall halqalar turadi."
+    },
+    {
+      "id": "r4-fact-3",
+      "sectionId": "r4-fact",
+      "start": 195.831,
+      "end": 197.107,
+      "text": "Halqalar chalinganda jaranglaydi."
+    },
+    {
+      "id": "r4-fact-4",
+      "sectionId": "r4-fact",
+      "start": 197.107,
+      "end": 198.384,
+      "text": "Toʻrtinchi tanlov boʻldi."
+    },
+    {
+      "id": "r4-fact-5",
+      "sectionId": "r4-fact",
+      "start": 198.384,
+      "end": 199.235,
+      "text": "Beshinchisiga oʻting."
+    },
+    {
+      "id": "r5-choice-0",
+      "sectionId": "r5-choice",
+      "start": 199.235,
+      "end": 200.086,
+      "text": "Beshinchi tanlov."
+    },
+    {
+      "id": "r5-choice-1",
+      "sectionId": "r5-choice",
+      "start": 200.086,
+      "end": 201.363,
+      "text": "Kurashmi yoki futbol?"
+    },
+    {
+      "id": "r5-choice-2",
+      "sectionId": "r5-choice",
+      "start": 201.363,
+      "end": 202.639,
+      "text": "Kurashda belbogʻ ushlanadi."
+    },
+    {
+      "id": "r5-choice-3",
+      "sectionId": "r5-choice",
+      "start": 202.639,
+      "end": 204.341,
+      "text": "Gilam ustida kuch sinashadi."
+    },
+    {
+      "id": "r5-choice-4",
+      "sectionId": "r5-choice",
+      "start": 204.341,
+      "end": 205.618,
+      "text": "Ikkita kurashchi yaqin."
+    },
+    {
+      "id": "r5-choice-5",
+      "sectionId": "r5-choice",
+      "start": 205.618,
+      "end": 206.469,
+      "text": "Nafas eshitiladi."
+    },
+    {
+      "id": "r5-choice-6",
+      "sectionId": "r5-choice",
+      "start": 206.469,
+      "end": 208.171,
+      "text": "Futbolda koptok oyoqda yuradi."
+    },
+    {
+      "id": "r5-choice-7",
+      "sectionId": "r5-choice",
+      "start": 208.171,
+      "end": 209.022,
+      "text": "Maydon keng."
+    },
+    {
+      "id": "r5-choice-8",
+      "sectionId": "r5-choice",
+      "start": 209.022,
+      "end": 209.873,
+      "text": "Ovoz baland."
+    },
+    {
+      "id": "r5-choice-9",
+      "sectionId": "r5-choice",
+      "start": 209.873,
+      "end": 212.001,
+      "text": "Qaysi tomosha sizni ushlab turadi?"
+    },
+    {
+      "id": "r5-choice-10",
+      "sectionId": "r5-choice",
+      "start": 212.001,
+      "end": 212.426,
+      "text": "Gilammi?"
+    },
+    {
+      "id": "r5-choice-11",
+      "sectionId": "r5-choice",
+      "start": 212.426,
+      "end": 213.277,
+      "text": "Yoki darvoza?"
+    },
+    {
+      "id": "r5-choice-12",
+      "sectionId": "r5-choice",
+      "start": 213.277,
+      "end": 214.979,
+      "text": "Bolalar maydon chetida turadi."
+    },
+    {
+      "id": "r5-choice-13",
+      "sectionId": "r5-choice",
+      "start": 214.979,
+      "end": 216.681,
+      "text": "Kattalar gilam yonida turadi."
+    },
+    {
+      "id": "r5-choice-14",
+      "sectionId": "r5-choice",
+      "start": 216.681,
+      "end": 217.958,
+      "text": "Siz qayerda turasiz?"
+    },
+    {
+      "id": "r5-count-0",
+      "sectionId": "r5-count",
+      "start": 217.958,
+      "end": 218.767,
+      "text": "Qarang."
+    },
+    {
+      "id": "r5-count-1",
+      "sectionId": "r5-count",
+      "start": 218.767,
+      "end": 219.575,
+      "text": "Besh."
+    },
+    {
+      "id": "r5-count-2",
+      "sectionId": "r5-count",
+      "start": 219.575,
+      "end": 220.384,
+      "text": "Toʻrt."
+    },
+    {
+      "id": "r5-count-3",
+      "sectionId": "r5-count",
+      "start": 220.384,
+      "end": 221.192,
+      "text": "Uch."
+    },
+    {
+      "id": "r5-count-4",
+      "sectionId": "r5-count",
+      "start": 221.192,
+      "end": 222.001,
+      "text": "Ikki."
+    },
+    {
+      "id": "r5-count-5",
+      "sectionId": "r5-count",
+      "start": 222.001,
+      "end": 222.809,
+      "text": "Bir."
+    },
+    {
+      "id": "r5-count-6",
+      "sectionId": "r5-count",
+      "start": 222.809,
+      "end": 225.235,
+      "text": "Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r5-fact-0",
+      "sectionId": "r5-fact",
+      "start": 227.235,
+      "end": 227.661,
+      "text": "Fakt."
+    },
+    {
+      "id": "r5-fact-1",
+      "sectionId": "r5-fact",
+      "start": 227.661,
+      "end": 228.937,
+      "text": "Kurash belbogʻli kurash."
+    },
+    {
+      "id": "r5-fact-2",
+      "sectionId": "r5-fact",
+      "start": 228.937,
+      "end": 233.192,
+      "text": "Ikki ming oʻn sakkiz yili u Jakarta Osiyo oʻyinlarida boʻlgan."
+    },
+    {
+      "id": "r5-fact-3",
+      "sectionId": "r5-fact",
+      "start": 233.192,
+      "end": 234.469,
+      "text": "Beshinchi tanlov boʻldi."
+    },
+    {
+      "id": "r5-fact-4",
+      "sectionId": "r5-fact",
+      "start": 234.469,
+      "end": 235.32,
+      "text": "Oltinchisiga oʻting."
+    },
+    {
+      "id": "r6-choice-0",
+      "sectionId": "r6-choice",
+      "start": 235.32,
+      "end": 237.022,
+      "text": "Oltinchi tanlov biroz qiyinroq."
+    },
+    {
+      "id": "r6-choice-1",
+      "sectionId": "r6-choice",
+      "start": 237.022,
+      "end": 238.299,
+      "text": "Sumalakmi yoki holva?"
+    },
+    {
+      "id": "r6-choice-2",
+      "sectionId": "r6-choice",
+      "start": 238.299,
+      "end": 239.575,
+      "text": "Bayram stoli yoningizda."
+    },
+    {
+      "id": "r6-choice-3",
+      "sectionId": "r6-choice",
+      "start": 239.575,
+      "end": 240.852,
+      "text": "Bitta shirinlik tanlaysiz."
+    },
+    {
+      "id": "r6-choice-4",
+      "sectionId": "r6-choice",
+      "start": 240.852,
+      "end": 242.554,
+      "text": "Sumalak Navroʻz dasturxonida turadi."
+    },
+    {
+      "id": "r6-choice-5",
+      "sectionId": "r6-choice",
+      "start": 242.554,
+      "end": 243.405,
+      "text": "U shirin."
+    },
+    {
+      "id": "r6-choice-6",
+      "sectionId": "r6-choice",
+      "start": 243.405,
+      "end": 244.256,
+      "text": "U quyuq."
+    },
+    {
+      "id": "r6-choice-7",
+      "sectionId": "r6-choice",
+      "start": 244.256,
+      "end": 245.533,
+      "text": "Qoshiq sekin yuradi."
+    },
+    {
+      "id": "r6-choice-8",
+      "sectionId": "r6-choice",
+      "start": 245.533,
+      "end": 246.809,
+      "text": "Holva ham shirin."
+    },
+    {
+      "id": "r6-choice-9",
+      "sectionId": "r6-choice",
+      "start": 246.809,
+      "end": 247.66,
+      "text": "Boʻlak kichik."
+    },
+    {
+      "id": "r6-choice-10",
+      "sectionId": "r6-choice",
+      "start": 247.66,
+      "end": 248.511,
+      "text": "Taʼmi boshqacha."
+    },
+    {
+      "id": "r6-choice-11",
+      "sectionId": "r6-choice",
+      "start": 248.511,
+      "end": 249.788,
+      "text": "Siz qaysini tanlaysiz?"
+    },
+    {
+      "id": "r6-choice-12",
+      "sectionId": "r6-choice",
+      "start": 249.788,
+      "end": 250.213,
+      "text": "Qoshiqdami?"
+    },
+    {
+      "id": "r6-choice-13",
+      "sectionId": "r6-choice",
+      "start": 250.213,
+      "end": 251.064,
+      "text": "Yoki boʻlakda?"
+    },
+    {
+      "id": "r6-choice-14",
+      "sectionId": "r6-choice",
+      "start": 251.064,
+      "end": 252.341,
+      "text": "Onangiz qoshiq uzatadi."
+    },
+    {
+      "id": "r6-choice-15",
+      "sectionId": "r6-choice",
+      "start": 252.341,
+      "end": 253.617,
+      "text": "Qoʻshningiz boʻlak uzatadi."
+    },
+    {
+      "id": "r6-choice-16",
+      "sectionId": "r6-choice",
+      "start": 253.617,
+      "end": 254.894,
+      "text": "Qaysi birini olasiz?"
+    },
+    {
+      "id": "r6-count-0",
+      "sectionId": "r6-count",
+      "start": 254.894,
+      "end": 255.703,
+      "text": "Qarang."
+    },
+    {
+      "id": "r6-count-1",
+      "sectionId": "r6-count",
+      "start": 255.703,
+      "end": 256.511,
+      "text": "Besh."
+    },
+    {
+      "id": "r6-count-2",
+      "sectionId": "r6-count",
+      "start": 256.511,
+      "end": 257.32,
+      "text": "Toʻrt."
+    },
+    {
+      "id": "r6-count-3",
+      "sectionId": "r6-count",
+      "start": 257.32,
+      "end": 258.128,
+      "text": "Uch."
+    },
+    {
+      "id": "r6-count-4",
+      "sectionId": "r6-count",
+      "start": 258.128,
+      "end": 258.937,
+      "text": "Ikki."
+    },
+    {
+      "id": "r6-count-5",
+      "sectionId": "r6-count",
+      "start": 258.937,
+      "end": 259.745,
+      "text": "Bir."
+    },
+    {
+      "id": "r6-count-6",
+      "sectionId": "r6-count",
+      "start": 259.745,
+      "end": 262.171,
+      "text": "Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r6-fact-0",
+      "sectionId": "r6-fact",
+      "start": 264.171,
+      "end": 264.597,
+      "text": "Fakt."
+    },
+    {
+      "id": "r6-fact-1",
+      "sectionId": "r6-fact",
+      "start": 264.597,
+      "end": 266.299,
+      "text": "Navroʻz yigirma bir mart."
+    },
+    {
+      "id": "r6-fact-2",
+      "sectionId": "r6-fact",
+      "start": 266.299,
+      "end": 268.426,
+      "text": "Sumalak unib chiqqan bugʻdoydan tayyorlanadi."
+    },
+    {
+      "id": "r6-fact-3",
+      "sectionId": "r6-fact",
+      "start": 268.426,
+      "end": 270.128,
+      "text": "Sharbatini oʻn soatgacha qaynatishadi."
+    },
+    {
+      "id": "r6-fact-4",
+      "sectionId": "r6-fact",
+      "start": 270.128,
+      "end": 271.83,
+      "text": "Qozonni navbat bilan aralashtirishadi."
+    },
+    {
+      "id": "r6-fact-5",
+      "sectionId": "r6-fact",
+      "start": 271.83,
+      "end": 273.107,
+      "text": "Oltinchi tanlov boʻldi."
+    },
+    {
+      "id": "r6-fact-6",
+      "sectionId": "r6-fact",
+      "start": 273.107,
+      "end": 273.958,
+      "text": "Yettinchisiga oʻting."
+    },
+    {
+      "id": "r7-choice-0",
+      "sectionId": "r7-choice",
+      "start": 273.958,
+      "end": 274.809,
+      "text": "Yettinchi tanlov."
+    },
+    {
+      "id": "r7-choice-1",
+      "sectionId": "r7-choice",
+      "start": 274.809,
+      "end": 276.511,
+      "text": "Eng qiziq biri shu."
+    },
+    {
+      "id": "r7-choice-2",
+      "sectionId": "r7-choice",
+      "start": 276.511,
+      "end": 279.49,
+      "text": "Erta tongdagi bozormi yoki kechki hovlidagi dasturxon?"
+    },
+    {
+      "id": "r7-choice-3",
+      "sectionId": "r7-choice",
+      "start": 279.49,
+      "end": 280.341,
+      "text": "Erta turasizmi?"
+    },
+    {
+      "id": "r7-choice-4",
+      "sectionId": "r7-choice",
+      "start": 280.341,
+      "end": 281.618,
+      "text": "Yoki kech qolasizmi?"
+    },
+    {
+      "id": "r7-choice-5",
+      "sectionId": "r7-choice",
+      "start": 281.618,
+      "end": 283.32,
+      "text": "Bozorda ovoz erta koʻtariladi."
+    },
+    {
+      "id": "r7-choice-6",
+      "sectionId": "r7-choice",
+      "start": 283.32,
+      "end": 284.171,
+      "text": "Savatlar toʻladi."
+    },
+    {
+      "id": "r7-choice-7",
+      "sectionId": "r7-choice",
+      "start": 284.171,
+      "end": 285.022,
+      "text": "Salomlar qisqa."
+    },
+    {
+      "id": "r7-choice-8",
+      "sectionId": "r7-choice",
+      "start": 285.022,
+      "end": 286.724,
+      "text": "Hovlida ovoz sekin tushadi."
+    },
+    {
+      "id": "r7-choice-9",
+      "sectionId": "r7-choice",
+      "start": 286.724,
+      "end": 287.575,
+      "text": "Chiroqlar yonadi."
+    },
+    {
+      "id": "r7-choice-10",
+      "sectionId": "r7-choice",
+      "start": 287.575,
+      "end": 288.426,
+      "text": "Qozon bugʻlanadi."
+    },
+    {
+      "id": "r7-choice-11",
+      "sectionId": "r7-choice",
+      "start": 288.426,
+      "end": 289.277,
+      "text": "Suhbat choʻziladi."
+    },
+    {
+      "id": "r7-choice-12",
+      "sectionId": "r7-choice",
+      "start": 289.277,
+      "end": 290.554,
+      "text": "Qaysi soat sizniki?"
+    },
+    {
+      "id": "r7-choice-13",
+      "sectionId": "r7-choice",
+      "start": 290.554,
+      "end": 292.256,
+      "text": "Erta bozorda non issiq."
+    },
+    {
+      "id": "r7-choice-14",
+      "sectionId": "r7-choice",
+      "start": 292.256,
+      "end": 294.384,
+      "text": "Kechki hovlida choy ikkinchi marta."
+    },
+    {
+      "id": "r7-choice-15",
+      "sectionId": "r7-choice",
+      "start": 294.384,
+      "end": 296.086,
+      "text": "Siz qaysi soatni saqlaysiz?"
+    },
+    {
+      "id": "r7-count-0",
+      "sectionId": "r7-count",
+      "start": 296.086,
+      "end": 296.895,
+      "text": "Qarang."
+    },
+    {
+      "id": "r7-count-1",
+      "sectionId": "r7-count",
+      "start": 296.895,
+      "end": 297.703,
+      "text": "Besh."
+    },
+    {
+      "id": "r7-count-2",
+      "sectionId": "r7-count",
+      "start": 297.703,
+      "end": 298.512,
+      "text": "Toʻrt."
+    },
+    {
+      "id": "r7-count-3",
+      "sectionId": "r7-count",
+      "start": 298.512,
+      "end": 299.32,
+      "text": "Uch."
+    },
+    {
+      "id": "r7-count-4",
+      "sectionId": "r7-count",
+      "start": 299.32,
+      "end": 300.129,
+      "text": "Ikki."
+    },
+    {
+      "id": "r7-count-5",
+      "sectionId": "r7-count",
+      "start": 300.129,
+      "end": 300.937,
+      "text": "Bir."
+    },
+    {
+      "id": "r7-count-6",
+      "sectionId": "r7-count",
+      "start": 300.937,
+      "end": 303.363,
+      "text": "Tanlovingiz qabul qilindi."
+    },
+    {
+      "id": "r7-fact-0",
+      "sectionId": "r7-fact",
+      "start": 305.363,
+      "end": 305.789,
+      "text": "Fakt."
+    },
+    {
+      "id": "r7-fact-1",
+      "sectionId": "r7-fact",
+      "start": 305.789,
+      "end": 308.767,
+      "text": "Non tandirga yopishishdan oldin chekich bilan bosiladi."
+    },
+    {
+      "id": "r7-fact-2",
+      "sectionId": "r7-fact",
+      "start": 308.767,
+      "end": 310.47,
+      "text": "Chekich markazda naqsh qoldiradi."
+    },
+    {
+      "id": "r7-fact-3",
+      "sectionId": "r7-fact",
+      "start": 310.47,
+      "end": 311.746,
+      "text": "Teshiklardan bugʻ chiqadi."
+    },
+    {
+      "id": "r7-fact-4",
+      "sectionId": "r7-fact",
+      "start": 311.746,
+      "end": 313.023,
+      "text": "Markaz tekis qoladi."
+    },
+    {
+      "id": "r7-fact-5",
+      "sectionId": "r7-fact",
+      "start": 313.023,
+      "end": 314.299,
+      "text": "Yettita tanlov tugadi."
+    },
+    {
+      "id": "r7-fact-6",
+      "sectionId": "r7-fact",
+      "start": 314.299,
+      "end": 315.576,
+      "text": "Siz oxirigacha yurdingiz."
+    },
+    {
+      "id": "cta-0",
+      "sectionId": "cta",
+      "start": 315.576,
+      "end": 317.704,
+      "text": "Qaysi tanlov sizga qiyinroq boʻldi?"
+    },
+    {
+      "id": "cta-1",
+      "sectionId": "cta",
+      "start": 317.704,
+      "end": 319.406,
+      "text": "Qaysi bittasi sizni oʻylatdi?"
+    },
+    {
+      "id": "cta-2",
+      "sectionId": "cta",
+      "start": 319.406,
+      "end": 321.108,
+      "text": "Qaysi uchtasi oson tuyuldi?"
+    },
+    {
+      "id": "cta-3",
+      "sectionId": "cta",
+      "start": 321.108,
+      "end": 321.959,
+      "text": "Izohda yozing."
+    },
+    {
+      "id": "cta-4",
+      "sectionId": "cta",
+      "start": 321.959,
+      "end": 323.661,
+      "text": "Bitta soʻz ham yetadi."
+    },
+    {
+      "id": "cta-5",
+      "sectionId": "cta",
+      "start": 323.661,
+      "end": 325.363,
+      "text": "Kanal nomi: Qani, tanlang!"
+    },
+    {
+      "id": "cta-6",
+      "sectionId": "cta",
+      "start": 325.363,
+      "end": 326.214,
+      "text": "Obuna boʻling."
+    },
+    {
+      "id": "cta-7",
+      "sectionId": "cta",
+      "start": 326.214,
+      "end": 328.342,
+      "text": "Keyingi yettita tanlovni oʻtkazib yubormang."
+    },
+    {
+      "id": "cta-8",
+      "sectionId": "cta",
+      "start": 328.342,
+      "end": 329.618,
+      "text": "Doʻstingizga ham yuboring."
+    },
+    {
+      "id": "cta-9",
+      "sectionId": "cta",
+      "start": 329.618,
+      "end": 330.469,
+      "text": "Birga tanlang."
+    },
+    {
+      "id": "cta-10",
+      "sectionId": "cta",
+      "start": 330.469,
+      "end": 332.597,
+      "text": "Keyingi tanlovni ham kutib turing."
+    },
+    {
+      "id": "cta-11",
+      "sectionId": "cta",
+      "start": 332.597,
+      "end": 333.448,
+      "text": "Sizni kutamiz."
+    },
+    {
+      "id": "ending-0",
+      "sectionId": "ending",
+      "start": 333.448,
+      "end": 334.725,
+      "text": "Oxirigacha yetib bordingiz."
+    },
+    {
+      "id": "ending-1",
+      "sectionId": "ending",
+      "start": 334.725,
+      "end": 336.001,
+      "text": "Yettita eshik ochildi."
+    },
+    {
+      "id": "ending-2",
+      "sectionId": "ending",
+      "start": 336.001,
+      "end": 336.852,
+      "text": "Siz tanladingiz."
+    },
+    {
+      "id": "ending-3",
+      "sectionId": "ending",
+      "start": 336.852,
+      "end": 337.278,
+      "text": "Rahmat."
+    },
+    {
+      "id": "ending-4",
+      "sectionId": "ending",
+      "start": 337.278,
+      "end": 339.405,
+      "text": "Keyingi safar yana birga tanlaysiz."
+    },
+    {
+      "id": "ending-5",
+      "sectionId": "ending",
+      "start": 339.405,
+      "end": 340.682,
+      "text": "Shu yerda xayrlashamiz."
+    },
+    {
+      "id": "ending-6",
+      "sectionId": "ending",
+      "start": 340.682,
+      "end": 342.384,
+      "text": "Tanlovingiz siz bilan qoladi."
+    }
+  ]
+}

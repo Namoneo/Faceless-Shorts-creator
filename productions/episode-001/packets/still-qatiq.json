@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "still-qatiq",
   "sceneId": "r2-choice",
-  "status": "planned",
+  "status": "validated",
   "prompt": "A family-friendly photograph of a bowl of white qatiq on a wooden table, cool daylight. No people. No written text. No logo.",
   "referenceAssetIds": [],
   "referenceFiles": [],
@@ -39,15 +39,27 @@
     "note": "No row in the local price table.",
     "planningNote": "Stills have no per-second rate in this brief. See plan.md."
   },
-  "provenance": null,
-  "sourceHash": null,
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "b1b9896cfb84acdbf19f5673d050188102d1766b60653ee144bbbfd1d329928a",
   "cachedPath": null,
-  "cacheAction": null,
+  "cacheAction": "stored",
   "variantOf": null,
   "history": [
-    "planned"
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
   ],
   "mediaKind": "still",
   "focalGuidance": "Keep the bowl slightly below centre.",
-  "portrait": "Derived later from this 16:9 master. Not a second Flow generation."
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-qatiq.jpg",
+  "deliveredWidth": 2752,
+  "deliveredHeight": 1536
 }

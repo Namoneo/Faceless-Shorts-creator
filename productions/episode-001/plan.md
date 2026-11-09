@@ -59,7 +59,7 @@ Timeline total: **342.384 s**.
 
 ## Flow plates
 
-Fourteen stills. Status `planned`. `sourceHash` is null until a person exports the file and it is imported. Model on the packet is `flow-image`, which has no row in the local price table, so the packet credit is unknown. The comparison table is below. Ratio 16:9, 1920×1080. Audio: none. Duration on the packet is the Remotion hold (choice plus countdown), not a generated clip length.
+Fourteen stills. They were exported from Flow (Nano Banana 2.1, uzbekajon.com, 16:9, 0 credits) and imported locally. Each packet ends at `validated` with the file's SHA-256. The JPEGs stay outside git. The packet's requested model name remains `flow-image` because that name has no row in the local price table. The comparison table is below. Audio: none. Duration on the packet is the Remotion hold (choice plus countdown), not a generated clip length.
 
 | Packet | Shown in | Hold (s) | Focal | Guidance |
 | --- | --- | --- | --- | --- |
@@ -111,11 +111,25 @@ fal is not a substitute. A portrait layout does not send the plate back to Flow.
 
 ## Three Shorts
 
-A list for later. Not rendered. Each one has its own hook and its own ending, so it can play without the episode. The choice, the countdown, and the fact are the episode's. The first sentence and the closing transition are replaced. Each short reuses the episode's two stills by packet id. The hash is assigned at import. `regenerated` is false.
+Each short cuts the round's choice, countdown, and fact from the same narration. The hook and the ending are titles on that cut, not a second recording. Captions follow the spoken chunks. `regenerated` is false. The hashes are the imported still hashes.
 
-- `short-palov` — 45.447 s. Hook: «Palovmi yoki somsa? Besh soniyada tanlang.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-palov`, `still-somsa`. sourceHash: null until import.
-- `short-shahar` — 43.318 s. Hook: «Samarqandmi yoki Buxoro? Qarang va tanlang.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-samarqand`, `still-buxoro`. sourceHash: null until import.
-- `short-yetti` — 43.746 s. Hook: «Erta bozormi yoki kechki hovli? Oxirigacha qoling.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-bozor`, `still-hovli`. sourceHash: null until import.
+- `short-palov`. Hook: «Palovmi yoki somsa? Besh soniyada tanlang.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-palov`, `still-somsa`.
+- `short-shahar`. Hook: «Samarqandmi yoki Buxoro? Qarang va tanlang.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-samarqand`, `still-buxoro`.
+- `short-yetti`. Hook: «Erta bozormi yoki kechki hovli? Oxirigacha qoling.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-bozor`, `still-hovli`.
+
+## Assemble
+
+```
+python3 -m tools.foundation.cli make-pilot \
+  --episode productions/episode-001 \
+  --narration <narration-dir> \
+  --stills <stills-dir> \
+  --out productions/episode-001/out
+```
+
+`<stills-dir>` holds `still-<id>.jpg` and `SHA256SUMS`. `<narration-dir>` holds `narration.wav` (24 kHz mono), `timings.json` (sections and chunks, each with start, end, and text), and optional per-chunk wavs. Countdown sections include 2.0 s of silence after the count. The command imports any still that is not yet validated, aligns scenes to `timings.json`, renders the 1920×1080 episode and the three 1080×1920 Shorts, and writes `qa.json` and `cost.json`. Cost is 0 Flow credits. Narration is the local file.
+
+`productions/episode-001/placeholder/timings.json` is a timings-shaped stub. With no `narration.wav` beside it, the command synthesizes a sine and burns `PLACEHOLDER NARRATION - not a VoiceStudio take`. That output is not the episode.
 
 ## Facts marked in the script
 
@@ -131,4 +145,4 @@ Spoken claims, and where they were checked. The Tekshiruv section of `script.md`
 
 ## Stop
 
-Waiting for approval of the outline, the script, and the storyboard. The packets stay `planned`. Narration stays an import. Assembly is not started.
+The script is approved. The stills are imported to `validated` and are not approved for a second generation. Narration stays an import. A placeholder sine is not the VoiceStudio take. Do not publish the placeholder output.

@@ -126,6 +126,8 @@ def import_export(
     if packet.get("status") != "awaiting_import":
         raise FlowError(f"packet {packet.get('id')} cannot be imported from status {packet.get('status')}")
     _require_provenance(provenance)
+    if packet.get("mediaKind") == "still":
+        return _import_still(packet, file_path, provenance, cache_dir)
     info = _decoded(file_path)
     video = stream_of(info, "video")
     audio = stream_of(info, "audio")
@@ -322,6 +324,60 @@ def _advance(packet: dict[str, Any], target: str) -> dict[str, Any]:
     updated["status"] = target
     updated["history"] = [*packet.get("history", []), target]
     return updated
+
+
+def _import_still(
+    packet: dict[str, Any],
+    file_path: Path,
+    provenance: dict[str, Any],
+    cache_dir: Path,
+) -> dict[str, Any]:
+    """Validate a manual Flow still. Ratio is checked. Pixel size may be above 1920x1080."""
+    info = _decoded(file_path)
+    video = stream_of(info, "video")
+    if video is None:
+        raise FlowError(f"{file_path} has no picture stream")
+    width = int(video.get("width") or 0)
+    height = int(video.get("height") or 0)
+    if width < 16 or height < 16:
+        raise FlowError(f"{file_path} is too small: {width}x{height}")
+    if not _ratio_close(width, height, str(packet.get("ratio") or "16:9")):
+        raise FlowError(f"wrong ratio: got {width}x{height}, packet wants {packet.get('ratio')}")
+    digest = sha256_file(file_path)
+    suffix = file_path.suffix.lower() if file_path.suffix else ".jpg"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    cached = cache_dir / "sources" / f"{digest}{suffix}"
+    if cached.is_file() and sha256_file(cached) == digest:
+        action = "skipped"
+    else:
+        cached.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(file_path, cached)
+        action = "stored"
+    updated = dict(packet)
+    updated["status"] = "validated"
+    updated["provenance"] = provenance
+    updated["sourceHash"] = digest
+    updated["sourceFile"] = file_path.name
+    updated["deliveredWidth"] = width
+    updated["deliveredHeight"] = height
+    updated["cachedPath"] = str(cached)
+    updated["cacheAction"] = action
+    updated["history"] = [*packet.get("history", []), "validated"]
+    return updated
+
+
+def _ratio_close(width: int, height: int, ratio: str) -> bool:
+    parts = ratio.split(":")
+    if len(parts) != 2:
+        return False
+    try:
+        wide = int(parts[0])
+        tall = int(parts[1])
+    except ValueError:
+        return False
+    if wide <= 0 or tall <= 0 or height <= 0:
+        return False
+    return abs((width / height) - (wide / tall)) / (wide / tall) <= 0.02
 
 
 def _require_provenance(provenance: dict[str, Any] | None) -> None:

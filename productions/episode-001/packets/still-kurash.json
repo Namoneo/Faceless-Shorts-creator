@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "still-kurash",
   "sceneId": "r5-choice",
-  "status": "planned",
+  "status": "validated",
   "prompt": "A family-friendly photograph of two athletes in a belbog wrestling stance on a carpet, respectful and still, no injury. No logos. No readable text.",
   "referenceAssetIds": [],
   "referenceFiles": [],
@@ -39,15 +39,27 @@
     "note": "No row in the local price table.",
     "planningNote": "Stills have no per-second rate in this brief. See plan.md."
   },
-  "provenance": null,
-  "sourceHash": null,
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "6152125bb2124cc582e65401f0874476cefd5ca087f9a66ddb11ca8d7271ff55",
   "cachedPath": null,
-  "cacheAction": null,
+  "cacheAction": "stored",
   "variantOf": null,
   "history": [
-    "planned"
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
   ],
   "mediaKind": "still",
   "focalGuidance": "Keep both wrestlers inside the middle of the frame.",
-  "portrait": "Derived later from this 16:9 master. Not a second Flow generation."
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-kurash.jpg",
+  "deliveredWidth": 2752,
+  "deliveredHeight": 1536
 }

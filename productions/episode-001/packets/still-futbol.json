@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "still-futbol",
   "sceneId": "r5-choice",
-  "status": "planned",
+  "status": "validated",
   "prompt": "A family-friendly photograph of a football on green grass near a goal, wide daylight field. No collision. No logos. No readable text.",
   "referenceAssetIds": [],
   "referenceFiles": [],
@@ -39,15 +39,27 @@
     "note": "No row in the local price table.",
     "planningNote": "Stills have no per-second rate in this brief. See plan.md."
   },
-  "provenance": null,
-  "sourceHash": null,
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "2c01dc5ea73d4707c3d44ea7a95ac24980d0a5f9d5d903c8826e0692e230a46d",
   "cachedPath": null,
-  "cacheAction": null,
+  "cacheAction": "stored",
   "variantOf": null,
   "history": [
-    "planned"
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
   ],
   "mediaKind": "still",
   "focalGuidance": "Keep the ball right of centre and the goal in frame.",
-  "portrait": "Derived later from this 16:9 master. Not a second Flow generation."
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-futbol.jpg",
+  "deliveredWidth": 2752,
+  "deliveredHeight": 1536
 }
