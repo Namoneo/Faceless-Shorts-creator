@@ -1,0 +1,177 @@
+[
+  {
+    "sceneId": "hook",
+    "classification": "remotion",
+    "onScreen": "title card and channel line",
+    "startSec": 0.0,
+    "durationSec": 17.872
+  },
+  {
+    "sceneId": "rules",
+    "classification": "remotion",
+    "onScreen": "two-option rules card",
+    "startSec": 17.872,
+    "durationSec": 21.702
+  },
+  {
+    "sceneId": "r1-choice",
+    "classification": "remotion",
+    "onScreen": "two stills and the question",
+    "startSec": 39.574,
+    "durationSec": 23.404
+  },
+  {
+    "sceneId": "r1-count",
+    "classification": "remotion",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "startSec": 62.978,
+    "durationSec": 9.277
+  },
+  {
+    "sceneId": "r1-fact",
+    "classification": "remotion",
+    "onScreen": "fact card, then the transition",
+    "startSec": 72.255,
+    "durationSec": 11.489
+  },
+  {
+    "sceneId": "r2-choice",
+    "classification": "remotion",
+    "onScreen": "two stills and the question",
+    "startSec": 83.744,
+    "durationSec": 23.404
+  },
+  {
+    "sceneId": "r2-count",
+    "classification": "remotion",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "startSec": 107.148,
+    "durationSec": 9.277
+  },
+  {
+    "sceneId": "r2-fact",
+    "classification": "remotion",
+    "onScreen": "fact card, then the transition",
+    "startSec": 116.425,
+    "durationSec": 8.936
+  },
+  {
+    "sceneId": "r3-choice",
+    "classification": "remotion",
+    "onScreen": "two stills and the question",
+    "startSec": 125.361,
+    "durationSec": 18.723
+  },
+  {
+    "sceneId": "r3-count",
+    "classification": "remotion",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "startSec": 144.084,
+    "durationSec": 9.277
+  },
+  {
+    "sceneId": "r3-fact",
+    "classification": "remotion",
+    "onScreen": "fact card, then the transition",
+    "startSec": 153.361,
+    "durationSec": 9.362
+  },
+  {
+    "sceneId": "r4-choice",
+    "classification": "remotion",
+    "onScreen": "two stills and the question",
+    "startSec": 162.723,
+    "durationSec": 19.149
+  },
+  {
+    "sceneId": "r4-count",
+    "classification": "remotion",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "startSec": 181.872,
+    "durationSec": 9.277
+  },
+  {
+    "sceneId": "r4-fact",
+    "classification": "remotion",
+    "onScreen": "fact card, then the transition",
+    "startSec": 191.149,
+    "durationSec": 8.936
+  },
+  {
+    "sceneId": "r5-choice",
+    "classification": "remotion",
+    "onScreen": "two stills and the question",
+    "startSec": 200.085,
+    "durationSec": 19.574
+  },
+  {
+    "sceneId": "r5-count",
+    "classification": "remotion",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "startSec": 219.659,
+    "durationSec": 9.277
+  },
+  {
+    "sceneId": "r5-fact",
+    "classification": "remotion",
+    "onScreen": "fact card, then the transition",
+    "startSec": 228.936,
+    "durationSec": 10.213
+  },
+  {
+    "sceneId": "r6-choice",
+    "classification": "remotion",
+    "onScreen": "two stills and the question",
+    "startSec": 239.149,
+    "durationSec": 20.0
+  },
+  {
+    "sceneId": "r6-count",
+    "classification": "remotion",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "startSec": 259.149,
+    "durationSec": 9.277
+  },
+  {
+    "sceneId": "r6-fact",
+    "classification": "remotion",
+    "onScreen": "fact card, then the transition",
+    "startSec": 268.426,
+    "durationSec": 9.362
+  },
+  {
+    "sceneId": "r7-choice",
+    "classification": "remotion",
+    "onScreen": "two stills and the question",
+    "startSec": 277.788,
+    "durationSec": 22.128
+  },
+  {
+    "sceneId": "r7-count",
+    "classification": "remotion",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "startSec": 299.916,
+    "durationSec": 9.277
+  },
+  {
+    "sceneId": "r7-fact",
+    "classification": "remotion",
+    "onScreen": "fact card, then the transition",
+    "startSec": 309.193,
+    "durationSec": 5.532
+  },
+  {
+    "sceneId": "cta",
+    "classification": "remotion",
+    "onScreen": "comment and subscribe card",
+    "startSec": 314.725,
+    "durationSec": 17.872
+  },
+  {
+    "sceneId": "ending",
+    "classification": "remotion",
+    "onScreen": "ending card",
+    "startSec": 332.597,
+    "durationSec": 12.34
+  }
+]

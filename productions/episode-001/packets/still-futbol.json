@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "still-futbol",
+  "sceneId": "r5-choice",
+  "status": "planned",
+  "prompt": "A family-friendly photograph of a football on green grass near a goal, wide daylight field. No collision. No logos. No readable text.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 28.851,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.58,
+    "y": 0.55
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": false,
+    "amount": null,
+    "currency": "credits",
+    "model": "flow-image",
+    "tableId": "local-estimate-table",
+    "label": "Estimate only. Verify the current price in Flow before approval.",
+    "note": "No row in the local price table.",
+    "planningNote": "Stills have no per-second rate in this brief. See plan.md."
+  },
+  "provenance": null,
+  "sourceHash": null,
+  "cachedPath": null,
+  "cacheAction": null,
+  "variantOf": null,
+  "history": [
+    "planned"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the ball right of centre and the goal in frame.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation."
+}

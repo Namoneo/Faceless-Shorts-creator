@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "still-samarqand",
+  "sceneId": "r3-choice",
+  "status": "planned",
+  "prompt": "A family-friendly wide photograph of Registan in Samarkand: the open square and the madrasas, late afternoon light, only distant small figures. No readable text. No logo.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 28.0,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.42
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": false,
+    "amount": null,
+    "currency": "credits",
+    "model": "flow-image",
+    "tableId": "local-estimate-table",
+    "label": "Estimate only. Verify the current price in Flow before approval.",
+    "note": "No row in the local price table.",
+    "planningNote": "Stills have no per-second rate in this brief. See plan.md."
+  },
+  "provenance": null,
+  "sourceHash": null,
+  "cachedPath": null,
+  "cacheAction": null,
+  "variantOf": null,
+  "history": [
+    "planned"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the building line above centre so the square remains in a portrait crop.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation."
+}

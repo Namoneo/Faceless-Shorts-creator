@@ -28,6 +28,7 @@ def check_episode(
     checks.extend(check_timeline(manifest))
     checks.extend(check_captions(manifest))
     checks.extend(check_uzbek_apostrophes(manifest))
+    checks.extend(check_uzbek_address(manifest))
     checks.extend(check_timing_binding(manifest, timing_by_asset))
     for fmt in manifest["formats"]:
         path = assembled[fmt["id"]]
@@ -240,6 +241,56 @@ def check_uzbek_apostrophes(manifest: dict[str, Any]) -> list[dict[str, Any]]:
             )
         )
     return items
+
+
+def check_uzbek_address(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    """Warn on common informal sen-form endings. This check does not fail the episode.
+
+    The documented list is -san, -sanmi, -ding, and -ngmi on a word, in that
+    role as a second-person ending. It is a suffix scan, not a parse, so a
+    word that merely ends the same way can be flagged.
+    """
+    endings = _sen_form_endings()
+    items = []
+    for scene in manifest["scenes"]:
+        text = scene.get("text", {}).get("uz-Latn", "")
+        if not isinstance(text, str):
+            continue
+        hits = _sen_form_hits(text, endings)
+        items.append(
+            _item(
+                "uzbek-address",
+                True,
+                {
+                    "sceneId": scene["id"],
+                    "warning": bool(hits),
+                    "hits": hits,
+                    "list": [f"-{item}" for item in endings],
+                    "role": "warning-only",
+                },
+            )
+        )
+    return items
+
+
+def _sen_form_endings() -> tuple[str, ...]:
+    from tools.foundation.voicestudio import load_voice_config
+
+    raw = load_voice_config()["languages"]["uz-Latn"]["address"]["senFormWarnings"]
+    cleaned = tuple(item.lstrip("-").lower() for item in raw)
+    return tuple(sorted(cleaned, key=len, reverse=True))
+
+
+def _sen_form_hits(text: str, endings: tuple[str, ...]) -> list[dict[str, str]]:
+    hits = []
+    for match in re.finditer(r"[0-9A-Za-z\u02bb\u2018\u2019\u02bc\u0027]+", text):
+        token = match.group(0)
+        folded = token.lower().replace("\u02bb", "").replace("\u2018", "").replace("\u2019", "").replace("\u02bc", "").replace("'", "")
+        for ending in endings:
+            if len(folded) > len(ending) and folded.endswith(ending):
+                hits.append({"token": token, "ending": f"-{ending}"})
+                break
+    return hits
 
 
 def check_portrait_fill(path: Path, width: int, height: int, manifest: dict[str, Any]) -> list[dict[str, Any]]:

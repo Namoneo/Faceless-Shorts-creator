@@ -4,6 +4,8 @@ Use this after `/make-long`, when an episode manifest already exists and a perso
 
 Each Short must stand on its own: its own hook card, the reused moment, and its own ending card. It must not depend on a line that only makes sense inside the episode.
 
+For `uz-Latn`, write the hook and the ending in the polite `siz` form. Never the informal `sen` form. Say `olasizmi`, not `olasanmi`. Say `tanlang`, not `tanla`.
+
 ## Reuse
 
 - Take narration and visual assets from the episode by sha256.

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "still-choy",
+  "sceneId": "r2-choice",
+  "status": "planned",
+  "prompt": "A family-friendly photograph of a small Uzbek porcelain piyola of green tea on a low table, soft morning light. No people. No written text. No logo.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 32.681,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.48,
+    "y": 0.62
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": false,
+    "amount": null,
+    "currency": "credits",
+    "model": "flow-image",
+    "tableId": "local-estimate-table",
+    "label": "Estimate only. Verify the current price in Flow before approval.",
+    "note": "No row in the local price table.",
+    "planningNote": "Stills have no per-second rate in this brief. See plan.md."
+  },
+  "provenance": null,
+  "sourceHash": null,
+  "cachedPath": null,
+  "cacheAction": null,
+  "variantOf": null,
+  "history": [
+    "planned"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the piyola low and central so a portrait crop does not lose the cup.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation."
+}

@@ -13,7 +13,7 @@ from tests.foundation.support import REPO, load_fixture
 from tools.foundation.ffmpeg import run
 from tools.foundation.hashutil import sha256_file
 from tools.foundation.pictures import DESIGNED_LAYOUT, NATIVE_CARD, STAND_IN_LABEL, portrait_layout, render_card
-from tools.foundation.qa import check_portrait_fill, check_uzbek_apostrophes
+from tools.foundation.qa import check_portrait_fill, check_uzbek_address, check_uzbek_apostrophes
 from tools.foundation.flow import (
     ESTIMATE_LABEL,
     FlowError,
@@ -196,6 +196,34 @@ class LongformTests(unittest.TestCase):
         self.assertEqual(doc["scenes"][1]["classification"], "flow")
         self.assertFalse(english["narration"]["languageConfigured"])
         self.assertIn("OmniVoice", english["narration"]["note"])
+
+    def test_pilot_plan_stops_without_media(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            with self.assertRaises(ManifestError):
+                plan_long("Pilot", "uz-Latn", 360, "oilaviy", root)
+            doc = plan_long("Pilot", "uz-Latn", 360, "oilaviy", root, pilot=True)
+            self.assertTrue(doc["stopped"])
+            self.assertEqual(doc["durationSec"], 360)
+            self.assertFalse(list(root.rglob("*.mp4")))
+            self.assertFalse(list(root.rglob("*.wav")))
+            self.assertIn("siz", (root / "script.md").read_text(encoding="utf-8"))
+
+    def test_sen_form_warns_and_does_not_fail(self) -> None:
+        warned = check_uzbek_address(
+            {"scenes": [{"id": "a", "text": {"uz-Latn": "Palovni olasanmi? Kecha ko\u02bbrding."}}]}
+        )
+        self.assertTrue(warned[0]["pass"])
+        self.assertTrue(warned[0]["detail"]["warning"])
+        endings = {hit["ending"] for hit in warned[0]["detail"]["hits"]}
+        self.assertEqual(endings, {"-sanmi", "-ding"})
+        quiet = check_uzbek_address(
+            {"scenes": [{"id": "b", "text": {"uz-Latn": "Oxirigacha yetib bora olasizmi? Tanlang."}}]}
+        )
+        self.assertTrue(quiet[0]["pass"])
+        self.assertFalse(quiet[0]["detail"]["warning"])
+        listed = load_voice_config()["languages"]["uz-Latn"]["address"]["senFormWarnings"]
+        self.assertEqual(listed, ["-san", "-sanmi", "-ding", "-ngmi"])
 
     def test_flow_provider_name_is_still_refused_on_an_asset(self) -> None:
         doc = load_fixture()

@@ -38,6 +38,7 @@ def main(argv: list[str] | None = None) -> int:
     planned.add_argument("--duration", required=True, type=float)
     planned.add_argument("--audience", required=True)
     planned.add_argument("--out", required=True)
+    planned.add_argument("--pilot", action="store_true", help="Allow a 5 to 7 minute plan. Still renders nothing.")
     longer = sub.add_parser("run-long")
     longer.add_argument("--manifest", required=True)
     longer.add_argument("--out", required=True)
@@ -56,7 +57,7 @@ def main(argv: list[str] | None = None) -> int:
             print(narration_door(args.door, args.language))
             return 0
         if args.command == "plan-long":
-            doc = plan_long(args.topic, args.language, args.duration, args.audience, Path(args.out))
+            doc = plan_long(args.topic, args.language, args.duration, args.audience, Path(args.out), pilot=args.pilot)
             print(json.dumps({"stopped": doc["stopped"], "manualSteps": doc["manualSteps"]}, indent=2))
             return 0
         if args.command == "run-long":

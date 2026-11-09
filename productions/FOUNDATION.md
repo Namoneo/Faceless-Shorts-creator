@@ -1,6 +1,6 @@
 # Offline episode foundation
 
-This is a foundation for shared episode assets, imported narration, dual-format Remotion renders, and QA. It is not production narration, not an Uzbek aligner, and not the Qani, tanla! pilot.
+This is a foundation for shared episode assets, imported narration, dual-format Remotion renders, and QA. It is not production narration and not an Uzbek aligner. The stopped review draft of «7 ta tanlov — oxirigacha yetib bora olasizmi?» is `productions/episode-001`. That folder does not render.
 
 The new runner never calls ElevenLabs, fal, Gemini, VoiceStudio, Flow, or any other generator. Those older tools are still in `tools/` for the existing shorts. `python3 -m tools.foundation.cli generate` exits 2.
 
@@ -12,7 +12,7 @@ Stable ids: `fixture-foundation`, `narration-main`, `card-title`, `scene-hook`, 
 
 Each narration asset keeps the original bytes under `out/originals/<id>/<sha256>.wav`. The canonical derivative is one loudnorm pass (`I=-16:TP=-1.5:LRA=11`), 48 kHz, stereo, `pcm_s16le`. A repeat skips that work when the source hash, the parameter hash, and the canonical file hash still match.
 
-Timing lives beside the episode, not inside the audio file. States are `unaligned`, `review`, and `manual`. Unaligned lines have no word times. Review and manual lines need explicit start and end. A correction replaces the display token only and is stamped with the canonical audio hash. A different hash does not apply it, and a stale manual line drops back to review. Nothing in this runner invents word times. Display text is stored as exact code points. `Oʻzbekcha` uses U+02BB. `o‘g‘` uses U+2018. They are not folded together.
+Timing lives beside the episode, not inside the audio file. States are `unaligned`, `review`, and `manual`. Unaligned lines have no word times. Review and manual lines need explicit start and end. A correction replaces the display token only and is stamped with the canonical audio hash. A different hash does not apply it, and a stale manual line drops back to review. Nothing in this runner invents word times. Display text is stored as exact code points. `Oʻzbekcha` uses U+02BB. `o‘g‘` uses U+2018. They are not folded together. Uzbek scripts use the polite `siz` form, never informal `sen`. A warning, not a failure, flags the endings `-san`, `-sanmi`, `-ding`, and `-ngmi`. Examples: `olasizmi`, not `olasanmi`; `tanlang`, not `tanla`. The pilot title is «7 ta tanlov — oxirigacha yetib bora olasizmi?».
 
 Scene renders skip when the scene parameter hash, the narration hash, the visual hash, the timing hash, and the output file hash all match. The visual hash covers the component source and the render script, so an edit to either invalidates the pictures. A focal or text change re-renders the affected scenes only. The narration file stays. Assembly is an ffmpeg concat of the scene videos plus the canonical WAV as AAC. A missing scene file is rendered again. A failed render does not treat the previous picture as the new one: a sidecar is written only when that attempt replaced the file.
 
@@ -114,4 +114,4 @@ A read-only check of Sherzod's Mac on 9 Nov 2026, after that upstream inspection
 
 ## Still out of scope
 
-No Uzbek aligner. No pilot. QA does not prove pronunciation. Black that covers less than about 98% of the frame is missed. Silence under 0.05 s is ignored. Caption geometry is browser layout of the display string, not a pixel read of the frame. The long fixture's Remotion-classified scenes are ffmpeg cards, not a Remotion render. VoiceStudio remains a stub.
+No Uzbek aligner. No rendered pilot. QA does not prove pronunciation. Black that covers less than about 98% of the frame is missed. Silence under 0.05 s is ignored. Caption geometry is browser layout of the display string, not a pixel read of the frame. The long fixture's Remotion-classified scenes are ffmpeg cards, not a Remotion render. VoiceStudio remains a stub.

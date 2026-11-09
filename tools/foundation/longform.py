@@ -32,10 +32,14 @@ def plan_long(
     duration_sec: float,
     audience: str,
     out_dir: Path,
+    pilot: bool = False,
 ) -> dict[str, Any]:
     if language not in {"uz-Latn", "en", "nl"}:
         raise ManifestError(f"language must be uz-Latn, en, or nl, got {language}")
-    if duration_sec < 12 or duration_sec > 60:
+    if pilot:
+        if duration_sec < 300 or duration_sec > 420:
+            raise ManifestError("a pilot plan is 5 to 7 minutes, and it still does not render")
+    elif duration_sec < 12 or duration_sec > 60:
         raise ManifestError("this planner writes a 12 to 60 second skeleton, not a pilot episode")
     if not topic.strip() or not audience.strip():
         raise ManifestError("topic and audience are required")
@@ -91,9 +95,19 @@ def plan_long(
         json.dumps({"topic": doc["topic"], "audience": doc["audience"], "beats": [item["id"] for item in scenes]}, indent=2) + "\n",
         encoding="utf-8",
     )
+    address = ""
+    if language == "uz-Latn":
+        address = (
+            "Uzbek address: polite siz only. Never sen. "
+            "Examples: olasizmi, not olasanmi; tanlang, not tanla.\n\n"
+        )
+    banner = (
+        "Pilot plan. Stopped for review. No media, no Flow call, and no VoiceStudio call.\n"
+        if pilot
+        else "This is a skeleton. A person writes the spoken words. It is not narration audio.\n"
+    )
     (out_dir / "script.md").write_text(
-        f"# {topic.strip()}\n\nLanguage: {language}. Audience: {audience.strip()}.\n\n"
-        "This is a skeleton. A person writes the spoken words. It is not the pilot and not narration audio.\n",
+        f"# {topic.strip()}\n\nLanguage: {language}. Audience: {audience.strip()}.\n\n{address}{banner}",
         encoding="utf-8",
     )
     (out_dir / "scenes.json").write_text(json.dumps(scenes, indent=2) + "\n", encoding="utf-8")

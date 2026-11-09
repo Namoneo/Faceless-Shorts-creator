@@ -2,7 +2,7 @@
 
 Use this when the user wants a long episode, a 16:9 export, or a candidate list of Shorts. It does not replace `/make-short`, `/make-ai-short`, or `/make-vox`.
 
-This skill never calls a provider. It does not open Flow, fal, ElevenLabs, Gemini, or VoiceStudio. It does not download a model. It does not invent word timings. The pilot is not this skill's job.
+This skill never calls a provider. It does not open Flow, fal, ElevenLabs, Gemini, or VoiceStudio. It does not download a model. It does not invent word timings. A review draft of the pilot can be written here with `--pilot`. This skill still does not render it.
 
 Run from the repo root.
 
@@ -19,7 +19,9 @@ From topic, language, duration, and audience, write:
 7. one Flow packet per Flow scene
 8. the later 16:9 assembly, QA, and a candidate Shorts list
 
-`python3 -m tools.foundation.cli plan-long` writes a skeleton and stops. Treat that skeleton as a tray for the words you write. Do not tell the user the episode has been generated.
+`python3 -m tools.foundation.cli plan-long` writes a skeleton and stops. Treat that skeleton as a tray for the words you write. Do not tell the user the episode has been generated. A 5 to 7 minute review draft needs `--pilot`. It still renders nothing.
+
+For `uz-Latn`, write the polite `siz` form only. Never the informal `sen` form. Say `olasizmi`, not `olasanmi`. Say `tanlang`, not `tanla`. The pilot title is «7 ta tanlov — oxirigacha yetib bora olasizmi?».
 
 ## Stops
 

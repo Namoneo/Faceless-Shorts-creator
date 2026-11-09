@@ -21,6 +21,13 @@
         "languages": ["uz"],
         "activation": "OMNIVOICE_NAVOIY_DIR",
         "reference": "a permitted reference-speaker recording"
+      },
+      "address": {
+        "form": "siz",
+        "never": "sen",
+        "rule": "Uzbek scripts and narration always use the polite siz form, never the informal sen form.",
+        "examples": ["olasizmi, not olasanmi", "tanlang, not tanla"],
+        "senFormWarnings": ["-san", "-sanmi", "-ding", "-ngmi"]
       }
     },
     "en": {
