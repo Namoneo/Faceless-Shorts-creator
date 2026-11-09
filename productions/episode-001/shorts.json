@@ -1,7 +1,7 @@
 [
   {
     "id": "short-palov",
-    "durationSec": 46.298,
+    "durationSec": 45.447,
     "hook": "Palovmi yoki somsa? Besh soniyada tanlang.",
     "scenes": [
       "r1-choice",
@@ -27,7 +27,7 @@
   },
   {
     "id": "short-shahar",
-    "durationSec": 39.49,
+    "durationSec": 43.318,
     "hook": "Samarqandmi yoki Buxoro? Qarang va tanlang.",
     "scenes": [
       "r3-choice",
@@ -53,7 +53,7 @@
   },
   {
     "id": "short-yetti",
-    "durationSec": 39.065,
+    "durationSec": 43.746,
     "hook": "Erta bozormi yoki kechki hovli? Oxirigacha qoling.",
     "scenes": [
       "r7-choice",

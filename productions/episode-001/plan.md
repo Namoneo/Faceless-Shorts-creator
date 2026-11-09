@@ -9,15 +9,15 @@ This folder is a review draft. `plan-long --pilot` opened it and stopped. Nothin
 
 ## Narration
 
-The spoken script is `script.md`. Word count of the sections that are read aloud: **721**.
+The spoken script is `script.md`. Word count of the sections that are read aloud: **715**.
 
 Prose is estimated at **2.2 to 2.5 words per second**. The five count words in each round are paced at one second each, so the viewer can choose. After «Bir» the picture holds for **2 seconds** with no speech. Those holds are not words.
 
 | Pace | Length |
 | --- | --- |
-| 2.2 words/s, plus the paced counts and holds | 6.08 min |
-| 2.35 words/s, the timeline below | 5.75 min (344.937 s) |
-| 2.5 words/s, plus the paced counts and holds | 5.46 min |
+| 2.2 words/s, plus the paced counts and holds | 6.03 min |
+| 2.35 words/s, the timeline below | 5.71 min (342.384 s) |
+| 2.5 words/s, plus the paced counts and holds | 5.42 min |
 
 The later recording is an **import**. The request, when a runner is approved, is VoiceStudio engine `cosyvoice`, voice profile **Nodira**, Navoiy required. `voiceConsent` is unset, so this plan does not authorize commercial synthesis. Do not call the Mac.
 
@@ -29,33 +29,33 @@ The clock is Remotion: cards, the choice UI, the countdown, captions, the fact, 
 
 | Start | Length | Scene | Class | On screen |
 | --- | --- | --- | --- | --- |
-| 0.000 | 17.872 | `hook` | remotion | title card and channel line |
-| 17.872 | 21.702 | `rules` | remotion | two-option rules card |
-| 39.574 | 23.404 | `r1-choice` | remotion | two stills and the question |
-| 62.978 | 9.277 | `r1-count` | remotion | countdown 5 to 1, then a 2 second hold |
-| 72.255 | 11.489 | `r1-fact` | remotion | fact card, then the transition |
-| 83.744 | 23.404 | `r2-choice` | remotion | two stills and the question |
-| 107.148 | 9.277 | `r2-count` | remotion | countdown 5 to 1, then a 2 second hold |
-| 116.425 | 8.936 | `r2-fact` | remotion | fact card, then the transition |
-| 125.361 | 18.723 | `r3-choice` | remotion | two stills and the question |
-| 144.084 | 9.277 | `r3-count` | remotion | countdown 5 to 1, then a 2 second hold |
-| 153.361 | 9.362 | `r3-fact` | remotion | fact card, then the transition |
-| 162.723 | 19.149 | `r4-choice` | remotion | two stills and the question |
-| 181.872 | 9.277 | `r4-count` | remotion | countdown 5 to 1, then a 2 second hold |
-| 191.149 | 8.936 | `r4-fact` | remotion | fact card, then the transition |
-| 200.085 | 19.574 | `r5-choice` | remotion | two stills and the question |
-| 219.659 | 9.277 | `r5-count` | remotion | countdown 5 to 1, then a 2 second hold |
-| 228.936 | 10.213 | `r5-fact` | remotion | fact card, then the transition |
-| 239.149 | 20.000 | `r6-choice` | remotion | two stills and the question |
-| 259.149 | 9.277 | `r6-count` | remotion | countdown 5 to 1, then a 2 second hold |
-| 268.426 | 9.362 | `r6-fact` | remotion | fact card, then the transition |
-| 277.788 | 22.128 | `r7-choice` | remotion | two stills and the question |
-| 299.916 | 9.277 | `r7-count` | remotion | countdown 5 to 1, then a 2 second hold |
-| 309.193 | 5.532 | `r7-fact` | remotion | fact card, then the transition |
-| 314.725 | 17.872 | `cta` | remotion | comment and subscribe card |
-| 332.597 | 12.340 | `ending` | remotion | ending card |
+| 0.000 | 18.723 | `hook` | remotion | title card and channel line |
+| 18.723 | 19.149 | `rules` | remotion | two-option rules card |
+| 37.872 | 22.979 | `r1-choice` | remotion | two stills and the question |
+| 60.851 | 9.277 | `r1-count` | remotion | countdown 5 to 1, then a 2 second hold |
+| 70.128 | 11.064 | `r1-fact` | remotion | fact card, then the transition |
+| 81.192 | 22.979 | `r2-choice` | remotion | two stills and the question |
+| 104.171 | 9.277 | `r2-count` | remotion | countdown 5 to 1, then a 2 second hold |
+| 113.448 | 8.936 | `r2-fact` | remotion | fact card, then the transition |
+| 122.384 | 18.723 | `r3-choice` | remotion | two stills and the question |
+| 141.107 | 9.277 | `r3-count` | remotion | countdown 5 to 1, then a 2 second hold |
+| 150.384 | 13.191 | `r3-fact` | remotion | fact card, then the transition |
+| 163.575 | 19.149 | `r4-choice` | remotion | two stills and the question |
+| 182.724 | 9.277 | `r4-count` | remotion | countdown 5 to 1, then a 2 second hold |
+| 192.001 | 7.234 | `r4-fact` | remotion | fact card, then the transition |
+| 199.235 | 18.723 | `r5-choice` | remotion | two stills and the question |
+| 217.958 | 9.277 | `r5-count` | remotion | countdown 5 to 1, then a 2 second hold |
+| 227.235 | 8.085 | `r5-fact` | remotion | fact card, then the transition |
+| 235.320 | 19.574 | `r6-choice` | remotion | two stills and the question |
+| 254.894 | 9.277 | `r6-count` | remotion | countdown 5 to 1, then a 2 second hold |
+| 264.171 | 9.787 | `r6-fact` | remotion | fact card, then the transition |
+| 273.958 | 22.128 | `r7-choice` | remotion | two stills and the question |
+| 296.086 | 9.277 | `r7-count` | remotion | countdown 5 to 1, then a 2 second hold |
+| 305.363 | 10.213 | `r7-fact` | remotion | fact card, then the transition |
+| 315.576 | 17.872 | `cta` | remotion | comment and subscribe card |
+| 333.448 | 8.936 | `ending` | remotion | ending card |
 
-Timeline total: **344.937 s**.
+Timeline total: **342.384 s**.
 
 ## Flow plates
 
@@ -65,18 +65,18 @@ Fourteen stills. Status `planned`. `sourceHash` is null until a person exports t
 | --- | --- | --- | --- | --- |
 | `still-bozor` | `r7-choice` | 31.405 | 0.50, 0.44 | Keep the bread stall near the centre of a portrait crop. |
 | `still-buxoro` | `r3-choice` | 28.000 | 0.50, 0.48 | Keep the street vanishing point near the centre. |
-| `still-choy` | `r2-choice` | 32.681 | 0.48, 0.62 | Keep the piyola low and central so a portrait crop does not lose the cup. |
+| `still-choy` | `r2-choice` | 32.256 | 0.48, 0.62 | Keep the piyola low and central so a portrait crop does not lose the cup. |
 | `still-doira` | `r4-choice` | 28.426 | 0.50, 0.55 | Keep the drum face central. |
-| `still-futbol` | `r5-choice` | 28.851 | 0.58, 0.55 | Keep the ball right of centre and the goal in frame. |
-| `still-holva` | `r6-choice` | 29.277 | 0.50, 0.56 | Keep the piece near the centre. |
+| `still-futbol` | `r5-choice` | 28.000 | 0.58, 0.55 | Keep the ball right of centre and the goal in frame. |
+| `still-holva` | `r6-choice` | 28.851 | 0.50, 0.56 | Keep the piece near the centre. |
 | `still-hovli` | `r7-choice` | 31.405 | 0.50, 0.55 | Keep the table and the nearest lamp central. |
-| `still-kurash` | `r5-choice` | 28.851 | 0.50, 0.46 | Keep both wrestlers inside the middle of the frame. |
-| `still-palov` | `r1-choice` | 32.681 | 0.50, 0.58 | Keep the kazan in the lower middle so a portrait crop still holds the dish. |
-| `still-qatiq` | `r2-choice` | 32.681 | 0.52, 0.58 | Keep the bowl slightly below centre. |
+| `still-kurash` | `r5-choice` | 28.000 | 0.50, 0.46 | Keep both wrestlers inside the middle of the frame. |
+| `still-palov` | `r1-choice` | 32.256 | 0.50, 0.58 | Keep the kazan in the lower middle so a portrait crop still holds the dish. |
+| `still-qatiq` | `r2-choice` | 32.256 | 0.52, 0.58 | Keep the bowl slightly below centre. |
 | `still-rubob` | `r4-choice` | 28.426 | 0.46, 0.50 | Keep the body of the rubob left of centre and the neck inside the frame. |
 | `still-samarqand` | `r3-choice` | 28.000 | 0.50, 0.42 | Keep the building line above centre so the square remains in a portrait crop. |
-| `still-somsa` | `r1-choice` | 32.681 | 0.50, 0.58 | Keep the open samsa near the centre, slightly low. |
-| `still-sumalak` | `r6-choice` | 29.277 | 0.50, 0.60 | Keep the bowl low and central. |
+| `still-somsa` | `r1-choice` | 32.256 | 0.50, 0.58 | Keep the open samsa near the centre, slightly low. |
+| `still-sumalak` | `r6-choice` | 28.851 | 0.50, 0.60 | Keep the bowl low and central. |
 
 Prompts, all family-friendly and without written text:
 
@@ -113,21 +113,21 @@ fal is not a substitute. A portrait layout does not send the plate back to Flow.
 
 A list for later. Not rendered. Each one has its own hook and its own ending, so it can play without the episode. The choice, the countdown, and the fact are the episode's. The first sentence and the closing transition are replaced. Each short reuses the episode's two stills by packet id. The hash is assigned at import. `regenerated` is false.
 
-- `short-palov` — 46.298 s. Hook: «Palovmi yoki somsa? Besh soniyada tanlang.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-palov`, `still-somsa`. sourceHash: null until import.
-- `short-shahar` — 39.490 s. Hook: «Samarqandmi yoki Buxoro? Qarang va tanlang.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-samarqand`, `still-buxoro`. sourceHash: null until import.
-- `short-yetti` — 39.065 s. Hook: «Erta bozormi yoki kechki hovli? Oxirigacha qoling.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-bozor`, `still-hovli`. sourceHash: null until import.
+- `short-palov` — 45.447 s. Hook: «Palovmi yoki somsa? Besh soniyada tanlang.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-palov`, `still-somsa`. sourceHash: null until import.
+- `short-shahar` — 43.318 s. Hook: «Samarqandmi yoki Buxoro? Qarang va tanlang.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-samarqand`, `still-buxoro`. sourceHash: null until import.
+- `short-yetti` — 43.746 s. Hook: «Erta bozormi yoki kechki hovli? Oxirigacha qoling.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-bozor`, `still-hovli`. sourceHash: null until import.
 
 ## Facts marked in the script
 
-Spoken claims, and what was checked. Anything not in this list is a choice, not a fact.
+Spoken claims, and where they were checked. The Tekshiruv section of `script.md` holds the same notes. Nothing in that section is read aloud.
 
-1. Palov. UNESCO inscribed «Palov culture and tradition» (Uzbekistan) on the Representative List of the Intangible Cultural Heritage of Humanity in 2016. The script says that and nothing about a recipe.
-2. Tea. Tea is commonly served in a piyola. No volume is stated.
-3. Cities. Samarkand — Crossroad of Cultures, World Heritage, 2001. Historic Centre of Bukhara, World Heritage, 1993. The script names the list and does not rank the cities.
-4. Instruments. A doira is a frame drum. A rubob is a stringed instrument. No claim about which is older.
-5. Kurash. Kurash is Uzbekistan's belbogʻ wrestling. The script does not say it is an Olympic sport.
-6. Navroʻz. Navroʻz is the spring holiday on 21 March. Sumalak is a well-known dish of that table. No cooking time is stated.
-7. Round 7 states that it has no number. The bazaar and the courtyard are a mood choice.
+1. Palov. UNESCO’s 2016 listing «Palov culture and tradition» says guests do not leave the host’s house until palov has been offered. The script says that saying, and the year.
+2. Tea. The host pours tea into the piyola and returns it to the pot three times before serving. Sources: Uzbekistan Travel, «Secrets of the Uzbek tea ceremony»; sam.uz, «Green tea and tea etiquette.» No volume is spoken.
+3. Cities. Registon has three madrasas: Ulugʻbek, Sherdor, and Tillakori. The Kalon minaret in Bukhara was finished in 1127. Published heights are 45.6 m, 46 m, and 46.5 m, so the script says about forty-six metres.
+4. Doira. It is a frame drum, and metal rings are often hung inside the frame. Some doiras have no rings, so the script says «koʻpincha».
+5. Kurash. Kurash was on the programme of the 2018 Asian Games in Jakarta. Source: the Olympic Council of Asia results book. No medal count is spoken.
+6. Sumalak. UNESCO’s «Culture of Sumanak/Sumalak cooking» says it is made from sprouted wheat, the juice is boiled for up to ten hours, and people take turns stirring. Navroʻz is 21 March.
+7. Bread. Before non goes onto the tandir wall, a chekich stamps the centre. The holes let steam out and the centre stays flat. Sources: AramcoWorld; Uzbek Journeys.
 
 ## Stop
 
