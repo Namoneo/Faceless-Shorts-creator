@@ -61,6 +61,57 @@ These checks ran on the fixture. They do not prove pronunciation or Uzbek alignm
 - Transitions in this tranche are cuts of zero duration. The timeline must equal `episodeDurationSec` within one frame, and each narration in/out must match its scene.
 - Wrong dimensions, a frame rate other than 30, a missing stream, or a duration outside the tolerance fail the fixture.
 
-## Not in this tranche
+## Manual Flow and long-form
 
-VoiceStudio stays gated. No model download, no localhost speech service, no voice change. Flow has no adapter here. A manifest that names `flow`, `elevenlabs`, `fal`, `gemini`, `voicestudio`, or another unknown provider fails closed. `/make-long` and `/repurpose-short` are not added. The pilot episode was not produced.
+`/make-long` and `/repurpose-short` are skills. They stop for a person. They do not open Flow, fal, ElevenLabs, or VoiceStudio.
+
+```bash
+python3 -m tools.foundation.cli plan-long \
+  --topic "Synthetic fixture" --language uz-Latn --duration 24 \
+  --audience "local test" --out /tmp/long-plan
+
+python3 -m tools.foundation.cli narration-door --door import
+python3 -m tools.foundation.cli narration-door --door voicestudio
+python3 -m tools.foundation.cli flow-generate
+```
+
+`plan-long` writes an outline, script skeleton, scene list, storyboard, Remotion-or-Flow classification, and one Flow packet in status `planned`. It does not render. `narration-door voicestudio` exits 1. `flow-generate` and `generate` exit 2. fal stays refused on an asset.
+
+A Flow packet moves `planned` → `awaiting_manual_generation` → `awaiting_import` → `validated` → `approved` or `rejected`. Import checks decode, dimensions, 30 fps, duration, an audio stream when required, sha256, and provenance (`tool`, `origin`, `note`). The source file is copied once under `out/flow-cache/sources/<sha256>.mp4`. A second import of the same bytes skips the copy. A portrait pad is a derived reframe and does not change the packet or ask Flow again. A separate portrait or landscape generation needs a written reason and starts a new `planned` packet with no media.
+
+The credit field comes from `productions/flow-price-table.json`. Every estimate says to verify the price in Flow before approval. The table is not a quote and it does not contact Flow.
+
+`productions/fixtures/longform/` is a 24 second landscape fixture. Its narration is a 440 Hz sine. One scene is an ffmpeg `testsrc2` file that stands in for a manual Flow export. The other scenes are ffmpeg title cards standing in for Remotion scenes. The fixture does not render a new Remotion composition. Two portrait Shorts reuse that Flow file and the middle card by hash, and each has its own hook and ending card. `short-pattern` also imports a separate sine as hook audio. Repeat runs skip unchanged scene files.
+
+```bash
+python3 -m tools.foundation.cli run-long \
+  --manifest productions/fixtures/longform/manifest.json \
+  --packet productions/fixtures/longform/out/packet-flow.json \
+  --out productions/fixtures/longform/out
+
+python3 -m tools.foundation.cli repurpose \
+  --manifest productions/fixtures/longform/manifest.json \
+  --selection productions/fixtures/longform/shorts.json \
+  --packet productions/fixtures/longform/out/packet-flow.json \
+  --out productions/fixtures/longform/out
+```
+
+Naming `flow` as an asset provider still fails. The approved file enters as `import` plus `flowPacket`.
+
+## VoiceStudio names
+
+The adapter config is `productions/voicestudio-voices.json`. For `uz-Latn` it requests engine `Navoiy`, model `Navoiy`, and voice `Nodira`. `en` and `nl` are unconfigured. There is no OmniVoice fallback. `synthesize` and `narration-door voicestudio` raise before any audio, download, or localhost call. The Mac runner is not approved.
+
+Checked on 9 Nov 2026 against `debpalash/VoiceStudio` `main` (`backend/config/models.yaml`, `backend/config/model_licenses.json` at commit `06c6e077f0fc35149efefc3561e9be5ae835d916`, `docs/engines/omnivoice.md`, `docs/licensing/model-inventory.md`) and against `aisha-org/navoiy-tts` README, NOTICE, and `inference.py`. No weights were downloaded.
+
+VoiceStudio's own engine doc says: "OmniVoice (k2-fsa/OmniVoice) is VoiceStudio's default TTS engine — the one a fresh install uses without any configuration." The licence record for `k2-fsa/OmniVoice` says `license` "CC-BY-NC (version unspecified); Higgs Audio 2; Meta Llama 3", `commercial_use` false, `review_status` "noncommercial", and notes: "The pinned card distinguishes Apache-2.0 code from non-commercial weights."
+
+The inventory says: "`commercial_use: true` means the recorded distribution scope has been reviewed and cleared, with a reviewer, date, revision and scope. No record currently makes that claim." The JSON inspected here has 70 model records and zero `commercial_use: true`. The same file's CosyVoice row, `FunAudioLLM/Fun-CosyVoice3-0.5B-2512`, has `license` "apache-2.0", `review_status` "unreviewed", and `commercial_use` false. `models.yaml` does not contain Navoiy or Nodira. A filename search of that tree and a commit search for those names were empty.
+
+Aisha's card says: "Lison Navoiy TTS is Aisha's public Uzbek expressive text-to-speech model artifact built on CosyVoice2." The summary lists `License | Apache-2.0` and `Base model | FunAudioLLM/CosyVoice2-0.5B`. The NOTICE says the CosyVoice components are "licensed under the Apache License, Version 2.0." `inference.py` selects the speaker with `--reference`, described as "Consented reference-speaker WAV", and the checkpoint with `--checkpoint`. It has no `--voice Nodira` flag. The demo manifest's reference is `zero_shot_prompt.wav`.
+
+So Sherzod's commercial-use statement matches the Aisha Apache-2.0 card, not VoiceStudio's inventory. VoiceStudio still defaults to OmniVoice and has not recorded a cleared Navoiy model. Nodira was not found as a selectable voice in either place. The config stores the requested names anyway and marks `upstreamCatalogMatch` false.
+
+## Still out of scope
+
+No Uzbek aligner. No pilot. QA does not prove pronunciation. Black that covers less than about 98% of the frame is missed. Silence under 0.05 s is ignored. Caption geometry is browser layout of the display string, not a pixel read of the frame. The long fixture's Remotion-classified scenes are ffmpeg cards, not a Remotion render. VoiceStudio remains a stub.

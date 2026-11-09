@@ -1,0 +1,28 @@
+{
+  "adapter": "voicestudio",
+  "status": "fail-closed",
+  "callsRuntime": false,
+  "downloadsModels": false,
+  "replacesDefault": "OmniVoice",
+  "upstreamCatalogMatch": false,
+  "languages": {
+    "uz-Latn": {
+      "configured": true,
+      "engine": "Navoiy",
+      "model": "Navoiy",
+      "voice": "Nodira"
+    },
+    "en": {
+      "configured": false,
+      "engine": null,
+      "model": null,
+      "voice": null
+    },
+    "nl": {
+      "configured": false,
+      "engine": null,
+      "model": null,
+      "voice": null
+    }
+  }
+}

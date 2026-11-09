@@ -26,6 +26,8 @@ ai-shorts/*/bakeoff/*.mp4
 
 # offline foundation fixture renders (rebuilt by tools.foundation)
 productions/fixtures/foundation/out/
+productions/fixtures/longform/out/
+productions/fixtures/longform/audio/
 
 # local editor config
 .vscode/

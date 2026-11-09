@@ -82,8 +82,8 @@ def validate_manifest(doc: dict[str, Any], base_dir: Path | None = None) -> dict
         if not isinstance(fmt.get("compositionId"), str) or not fmt["compositionId"]:
             raise ManifestError(f"{fid} needs compositionId")
         seen.add(fid)
-    if seen != set(REQUIRED_FORMATS):
-        raise ManifestError("formats must include both landscape and portrait")
+    if not seen:
+        raise ManifestError("formats must include landscape, portrait, or both")
     assets = doc.get("assets")
     if not isinstance(assets, list) or not assets:
         raise ManifestError("assets must be a non-empty list")
@@ -137,16 +137,23 @@ def _validate_asset(asset: Any, base_dir: Path | None) -> None:
     if not isinstance(provenance, dict) or not provenance.get("tool") or not provenance.get("origin"):
         raise ManifestError(f"asset {asset['id']} needs provenance.tool and provenance.origin")
     if provider == "import":
-        _validate_local_path(source.get("path"), f"asset {asset['id']} source.path", base_dir)
+        packet = source.get("flowPacket")
+        if asset["kind"] == "visual" and packet:
+            _require_id(packet, "flow packet id")
+        else:
+            _validate_local_path(source.get("path"), f"asset {asset['id']} source.path", base_dir)
     elif provider == "synthetic-ffmpeg":
         synth = source.get("synth")
         if not isinstance(synth, dict):
             raise ManifestError(f"asset {asset['id']} needs source.synth")
-        if synth.get("kind") != "sine":
-            raise ManifestError(f"asset {asset['id']} synth.kind must be sine")
-        for key in ("frequencyHz", "durationSec", "gainDb"):
-            if not isinstance(synth.get(key), (int, float)):
-                raise ManifestError(f"asset {asset['id']} synth.{key} must be a number")
+        if asset["kind"] == "narration":
+            if synth.get("kind") != "sine":
+                raise ManifestError(f"asset {asset['id']} synth.kind must be sine")
+            for key in ("frequencyHz", "durationSec", "gainDb"):
+                if not isinstance(synth.get(key), (int, float)) or isinstance(synth.get(key), bool):
+                    raise ManifestError(f"asset {asset['id']} synth.{key} must be a number")
+        elif synth.get("kind") != "card" or not isinstance(synth.get("title"), str) or not synth["title"]:
+            raise ManifestError(f"visual asset {asset['id']} synth.kind must be card with a title")
     elif provider == "remotion":
         if not isinstance(source.get("component"), str) or not source["component"]:
             raise ManifestError(f"asset {asset['id']} needs source.component")
@@ -235,6 +242,12 @@ def _validate_scene(
         raise ManifestError(f"scene {scene['id']} caption.fontScale is out of range")
     if caption.get("maxLines") not in (1, 2, 3):
         raise ManifestError(f"scene {scene['id']} caption.maxLines must be 1, 2, or 3")
+    picture = scene.get("picture")
+    if picture is not None:
+        if not isinstance(picture, dict) or picture.get("mode") not in {"remotion", "card", "flow-master"}:
+            raise ManifestError(f"scene {scene['id']} picture.mode must be remotion, card, or flow-master")
+        if picture["mode"] in {"card", "flow-master"} and picture.get("assetId") not in asset_ids:
+            raise ManifestError(f"scene {scene['id']} picture asset is missing")
 
 
 def _validate_timeline(doc: dict[str, Any], scene_ids: set[str]) -> None:
