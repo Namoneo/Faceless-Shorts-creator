@@ -243,10 +243,48 @@ class QaNegativeTests(unittest.TestCase):
         self.assertTrue(allowed["detail"]["detected"])
         self.assertTrue(allowed["detail"]["allowed"])
 
-    def test_silence_inside_a_scene_fails_when_the_window_is_not_wholly_silent(self) -> None:
+    def test_silence_inside_a_scene_allows_a_breath_and_fails_a_longer_hole(self) -> None:
         root = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, root)
-        path = root / "gap.mp4"
+        breath = root / "breath.mp4"
+        self._silence_clip(breath, 2, 0.40, 0.70)
+        manifest = {
+            "fps": 30,
+            "episodeDurationSec": 2,
+            "qa": {"allowBlack": False, "allowSilence": False, "allowClipping": False, "allowCaptionOverflow": False},
+            "scenes": [{"id": "scene-hook", "durationSec": 2}],
+            "transitions": [],
+        }
+        fmt = {"id": "landscape", "width": 320, "height": 180}
+        short_gap = [item for item in check_media(breath, fmt, manifest) if item["id"] == "scene-silence"]
+        self.assertTrue(short_gap)
+        self.assertTrue(short_gap[0]["pass"])
+        self.assertFalse(short_gap[0]["detail"]["detected"])
+        self.assertEqual(short_gap[0]["detail"]["toleranceSec"], 1.0)
+        self.assertTrue(short_gap[0]["detail"]["gaps"])
+        self.assertGreater(volume_detect(breath)["max_db"], -45)
+
+        hole = root / "hole.mp4"
+        self._silence_clip(hole, 2, 0.20, 1.60)
+        long_gap = [item for item in check_media(hole, fmt, manifest) if item["id"] == "scene-silence"]
+        self.assertFalse(long_gap[0]["pass"])
+        self.assertTrue(long_gap[0]["detail"]["detected"])
+        self.assertGreater(long_gap[0]["detail"]["intervals"][0]["overlapSec"], 1.0)
+
+        manifest["scenes"][0]["qa"] = {"silenceGapSec": 2.5}
+        held = [item for item in check_media(hole, fmt, manifest) if item["id"] == "scene-silence"]
+        self.assertTrue(held[0]["pass"])
+        self.assertFalse(held[0]["detail"]["detected"])
+        self.assertEqual(held[0]["detail"]["toleranceSec"], 2.5)
+
+        manifest["scenes"][0]["qa"] = {}
+        manifest["qa"]["allowSilence"] = True
+        allowed = [item for item in check_media(hole, fmt, manifest) if item["id"] == "scene-silence"]
+        self.assertTrue(allowed[0]["pass"])
+        self.assertTrue(allowed[0]["detail"]["detected"])
+        self.assertTrue(allowed[0]["detail"]["allowed"])
+
+    def _silence_clip(self, path: Path, seconds: float, gap_start: float, gap_end: float) -> None:
         subprocess.run(
             [
                 "ffmpeg",
@@ -257,11 +295,14 @@ class QaNegativeTests(unittest.TestCase):
                 "-f",
                 "lavfi",
                 "-i",
-                "color=c=0x1e2a3a:s=320x180:r=30:d=2",
+                f"color=c=0x1e2a3a:s=320x180:r=30:d={seconds}",
                 "-f",
                 "lavfi",
                 "-i",
-                "sine=frequency=440:sample_rate=48000:duration=2,volume=volume='if(between(t,0.40,0.70),0,1)':eval=frame",
+                (
+                    f"sine=frequency=440:sample_rate=48000:duration={seconds},"
+                    f"volume=volume='if(between(t,{gap_start},{gap_end}),0,1)':eval=frame"
+                ),
                 "-c:v",
                 "libx264",
                 "-pix_fmt",
@@ -273,24 +314,6 @@ class QaNegativeTests(unittest.TestCase):
             ],
             check=True,
         )
-        manifest = {
-            "fps": 30,
-            "episodeDurationSec": 2,
-            "qa": {"allowBlack": False, "allowSilence": False, "allowClipping": False, "allowCaptionOverflow": False},
-            "scenes": [{"id": "scene-hook", "durationSec": 2}],
-            "transitions": [],
-        }
-        fmt = {"id": "landscape", "width": 320, "height": 180}
-        blocked = [item for item in check_media(path, fmt, manifest) if item["id"] == "scene-silence"]
-        self.assertTrue(blocked)
-        self.assertFalse(blocked[0]["pass"])
-        self.assertTrue(blocked[0]["detail"]["detected"])
-        self.assertGreater(volume_detect(path)["max_db"], -45)
-        manifest["qa"]["allowSilence"] = True
-        allowed = [item for item in check_media(path, fmt, manifest) if item["id"] == "scene-silence"]
-        self.assertTrue(allowed[0]["pass"])
-        self.assertTrue(allowed[0]["detail"]["detected"])
-        self.assertTrue(allowed[0]["detail"]["allowed"])
 
     def test_wrong_ratio_fps_and_duration_fail(self) -> None:
         root = Path(tempfile.mkdtemp())

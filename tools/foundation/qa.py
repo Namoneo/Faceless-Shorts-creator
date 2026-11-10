@@ -15,6 +15,8 @@ from tools.foundation.timing import line_for_scene
 
 SILENCE_MAX_DB = -45.0
 SILENCE_MIN_SEC = 0.05
+BREATH_GAP_SEC = 1.0
+COUNTDOWN_GAP_SEC = 2.5
 CLIP_MAX_DB = -0.5
 DURATION_FRAMES = 2
 
@@ -459,23 +461,34 @@ def _scene_picture_and_audio(path: Path, manifest: dict[str, Any], label: str) -
         items.append(
             check_black_span(path, float(row["startSec"]), float(row["endSec"]), scene_black, f"{label}:{row['id']}")
         )
-        gaps = [
-            item
-            for item in silence_intervals(path, noise_db=SILENCE_MAX_DB, min_duration=SILENCE_MIN_SEC)
-            if _overlap(item["start"], item["end"], float(row["startSec"]), float(row["endSec"])) > 0.001
-        ]
+        window_start = float(row["startSec"])
+        window_end = float(row["endSec"])
+        gaps = []
+        for item in silence_intervals(path, noise_db=SILENCE_MAX_DB, min_duration=SILENCE_MIN_SEC):
+            overlap = _overlap(item["start"], item["end"], window_start, window_end)
+            if overlap <= 0.001:
+                continue
+            noted = dict(item)
+            noted["overlapSec"] = round(overlap, 3)
+            gaps.append(noted)
+        tolerance = _silence_tolerance(scene)
+        too_long = [item for item in gaps if float(item["overlapSec"]) > tolerance]
         items.append(
             _item(
                 "scene-silence",
-                (not gaps) or scene_silence,
+                (not too_long) or scene_silence,
                 {
                     "label": f"{label}:{row['id']}",
-                    "detected": bool(gaps),
+                    "detected": bool(too_long),
                     "allowed": scene_silence,
-                    "intervals": gaps,
+                    "intervals": too_long,
+                    "gaps": gaps,
+                    "toleranceSec": tolerance,
+                    "rule": "breath-gap",
                     "method": "ffmpeg-silencedetect",
                     "noiseDb": SILENCE_MAX_DB,
                     "minDurationSec": SILENCE_MIN_SEC,
+                    "note": "Gaps up to 1.0 s are breaths. A countdown scene allows 2.5 s. Longer holes still fail.",
                 },
             )
         )
@@ -489,6 +502,13 @@ def _scene_picture_and_audio(path: Path, manifest: dict[str, Any], label: str) -
         )
     )
     return items
+
+
+def _silence_tolerance(scene: dict[str, Any]) -> float:
+    custom = scene.get("qa", {}).get("silenceGapSec") if isinstance(scene.get("qa"), dict) else None
+    if isinstance(custom, (int, float)):
+        return float(custom)
+    return BREATH_GAP_SEC
 
 
 def _overlap(start: float, end: float, window_start: float, window_end: float) -> float:

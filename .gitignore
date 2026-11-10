@@ -3,6 +3,7 @@
 
 # dependencies / build output
 node_modules/
+media/pilot-stills
 remotion/out/
 .remotion/
 __pycache__/

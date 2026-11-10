@@ -83,8 +83,20 @@ def _db(text: str, label: str) -> float | None:
     return None
 
 
+_SCAN_CACHE: dict[tuple[str, str, int, int, str], list[dict[str, float]]] = {}
+
+
+def _scan_key(kind: str, path: Path, extra: str) -> tuple[str, str, int, int, str]:
+    stat = path.stat()
+    return (kind, str(path.resolve()), stat.st_mtime_ns, stat.st_size, extra)
+
+
 def black_intervals(path: Path) -> list[dict[str, float]]:
     """Stream-wide black frames. One black frame is enough. A midpoint sample is not."""
+    key = _scan_key("black", path, "")
+    cached = _SCAN_CACHE.get(key)
+    if cached is not None:
+        return cached
     result = subprocess.run(
         [
             "ffmpeg",
@@ -112,11 +124,16 @@ def black_intervals(path: Path) -> list[dict[str, float]]:
         end_match = re.search(r"black_end:([0-9.]+)", line)
         end = float(end_match.group(1)) if end_match else duration
         found.append({"start": start, "end": end, "duration": max(0.0, end - start)})
+    _SCAN_CACHE[key] = found
     return found
 
 
 def silence_intervals(path: Path, noise_db: float = -45.0, min_duration: float = 0.05) -> list[dict[str, float]]:
     """Silence stretches inside the file, including a gap that is not the whole scene."""
+    key = _scan_key("silence", path, f"{noise_db}:{min_duration}")
+    cached = _SCAN_CACHE.get(key)
+    if cached is not None:
+        return cached
     result = subprocess.run(
         [
             "ffmpeg",
@@ -151,6 +168,7 @@ def silence_intervals(path: Path, noise_db: float = -45.0, min_duration: float =
             pending = None
     if pending is not None:
         found.append({"start": pending, "end": duration, "duration": max(0.0, duration - pending)})
+    _SCAN_CACHE[key] = found
     return found
 
 

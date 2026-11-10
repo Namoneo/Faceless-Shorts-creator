@@ -10,6 +10,7 @@ import array
 import json
 import math
 import re
+import subprocess
 import wave
 from pathlib import Path
 from typing import Any
@@ -34,6 +35,37 @@ from tools.foundation.timing import resolve_timing
 FPS = 30
 HOLD_SEC = 2.0
 PLACEHOLDER_LABEL = "PLACEHOLDER NARRATION - not a VoiceStudio take"
+LABELS = {
+    "still-palov": "PALOV",
+    "still-somsa": "SOMSA",
+    "still-choy": "CHOY",
+    "still-qatiq": "QATIQ",
+    "still-samarqand": "SAMARQAND",
+    "still-buxoro": "BUXORO",
+    "still-doira": "DOIRA",
+    "still-rubob": "RUBOB",
+    "still-kurash": "KURASH",
+    "still-futbol": "FUTBOL",
+    "still-sumalak": "SUMALAK",
+    "still-holva": "HOLVA",
+    "still-bozor": "BOZOR",
+    "still-hovli": "HOVLI",
+}
+FACTS = {
+    1: {"still": "still-palov", "line": "2016 · YuNESKO", "sub": None},
+    2: {"still": "still-choy", "line": "3 marta", "sub": None},
+    3: {"still": "still-buxoro", "line": "1127-yil", "sub": "~46 m"},
+    4: {"still": "still-doira", "line": "halqali ramka", "sub": None},
+    5: {"still": "still-kurash", "line": "2018 · Jakarta", "sub": None},
+    6: {"still": "still-sumalak", "line": "21-mart", "sub": None},
+    7: {"still": "still-bozor", "line": "chekich", "sub": None},
+}
+TITLES = {
+    "hook": ["7 ta tanlov", "Qani, tanlang!"],
+    "rules": ["Qoida", "Ikki yo\u02bbl. Siz tanlaysiz."],
+    "cta": ["Qani, tanlang!", "Obuna bo\u02bbling"],
+    "ending": ["Qani, tanlang!", "Shu yerda xayrlashamiz"],
+}
 COUNTS = {"besh", "tort", "uch", "ikki", "bir"}
 SAFE = {"top": 0.08, "bottom": 0.18, "left": 0.06, "right": 0.06}
 STILL_PROVENANCE = {
@@ -53,6 +85,7 @@ def make_pilot(episode_dir: Path, narration_dir: Path, stills_dir: Path, out_dir
     episode_dir = episode_dir.resolve()
     narration_dir = narration_dir.resolve()
     stills_dir = stills_dir.resolve()
+    out_dir = out_dir.resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
     timings = _read_timings(narration_dir / "timings.json")
     placeholder = bool(timings.get("placeholder"))
@@ -73,21 +106,14 @@ def make_pilot(episode_dir: Path, narration_dir: Path, stills_dir: Path, out_dir
     if source_duration is not None and abs(episode_duration - source_duration) > 1.0:
         raise PilotError("assembly would cut or stretch the narration")
     narration_path = _narration_file(narration_dir, timings, out_dir, episode_duration)
-    landscape_dir = out_dir / "scenes" / "landscape"
-    for scene in aligned:
-        _render_scene(scene, landscape_dir / f"{scene['id']}.mp4", 1920, 1080, placeholder, title=None)
     canonical = _canonicalize(narration_path, out_dir)
+    mix_path, loudness = _mix_show(Path(canonical["canonicalPath"]), aligned, out_dir, episode_duration)
     episode_video = out_dir / "assemble" / "landscape.mp4"
-    _mux(
-        [landscape_dir / f"{scene['id']}.mp4" for scene in aligned],
-        Path(canonical["canonicalPath"]),
-        episode_video,
-        episode_duration,
-    )
+    _render_show(aligned, stills_dir, out_dir, episode_video, 1920, 1080, placeholder, None, None, mix_path, episode_duration)
     short_reports = []
     for plan in shorts_plan:
         short_reports.append(
-            _render_short(plan, aligned, Path(canonical["canonicalPath"]), out_dir, placeholder, by_id)
+            _render_short(plan, aligned, mix_path, out_dir, placeholder, by_id, stills_dir)
         )
     manifest = _manifest(episode_dir, out_dir, aligned, canonical, episode_duration, landscape_only=True)
     timing_doc = _foundation_timing(aligned, canonical["canonicalContentHash"])
@@ -132,6 +158,7 @@ def make_pilot(episode_dir: Path, narration_dir: Path, stills_dir: Path, out_dir
             "durationSec": source_duration if source_duration is not None else episode_duration,
         },
         "cost": cost,
+        "loudness": loudness,
     }
     (out_dir / "qa.json").write_text(json.dumps(qa, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (out_dir / "cost.json").write_text(json.dumps(cost, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -342,13 +369,17 @@ def _align_recorded(
         duration = (end_frame - start_frame) / FPS
         cues = []
         spoken = []
+        countdown = None
         for chunk in spec["chunks"]:
             cue_start = max(0.0, float(chunk["start"]) - start)
             cue_end = min(duration, float(chunk["end"]) - start)
             if cue_end <= cue_start:
                 continue
             spoken.append(str(chunk["text"]).strip())
-            pieces = _countdown_words(str(chunk["text"])) if chunk.get("countdown") else _fit_caption(str(chunk["text"]))
+            if chunk.get("countdown"):
+                countdown = {"start": round(cue_start, 3), "end": round(cue_end, 3)}
+                continue
+            pieces = _fit_caption(str(chunk["text"]))
             weights = [max(1, len(piece)) for piece in pieces]
             cursor = cue_start
             span = cue_end - cue_start
@@ -369,6 +400,8 @@ def _align_recorded(
                 "text": " ".join(spoken),
                 "cues": cues,
                 "plates": plates,
+                "countdown": countdown,
+                "round": spec["round"],
                 "allowSilence": spec["role"] == "countdown",
             }
         )
@@ -464,40 +497,354 @@ def _countdown_words(text: str) -> list[str]:
 
 
 def _fit_caption(text: str) -> list[str]:
-    """Break a spoken chunk into caption cues that fit a portrait frame."""
-    sentences = _sentences(text)
-    groups: list[str] = []
-    current = ""
-    for sentence in sentences:
-        trial = sentence if not current else f"{current} {sentence}"
-        if current and _caption_too_wide(trial):
-            groups.append(current)
-            current = sentence
-        else:
-            current = trial
-    if current:
-        groups.append(current)
-    fitted: list[str] = []
-    for group in groups:
-        if not _caption_too_wide(group):
-            fitted.append(group)
-            continue
-        words = group.split()
-        line = ""
-        for word in words:
-            trial = word if not line else f"{line} {word}"
-            if line and _caption_too_wide(trial):
-                fitted.append(line)
-                line = word
+    """Caption pages: punctuation first, then at most seven words, and two lines on both frames."""
+    pages: list[str] = []
+    for sentence in _sentences(text):
+        current: list[str] = []
+        for word in sentence.split():
+            trial = " ".join([*current, word])
+            if current and (len(current) >= 7 or _caption_too_wide(trial)):
+                pages.append(" ".join(current))
+                current = [word]
             else:
-                line = trial
-        if line:
-            fitted.append(line)
-    return fitted or [text.strip()]
+                current.append(word)
+        if current:
+            pages.append(" ".join(current))
+    return pages or [text.strip()]
 
 
 def _caption_too_wide(text: str) -> bool:
-    return bool(caption_overflow(text, 1080, 1920, SAFE, {"fontScale": 0.028, "maxLines": 3})["overflow"])
+    land = caption_overflow(text, 1920, 1080, SAFE, {"fontScale": 0.056, "maxLines": 2})
+    port = caption_overflow(text, 1080, 1920, SAFE, {"fontScale": 0.035, "maxLines": 2})
+    return bool(land["overflow"] or port["overflow"])
+
+
+def _render_show(
+    scenes: list[dict[str, Any]],
+    stills_dir: Path,
+    out_dir: Path,
+    dest: Path,
+    width: int,
+    height: int,
+    placeholder: bool,
+    title: str | None,
+    ending: str | None,
+    audio: Path,
+    duration: float,
+) -> None:
+    _link_stills(stills_dir)
+    props_path = dest.with_suffix(".props.json")
+    silent = dest.with_suffix(".silent.mp4")
+    props_path.parent.mkdir(parents=True, exist_ok=True)
+    props_path.write_text(
+        json.dumps(_show_props(scenes, stills_dir, width, height, duration, placeholder, title, ending), ensure_ascii=False),
+        encoding="utf-8",
+    )
+    repo = Path(__file__).resolve().parents[2]
+    command = [
+        str(repo / "remotion" / "node_modules" / ".bin" / "remotion"),
+        "render",
+        "src/pilot-index.ts",
+        "PilotShow",
+        str(silent),
+        f"--props={props_path}",
+        "--muted",
+        "--concurrency=2",
+        "--crf=20",
+        "--x264-preset=veryfast",
+        "--log=error",
+    ]
+    log_path = dest.with_suffix(".render.log")
+    with log_path.open("w", encoding="utf-8") as handle:
+        result = subprocess.run(command, cwd=repo / "remotion", stdout=handle, stderr=subprocess.STDOUT, text=True)
+    if result.returncode != 0:
+        tail = log_path.read_text(encoding="utf-8")[-2000:]
+        raise PilotError(f"remotion render failed\n{tail}")
+    _mux([silent], audio, dest, duration)
+
+
+def _link_stills(stills_dir: Path) -> None:
+    link = Path(__file__).resolve().parents[2] / "media" / "pilot-stills"
+    target = stills_dir.resolve()
+    if link.is_symlink():
+        if link.resolve() == target:
+            return
+        link.unlink()
+    elif link.exists():
+        raise PilotError(f"{link} exists and is not the stills link")
+    link.symlink_to(target, target_is_directory=True)
+
+
+def _show_props(
+    scenes: list[dict[str, Any]],
+    stills_dir: Path,
+    width: int,
+    height: int,
+    duration: float,
+    placeholder: bool,
+    title: str | None,
+    ending: str | None,
+) -> dict[str, Any]:
+    focals: dict[str, dict[str, float]] = {}
+    for scene in scenes:
+        for plate in scene.get("plates") or []:
+            focals[str(plate["id"])] = plate.get("focal") or {"x": 0.5, "y": 0.5}
+    library = []
+    for path in sorted(stills_dir.glob("still-*.jpg")):
+        focal = focals.get(path.stem) or {"x": 0.5, "y": 0.5}
+        library.append(_plate_prop(path.stem, focal))
+    built = []
+    for scene in scenes:
+        number = scene.get("round")
+        if number is None:
+            match = re.fullmatch(r"r(\d+)-.+", str(scene["id"]))
+            number = int(match.group(1)) if match else None
+        fact = FACTS.get(int(number)) if scene.get("role") == "reveal" and number is not None else None
+        built.append(
+            {
+                "id": scene["id"],
+                "role": scene.get("role") or "card",
+                "startSec": scene["start"],
+                "durationSec": scene["duration"],
+                "plates": [
+                    _plate_prop(str(plate["id"]), plate.get("focal") or {"x": 0.5, "y": 0.5})
+                    for plate in scene.get("plates") or []
+                ],
+                "labels": [LABELS.get(str(plate["id"]), str(plate["id"])) for plate in scene.get("plates") or []],
+                "round": number,
+                "cues": scene.get("cues") or [],
+                "countdown": scene.get("countdown"),
+                "fact": fact,
+                "titles": TITLES.get(str(scene.get("role")), []),
+            }
+        )
+    return {
+        "width": width,
+        "height": height,
+        "durationInFrames": max(1, int(round(duration * FPS))),
+        "placeholder": placeholder,
+        "title": title or None,
+        "ending": ending or None,
+        "library": library,
+        "scenes": built,
+    }
+
+
+def _plate_prop(plate_id: str, focal: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "id": plate_id,
+        "file": f"pilot-stills/{plate_id}.jpg",
+        "focal": {"x": float(focal.get("x", 0.5)), "y": float(focal.get("y", 0.5))},
+        "evening": plate_id == "still-hovli",
+    }
+
+
+def _mix_show(
+    voice: Path,
+    scenes: list[dict[str, Any]],
+    out_dir: Path,
+    duration: float,
+) -> tuple[Path, dict[str, Any]]:
+    bed = out_dir / "audio" / "bed.wav"
+    _write_bed(bed, duration)
+    whooshes = [float(scene["start"]) for scene in scenes[1:]]
+    ticks: list[float] = []
+    for scene in scenes:
+        window = scene.get("countdown")
+        if not window:
+            continue
+        span = max(0.2, float(window["end"]) - float(window["start"]))
+        origin = float(scene["start"]) + float(window["start"])
+        ticks.extend(origin + span * step / 5 for step in range(5))
+    mixed = out_dir / "audio" / "mix.wav"
+    _mix_tracks(voice, bed, mixed, duration, whooshes, ticks)
+    return mixed, _measure_lufs(mixed)
+
+
+def _write_bed(dest: Path, duration: float) -> None:
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    raw = dest.with_suffix(".raw.wav")
+    tone = (
+        "0.08*sin(2*PI*220*t)+0.05*sin(2*PI*277*t)+0.04*sin(2*PI*330*t)"
+        "+0.02*sin(2*PI*0.07*t)*sin(2*PI*196*t)"
+    )
+    run(
+        [
+            "ffmpeg",
+            "-y",
+            "-hide_banner",
+            "-v",
+            "error",
+            "-f",
+            "lavfi",
+            "-i",
+            f"aevalsrc={tone}:s=48000:d={duration:.3f}",
+            "-f",
+            "lavfi",
+            "-i",
+            f"anoisesrc=color=pink:sample_rate=48000:duration={duration:.3f}",
+            "-filter_complex",
+            "[1:a]lowpass=f=280,highpass=f=70,volume=0.15[n];[0:a][n]amix=inputs=2:duration=first,volume=2[a]",
+            "-map",
+            "[a]",
+            "-ac",
+            "2",
+            "-c:a",
+            "pcm_s16le",
+            str(raw),
+        ]
+    )
+    run(
+        [
+            "ffmpeg",
+            "-y",
+            "-hide_banner",
+            "-v",
+            "error",
+            "-i",
+            str(raw),
+            "-af",
+            "loudnorm=I=-28:TP=-2:LRA=11",
+            "-ac",
+            "2",
+            "-c:a",
+            "pcm_s16le",
+            str(dest),
+        ]
+    )
+
+
+def _mix_tracks(
+    voice: Path,
+    bed: Path,
+    dest: Path,
+    duration: float,
+    whooshes: list[float],
+    ticks: list[float],
+) -> None:
+    repo = Path(__file__).resolve().parents[2]
+    whoosh = repo / "media" / "library" / "sfx" / "clips" / "whoosh-soft.mp3"
+    tick = repo / "media" / "library" / "sfx" / "clips" / "clock-tick-soft.mp3"
+    parts = [
+        "[0:a]aformat=channel_layouts=stereo,asplit=2[voice][sc]",
+        "[1:a]aformat=channel_layouts=stereo[bedin]",
+        "[bedin][sc]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=350[bed]",
+    ]
+    labels = ["[voice]", "[bed]"]
+    command = ["ffmpeg", "-y", "-hide_banner", "-v", "error", "-i", str(voice), "-i", str(bed)]
+    next_input = 2
+    if whooshes:
+        command.extend(["-i", str(whoosh)])
+        _place_sfx(parts, labels, next_input, whooshes, "w", 0.12)
+        next_input += 1
+    if ticks:
+        command.extend(["-i", str(tick)])
+        _place_sfx(parts, labels, next_input, ticks, "t", 0.16)
+    parts.append(
+        "".join(labels)
+        + f"amix=inputs={len(labels)}:duration=first:dropout_transition=0:normalize=0,apad,alimiter=limit=0.95[pre]"
+    )
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    staged = dest.with_suffix(".staged.wav")
+    command.extend(
+        [
+            "-filter_complex",
+            ";".join(parts),
+            "-map",
+            "[pre]",
+            "-t",
+            f"{duration:.3f}",
+            "-ac",
+            "2",
+            "-c:a",
+            "pcm_s16le",
+            str(staged),
+        ]
+    )
+    run(command)
+    _loudnorm_file(staged, dest, -14.0)
+
+
+def _place_sfx(
+    parts: list[str],
+    labels: list[str],
+    input_index: int,
+    times: list[float],
+    tag: str,
+    volume: float,
+) -> None:
+    if len(times) == 1:
+        parts.append(f"[{input_index}:a]aformat=channel_layouts=stereo,volume={volume}[{tag}0]")
+    else:
+        split = "".join(f"[{tag}{index}]" for index in range(len(times)))
+        parts.append(
+            f"[{input_index}:a]aformat=channel_layouts=stereo,volume={volume},asplit={len(times)}{split}"
+        )
+    for index, moment in enumerate(times):
+        delay = max(0, int(round(moment * 1000)))
+        parts.append(f"[{tag}{index}]adelay={delay}|{delay}[{tag}d{index}]")
+        labels.append(f"[{tag}d{index}]")
+
+
+def _loudnorm_file(source: Path, dest: Path, integrated: float) -> None:
+    probe = run(
+        [
+            "ffmpeg",
+            "-hide_banner",
+            "-i",
+            str(source),
+            "-af",
+            f"loudnorm=I={integrated}:TP=-1.5:LRA=11:print_format=json",
+            "-f",
+            "null",
+            "-",
+        ]
+    )
+    match = re.search(r"\{[^{}]*\}", probe.stderr or "")
+    if match is None:
+        raise PilotError("loudnorm did not report measured levels")
+    stats = json.loads(match.group(0))
+    measured = (
+        f"loudnorm=I={integrated}:TP=-1.5:LRA=11:measured_I={stats['input_i']}:"
+        f"measured_TP={stats['input_tp']}:measured_LRA={stats['input_lra']}:"
+        f"measured_thresh={stats['input_thresh']}:offset={stats['target_offset']}:linear=true"
+    )
+    run(
+        [
+            "ffmpeg",
+            "-y",
+            "-hide_banner",
+            "-v",
+            "error",
+            "-i",
+            str(source),
+            "-af",
+            measured,
+            "-ac",
+            "2",
+            "-c:a",
+            "pcm_s16le",
+            str(dest),
+        ]
+    )
+
+
+def _measure_lufs(path: Path) -> dict[str, Any]:
+    result = subprocess.run(
+        ["ffmpeg", "-hide_banner", "-i", str(path), "-af", "ebur128=framelog=verbose", "-f", "null", "-"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    summary = (result.stderr or "").split("Summary:")[-1]
+    found = re.search(r"I:\s*(-?\d+(?:\.\d+)?)\s*LUFS", summary)
+    return {
+        "integratedLufs": float(found.group(1)) if found else None,
+        "targetLufs": -14.0,
+        "bedTargetLufs": -28.0,
+        "method": "ffmpeg-ebur128",
+        "note": "Local sine-and-noise bed at about -28 LUFS, ducked under the voice, then the mix is loudnormed to -14.",
+    }
 
 
 def _render_short(
@@ -507,6 +854,7 @@ def _render_short(
     out_dir: Path,
     placeholder: bool,
     packets: dict[str, dict[str, Any]],
+    stills_dir: Path,
 ) -> dict[str, Any]:
     wanted = set(plan["scenes"])
     chosen = [scene for scene in aligned if scene["id"] in wanted]
@@ -527,22 +875,22 @@ def _render_short(
         item["end"] = round(cursor + scene["duration"], 3)
         local.append(item)
         cursor = item["end"]
-    portrait_dir = out_dir / "scenes" / plan["id"]
-    for scene in local:
-        _render_scene(
-            scene,
-            portrait_dir / f"{scene['id']}.mp4",
-            1080,
-            1920,
-            placeholder,
-            title=plan.get("hook"),
-            ending=plan.get("ending"),
-            ending_at=max(0.0, cursor - 3.0),
-        )
     final = out_dir / "assemble" / f"{plan['id']}.mp4"
     audio = out_dir / "audio" / f"{plan['id']}.wav"
     _slice_audio(narration, audio, offset, cursor)
-    _mux([portrait_dir / f"{scene['id']}.mp4" for scene in local], audio, final, cursor)
+    _render_show(
+        local,
+        stills_dir,
+        out_dir,
+        final,
+        1080,
+        1920,
+        placeholder,
+        str(plan.get("hook") or ""),
+        str(plan.get("ending") or ""),
+        audio,
+        cursor,
+    )
     manifest = _short_manifest(out_dir, plan["id"], local, cursor)
     timing = _foundation_timing(local, sha256_file(audio))
     return {"id": plan["id"], "path": final, "durationSec": cursor, "manifest": manifest, "timing": timing}
@@ -901,9 +1249,15 @@ def _base_manifest(
                 "focal": {"x": 0.5, "y": 0.5},
                 "safe": SAFE,
                 "text": {"uz-Latn": scene["text"], "en": "Pilot scene.", "nl": "Pilotscène."},
-                "caption": {"fontScale": 0.028, "maxLines": 3},
+                "caption": {
+                    "fontScale": 0.035 if portrait and not landscape else 0.056,
+                    "maxLines": 2,
+                },
                 "captionCues": scene["cues"],
-                "qa": {"allowSilence": bool(scene["allowSilence"])},
+                "qa": {
+                    "allowSilence": False,
+                    "silenceGapSec": 2.5 if scene.get("allowSilence") else 1.0,
+                },
             }
         )
     transitions = [{"after": scene["id"], "type": "cut", "durationSec": 0} for scene in scenes[:-1]]
