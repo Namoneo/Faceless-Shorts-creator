@@ -91,6 +91,7 @@ def make_pilot(episode_dir: Path, narration_dir: Path, stills_dir: Path, out_dir
     placeholder = bool(timings.get("placeholder"))
     packets = import_stills(episode_dir / "packets", stills_dir, episode_dir / "cache" / "flow")
     _record_hashes(episode_dir, packets)
+    design = _load_design(episode_dir)
     by_id = {item["id"]: item for item in packets}
     scenes = json.loads((episode_dir / "scenes.json").read_text(encoding="utf-8"))
     shorts_plan = json.loads((episode_dir / "shorts.json").read_text(encoding="utf-8"))
@@ -109,13 +110,17 @@ def make_pilot(episode_dir: Path, narration_dir: Path, stills_dir: Path, out_dir
     canonical = _canonicalize(narration_path, out_dir)
     mix_path, loudness = _mix_show(Path(canonical["canonicalPath"]), aligned, out_dir, episode_duration)
     episode_video = out_dir / "assemble" / "landscape.mp4"
-    _render_show(aligned, stills_dir, out_dir, episode_video, 1920, 1080, placeholder, None, None, mix_path, episode_duration)
+    _render_show(
+        aligned, stills_dir, out_dir, episode_video, 1920, 1080, placeholder, None, None, mix_path, episode_duration, design
+    )
     short_reports = []
     for plan in shorts_plan:
         short_reports.append(
-            _render_short(plan, aligned, mix_path, out_dir, placeholder, by_id, stills_dir)
+            _render_short(plan, aligned, mix_path, out_dir, placeholder, by_id, stills_dir, design)
         )
-    manifest = _manifest(episode_dir, out_dir, aligned, canonical, episode_duration, landscape_only=True)
+    manifest = _manifest(
+        episode_dir, out_dir, aligned, canonical, episode_duration, landscape_only=True, episode_id=str(design["id"])
+    )
     timing_doc = _foundation_timing(aligned, canonical["canonicalContentHash"])
     qa = check_episode(manifest, {"landscape": episode_video}, {"narration-main": timing_doc})
     short_qa = []
@@ -135,7 +140,7 @@ def make_pilot(episode_dir: Path, narration_dir: Path, stills_dir: Path, out_dir
         item.pop("timing", None)
     cost = _cost(packets, placeholder, timings)
     report = {
-        "episodeId": "episode-001",
+        "episodeId": design["id"],
         "placeholder": placeholder,
         "final": False if placeholder else True,
         "label": PLACEHOLDER_LABEL if placeholder else None,
@@ -519,6 +524,29 @@ def _caption_too_wide(text: str) -> bool:
     return bool(land["overflow"] or port["overflow"])
 
 
+def _load_design(episode_dir: Path) -> dict[str, Any]:
+    path = episode_dir / "design.json"
+    if not path.is_file():
+        return {
+            "id": "episode-001",
+            "labels": LABELS,
+            "facts": FACTS,
+            "titles": TITLES,
+            "kenBurns": "standard",
+        }
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    facts = {}
+    for key, value in (doc.get("facts") or {}).items():
+        facts[int(key)] = value
+    return {
+        "id": str(doc.get("id") or episode_dir.name),
+        "labels": doc.get("labels") or LABELS,
+        "facts": facts or FACTS,
+        "titles": doc.get("titles") or TITLES,
+        "kenBurns": str(doc.get("kenBurns") or "standard"),
+    }
+
+
 def _render_show(
     scenes: list[dict[str, Any]],
     stills_dir: Path,
@@ -531,13 +559,19 @@ def _render_show(
     ending: str | None,
     audio: Path,
     duration: float,
+    design: dict[str, Any] | None = None,
 ) -> None:
-    _link_stills(stills_dir)
+    design = design or _load_design(dest)
+    frames = _prepare_stills(stills_dir, out_dir)
+    _link_stills(frames)
     props_path = dest.with_suffix(".props.json")
     silent = dest.with_suffix(".silent.mp4")
     props_path.parent.mkdir(parents=True, exist_ok=True)
     props_path.write_text(
-        json.dumps(_show_props(scenes, stills_dir, width, height, duration, placeholder, title, ending), ensure_ascii=False),
+        json.dumps(
+            _show_props(scenes, frames, width, height, duration, placeholder, title, ending, design),
+            ensure_ascii=False,
+        ),
         encoding="utf-8",
     )
     repo = Path(__file__).resolve().parents[2]
@@ -563,6 +597,44 @@ def _render_show(
     _mux([silent], audio, dest, duration)
 
 
+def _prepare_stills(stills_dir: Path, out_dir: Path) -> Path:
+    """Lanczos-scale stills that are below 1080p. Larger masters are used as they are."""
+    dest = out_dir / "stills-1080"
+    dest.mkdir(parents=True, exist_ok=True)
+    for path in sorted(stills_dir.glob("still-*.jpg")):
+        info = probe(path)
+        video = next((item for item in info.get("streams", []) if item.get("codec_type") == "video"), None)
+        width = int((video or {}).get("width") or 0)
+        height = int((video or {}).get("height") or 0)
+        target = dest / path.name
+        if width >= 1920 and height >= 1080:
+            if target.is_symlink() or target.exists():
+                target.unlink()
+            target.symlink_to(path.resolve())
+            continue
+        if target.is_file() and not target.is_symlink() and target.stat().st_mtime >= path.stat().st_mtime:
+            continue
+        if target.is_symlink():
+            target.unlink()
+        run(
+            [
+                "ffmpeg",
+                "-y",
+                "-hide_banner",
+                "-v",
+                "error",
+                "-i",
+                str(path),
+                "-vf",
+                "scale=1920:1080:flags=lanczos",
+                "-q:v",
+                "2",
+                str(target),
+            ]
+        )
+    return dest
+
+
 def _link_stills(stills_dir: Path) -> None:
     link = Path(__file__).resolve().parents[2] / "media" / "pilot-stills"
     target = stills_dir.resolve()
@@ -584,7 +656,11 @@ def _show_props(
     placeholder: bool,
     title: str | None,
     ending: str | None,
+    design: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    labels = (design or {}).get("labels") or LABELS
+    facts = (design or {}).get("facts") or FACTS
+    titles = (design or {}).get("titles") or TITLES
     focals: dict[str, dict[str, float]] = {}
     for scene in scenes:
         for plate in scene.get("plates") or []:
@@ -599,7 +675,7 @@ def _show_props(
         if number is None:
             match = re.fullmatch(r"r(\d+)-.+", str(scene["id"]))
             number = int(match.group(1)) if match else None
-        fact = FACTS.get(int(number)) if scene.get("role") == "reveal" and number is not None else None
+        fact = facts.get(int(number)) if scene.get("role") == "reveal" and number is not None else None
         built.append(
             {
                 "id": scene["id"],
@@ -610,12 +686,12 @@ def _show_props(
                     _plate_prop(str(plate["id"]), plate.get("focal") or {"x": 0.5, "y": 0.5})
                     for plate in scene.get("plates") or []
                 ],
-                "labels": [LABELS.get(str(plate["id"]), str(plate["id"])) for plate in scene.get("plates") or []],
+                "labels": [labels.get(str(plate["id"]), str(plate["id"])) for plate in scene.get("plates") or []],
                 "round": number,
                 "cues": scene.get("cues") or [],
                 "countdown": scene.get("countdown"),
                 "fact": fact,
-                "titles": TITLES.get(str(scene.get("role")), []),
+                "titles": titles.get(str(scene.get("role")), []),
             }
         )
     return {
@@ -627,6 +703,7 @@ def _show_props(
         "ending": ending or None,
         "library": library,
         "scenes": built,
+        "kenBurns": (design or {}).get("kenBurns") or "standard",
     }
 
 
@@ -855,6 +932,7 @@ def _render_short(
     placeholder: bool,
     packets: dict[str, dict[str, Any]],
     stills_dir: Path,
+    design: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     wanted = set(plan["scenes"])
     chosen = [scene for scene in aligned if scene["id"] in wanted]
@@ -867,14 +945,11 @@ def _render_short(
         asset["sourceHash"] = packet["sourceHash"]
         asset["regenerated"] = False
     offset = chosen[0]["start"]
-    local = []
-    cursor = 0.0
-    for scene in chosen:
-        item = dict(scene)
-        item["start"] = round(cursor, 3)
-        item["end"] = round(cursor + scene["duration"], 3)
-        local.append(item)
-        cursor = item["end"]
+    window_end = chosen[-1]["end"]
+    if plan.get("inSec") is not None and plan.get("outSec") is not None:
+        offset = float(plan["inSec"])
+        window_end = float(plan["outSec"])
+    local, cursor = _clip_scenes(chosen, offset, window_end)
     final = out_dir / "assemble" / f"{plan['id']}.mp4"
     audio = out_dir / "audio" / f"{plan['id']}.wav"
     _slice_audio(narration, audio, offset, cursor)
@@ -890,10 +965,67 @@ def _render_short(
         str(plan.get("ending") or ""),
         audio,
         cursor,
+        design,
     )
     manifest = _short_manifest(out_dir, plan["id"], local, cursor)
     timing = _foundation_timing(local, sha256_file(audio))
     return {"id": plan["id"], "path": final, "durationSec": cursor, "manifest": manifest, "timing": timing}
+
+
+def _clip_scenes(
+    scenes: list[dict[str, Any]],
+    start: float,
+    end: float,
+) -> tuple[list[dict[str, Any]], float]:
+    """Keep the recorded question-through-fact window. Scene text outside that window is dropped."""
+    local = []
+    cursor = 0.0
+    for scene in scenes:
+        opening = max(float(scene["start"]), start)
+        closing = min(float(scene["end"]), end)
+        if closing - opening < (1 / FPS):
+            continue
+        delta = opening - float(scene["start"])
+        duration = round((closing - opening) * FPS) / FPS
+        cues = []
+        for cue in scene.get("cues") or []:
+            cue_start = float(cue["start"]) - delta
+            cue_end = float(cue["end"]) - delta
+            if cue_end <= 0.02 or cue_start >= duration - 0.02:
+                continue
+            cues.append(
+                {
+                    "text": cue["text"],
+                    "start": round(max(0.0, cue_start), 3),
+                    "end": round(min(duration, cue_end), 3),
+                }
+            )
+        countdown = None
+        if scene.get("countdown"):
+            cue_start = float(scene["countdown"]["start"]) - delta
+            cue_end = float(scene["countdown"]["end"]) - delta
+            if cue_end > 0.05 and cue_start < duration:
+                countdown = {"start": round(max(0.0, cue_start), 3), "end": round(min(duration, cue_end), 3)}
+        whole = abs(opening - float(scene["start"])) < 0.02 and abs(closing - float(scene["end"])) < 0.02
+        if whole:
+            text = scene["text"]
+        else:
+            parts = [str(cue["text"]) for cue in cues]
+            if countdown:
+                parts.insert(0, "Besh. Toʻrt. Uch. Ikki. Bir.")
+            text = " ".join(parts) or scene["text"]
+        item = dict(scene)
+        item["start"] = round(cursor, 3)
+        item["duration"] = duration
+        item["end"] = round(cursor + duration, 3)
+        item["cues"] = cues
+        item["countdown"] = countdown
+        item["text"] = text
+        local.append(item)
+        cursor += duration
+    if not local:
+        raise PilotError("short window does not overlap the aligned scenes")
+    return local, cursor
 
 
 def _hash_of_scene_plate(scenes: list[dict[str, Any]], plate_id: str) -> str | None:
@@ -1202,9 +1334,10 @@ def _manifest(
     canonical: dict[str, Any],
     duration: float,
     landscape_only: bool,
+    episode_id: str = "episode-001",
 ) -> dict[str, Any]:
     del episode_dir
-    doc = _base_manifest("episode-001", scenes, duration, portrait=not landscape_only, landscape=True)
+    doc = _base_manifest(episode_id, scenes, duration, portrait=not landscape_only, landscape=True)
     path = out_dir / "manifest.json"
     path.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     timing_path = out_dir / "timing" / "narration-main.json"

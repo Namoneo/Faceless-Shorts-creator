@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "still-gentra",
+  "sceneId": "r1-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photorealistic 16:9 photograph of a black mid-2010s compact four-door sedan parked on a quiet Uzbek city street in warm late-afternoon light, three-quarter front view. No manufacturer badge, no model lettering, no license-plate text, no readable signs, no logo. Only distant unrecognizable pedestrians, no celebrity faces.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 51.2,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.52
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": true,
+    "amount": 0,
+    "currency": "credits",
+    "model": "Nano Banana 2.1",
+    "tableId": "delivered-receipt",
+    "label": "Delivered still. 0 Flow credits.",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "fb0808e28dea7ef86bc03e427303672e3da3268a36b4d6ef1c733cbc8bc8d4c1",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the black sedan body central so a portrait crop still holds the car.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-gentra.jpg",
+  "deliveredWidth": 1376,
+  "deliveredHeight": 768
+}

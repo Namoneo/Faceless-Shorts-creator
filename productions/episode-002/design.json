@@ -1,0 +1,75 @@
+{
+  "id": "episode-002",
+  "kenBurns": "subtle",
+  "labels": {
+    "still-gentra": "GENTRA",
+    "still-cobalt": "COBALT",
+    "still-manti": "MANTI",
+    "still-chuchvara": "CHUCHVARA",
+    "still-iphone": "IPHONE",
+    "still-samsung": "SAMSUNG",
+    "still-matiz": "MATIZ",
+    "still-spark": "SPARK",
+    "still-toshkent": "TOSHKENT",
+    "still-viloyat": "VILOYAT",
+    "still-katta-toy": "KATTA TOʻY",
+    "still-kichik-toy": "KICHIK TOʻY",
+    "still-chorvoq": "CHORVOQ",
+    "still-chimgan": "CHIMGAN"
+  },
+  "facts": {
+    "1": {
+      "still": "still-gentra",
+      "line": "2012 · Cobalt",
+      "sub": "2013 · Gentra"
+    },
+    "2": {
+      "still": "still-manti",
+      "line": "qasqon",
+      "sub": "chuchvara"
+    },
+    "3": {
+      "still": "still-iphone",
+      "line": "2007 · iPhone",
+      "sub": "2010 · Galaxy S"
+    },
+    "4": {
+      "still": "still-matiz",
+      "line": "2001 · Matiz",
+      "sub": "2010 · Spark"
+    },
+    "5": {
+      "still": "still-toshkent",
+      "line": "1930",
+      "sub": "3 mln+"
+    },
+    "6": {
+      "still": "still-katta-toy",
+      "line": "fotiha toʻyi",
+      "sub": "katta toʻy"
+    },
+    "7": {
+      "still": "still-chorvoq",
+      "line": "168 m",
+      "sub": "1970 · 3309 m"
+    }
+  },
+  "titles": {
+    "hook": [
+      "Qora Gentra",
+      "YOKI oq Cobalt"
+    ],
+    "rules": [
+      "Qoida",
+      "Ikki yoʻl. Siz tanlaysiz."
+    ],
+    "cta": [
+      "Qani, tanlang!",
+      "Obuna boʻling"
+    ],
+    "ending": [
+      "Qani, tanlang!",
+      "Shu yerda xayrlashamiz"
+    ]
+  }
+}

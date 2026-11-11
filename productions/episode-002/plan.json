@@ -1,0 +1,120 @@
+{
+  "topic": "Qora Gentra YOKI oq Cobalt — oxirigacha yetib bora olasizmi?",
+  "channel": "Qani, tanlang!",
+  "language": "uz-Latn",
+  "address": "siz",
+  "audience": "Oʻzbek oilaviy tomoshabin",
+  "episodeId": "episode-002",
+  "title": "Qora Gentra YOKI oq Cobalt — oxirigacha yetib bora olasizmi?",
+  "approvedBy": "Sherzod",
+  "durationSec": 526.363,
+  "stopped": false,
+  "rendersMedia": true,
+  "narration": {
+    "door": "import",
+    "engine": "cosyvoice (Navoiy)",
+    "voice": "Nodira d42273dd",
+    "called": false,
+    "note": "Local imported take. This runner does not call VoiceStudio."
+  },
+  "flowPackets": [
+    {
+      "id": "still-gentra",
+      "status": "validated",
+      "sourceHash": "fb0808e28dea7ef86bc03e427303672e3da3268a36b4d6ef1c733cbc8bc8d4c1",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-cobalt",
+      "status": "validated",
+      "sourceHash": "a2ad3344280bf56cd60219a39f0b23f7b619f0fc3a3444d8f85fce35f6fcf876",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-manti",
+      "status": "validated",
+      "sourceHash": "deea87f4f1708f46354f17b30664401374efaafe2f1fd491e66a3e29d4e445ec",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-chuchvara",
+      "status": "validated",
+      "sourceHash": "029e9a2520c8dd3e177094fde3618ae93b4dc4241cb1e4490b81521cb96b275b",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-iphone",
+      "status": "validated",
+      "sourceHash": "d21470fee5baa47c6d8d522cd845c9630bb52e70a2d07754886579048c3a4955",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-samsung",
+      "status": "validated",
+      "sourceHash": "01802a34711d31f9c114754c97e0d5e85020bd9acdca2718866c2f95d694b7fc",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-matiz",
+      "status": "validated",
+      "sourceHash": "23164cbb2acd0e2e4855f4ab1e2b904e5cec81a84cf785326712406482c9a834",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-spark",
+      "status": "validated",
+      "sourceHash": "f4908386eb4497c4281adb24c83016cf9c5b5f84e9c883cd5841eed101cb4a38",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-toshkent",
+      "status": "validated",
+      "sourceHash": "5d4578a01e95d015be600fa4d1e6d67e3e6f0f4c091e8dd613adea6c53a2712d",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-viloyat",
+      "status": "validated",
+      "sourceHash": "640c496c089b746ec66aa4050e5860008ceb95e24d0594b4bc4503783e4b360e",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-katta-toy",
+      "status": "validated",
+      "sourceHash": "8b6989ea9766f4e3698827ba8d5a19dd1ba53bb9397899be54c4b04bc9038c09",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-kichik-toy",
+      "status": "validated",
+      "sourceHash": "812d60f0230a3753a30b1bc7376925ee66b33ffbcc999718e81a2243e7af3bf8",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-chorvoq",
+      "status": "validated",
+      "sourceHash": "0bf4a651bb1c316e5bd32a0fb1c76485c9f381d35e78907f806f6c5ff35ec646",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-chimgan",
+      "status": "validated",
+      "sourceHash": "b3e3cd2c7ea28a6c7e00fd6fdc29fe8162f6b446a3c0be666a64c8659e126556",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    }
+  ]
+}

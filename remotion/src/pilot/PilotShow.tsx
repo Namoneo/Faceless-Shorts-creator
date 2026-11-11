@@ -33,6 +33,7 @@ export type PilotProps = {
   ending: string | null;
   library: PilotPlate[];
   scenes: PilotScene[];
+  kenBurns?: 'standard' | 'subtle';
 };
 
 export const calculatePilotMetadata: CalculateMetadataFunction<PilotProps> = ({ props }) => {
@@ -49,6 +50,7 @@ export const PilotShow: React.FC<PilotProps> = (props) => {
   const { fps, width, height } = useVideoConfig();
   const time = frame / fps;
   const portrait = height > width;
+  const subtle = props.kenBurns === 'subtle';
   const scene = sceneAt(props.scenes, time);
   const local = Math.max(0, time - scene.startSec);
   const sceneFrame = Math.max(0, frame - Math.round(scene.startSec * fps));
@@ -66,6 +68,7 @@ export const PilotShow: React.FC<PilotProps> = (props) => {
         width={width}
         height={height}
         portrait={portrait}
+        subtle={subtle}
       />
       {portrait && props.title ? <ShowTitle text={props.title} width={width} height={height} /> : null}
       {portrait && props.ending && localEnd(scene, time, props) ? (
@@ -98,7 +101,8 @@ const ScenePicture: React.FC<{
   width: number;
   height: number;
   portrait: boolean;
-}> = ({ scene, library, local, sceneFrame, sceneFrames, width, height, portrait }) => {
+  subtle: boolean;
+}> = ({ scene, library, local, sceneFrame, sceneFrames, width, height, portrait, subtle }) => {
   if (scene.role === 'choice' || scene.role === 'countdown') {
     return (
       <Choice
@@ -109,17 +113,18 @@ const ScenePicture: React.FC<{
         width={width}
         height={height}
         portrait={portrait}
+        subtle={subtle}
       />
     );
   }
   if (scene.role === 'reveal' && scene.fact) {
     const plate = library.find((item) => item.id === scene.fact?.still) ?? scene.plates[0];
-    return <Fact plate={plate} fact={scene.fact} sceneFrame={sceneFrame} width={width} height={height} portrait={portrait} />;
+    return <Fact plate={plate} fact={scene.fact} sceneFrame={sceneFrame} width={width} height={height} portrait={portrait} subtle={subtle} />;
   }
   if (scene.role === 'cta' || scene.role === 'ending') {
-    return <Montage library={library} sceneFrame={sceneFrame} titles={scene.titles} width={width} height={height} subscribe />;
+    return <Montage library={library} sceneFrame={sceneFrame} titles={scene.titles} width={width} height={height} subscribe subtle={subtle} />;
   }
-  return <Montage library={library} sceneFrame={sceneFrame} titles={scene.titles} width={width} height={height} subscribe={false} />;
+  return <Montage library={library} sceneFrame={sceneFrame} titles={scene.titles} width={width} height={height} subscribe={false} subtle={subtle} />;
 };
 
 const Choice: React.FC<{
@@ -130,12 +135,13 @@ const Choice: React.FC<{
   width: number;
   height: number;
   portrait: boolean;
-}> = ({ scene, local, sceneFrame, sceneFrames, width, height, portrait }) => {
+  subtle: boolean;
+}> = ({ scene, local, sceneFrame, sceneFrames, width, height, portrait, subtle }) => {
   const count = countAt(scene, local);
   return (
     <AbsoluteFill>
-      <Half plate={scene.plates[0]} label={scene.labels[0] ?? ''} index={0} sceneFrame={sceneFrame} sceneFrames={sceneFrames} portrait={portrait} side="a" />
-      <Half plate={scene.plates[1]} label={scene.labels[1] ?? ''} index={1} sceneFrame={sceneFrame} sceneFrames={sceneFrames} portrait={portrait} side="b" />
+      <Half plate={scene.plates[0]} label={scene.labels[0] ?? ''} index={0} sceneFrame={sceneFrame} sceneFrames={sceneFrames} portrait={portrait} side="a" subtle={subtle} />
+      <Half plate={scene.plates[1]} label={scene.labels[1] ?? ''} index={1} sceneFrame={sceneFrame} sceneFrames={sceneFrames} portrait={portrait} side="b" subtle={subtle} />
       {count ? (
         <Countdown digit={count.digit} progress={count.progress} portrait={portrait} sceneFrame={sceneFrame} />
       ) : (
@@ -165,9 +171,10 @@ const Half: React.FC<{
   sceneFrames: number;
   portrait: boolean;
   side: 'a' | 'b';
-}> = ({ plate, label, index, sceneFrame, sceneFrames, portrait, side }) => {
+  subtle: boolean;
+}> = ({ plate, label, index, sceneFrame, sceneFrames, portrait, side, subtle }) => {
   if (!plate) return null;
-  const ken = kenBurns(sceneFrame, sceneFrames, index);
+  const ken = kenBurns(sceneFrame, sceneFrames, index, subtle);
   const style: React.CSSProperties = portrait
     ? { position: 'absolute', left: 0, width: '100%', top: side === 'a' ? 0 : '50%', height: '50%', overflow: 'hidden' }
     : { position: 'absolute', top: 0, height: '100%', left: side === 'a' ? 0 : '50%', width: '50%', overflow: 'hidden' };
@@ -246,13 +253,15 @@ const EveningGlow: React.FC<{ frame: number }> = ({ frame }) => {
   );
 };
 
-const kenBurns = (frame: number, frames: number, index: number) => {
+const kenBurns = (frame: number, frames: number, index: number, subtle: boolean) => {
   const t = interpolate(frame, [0, frames], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   const dir = index % 2 === 0 ? 1 : -1;
+  const travel = subtle ? 0.45 : 1.6;
+  const lift = subtle ? 0.3 : 1.2;
   return {
-    scale: interpolate(t, [0, 1], [1.06, 1.14]),
-    x: dir * interpolate(t, [0, 1], [-1.6, 1.6]),
-    y: interpolate(t, [0, 1], [index % 2 === 0 ? 1.2 : -1.2, index % 2 === 0 ? -1.2 : 1.2]),
+    scale: interpolate(t, [0, 1], subtle ? [1.012, 1.035] : [1.06, 1.14]),
+    x: dir * interpolate(t, [0, 1], [-travel, travel]),
+    y: interpolate(t, [0, 1], [index % 2 === 0 ? lift : -lift, index % 2 === 0 ? -lift : lift]),
     frame,
   };
 };
@@ -371,14 +380,15 @@ const Fact: React.FC<{
   width: number;
   height: number;
   portrait: boolean;
-}> = ({ plate, fact, sceneFrame, width, height, portrait }) => {
+  subtle: boolean;
+}> = ({ plate, fact, sceneFrame, width, height, portrait, subtle }) => {
   const rise = interpolate(sceneFrame, [0, 16], [24, 0], { extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) });
   const opacity = interpolate(sceneFrame, [0, 12], [0, 1], { extrapolateRight: 'clamp' });
   return (
     <AbsoluteFill>
       {plate ? (
         <div style={{ position: 'absolute', inset: -40 }}>
-          <Still plate={plate} ken={{ scale: 1.12, x: 0, y: 0, frame: sceneFrame }} blur />
+          <Still plate={plate} ken={{ scale: subtle ? 1.03 : 1.12, x: 0, y: 0, frame: sceneFrame }} blur />
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,6,4,0.55)' }} />
         </div>
       ) : null}
@@ -404,7 +414,8 @@ const Montage: React.FC<{
   width: number;
   height: number;
   subscribe: boolean;
-}> = ({ library, sceneFrame, titles, width, height, subscribe }) => {
+  subtle: boolean;
+}> = ({ library, sceneFrame, titles, width, height, subscribe, subtle }) => {
   const plates = library.length > 0 ? library : [];
   const hold = 75;
   const index = plates.length ? Math.floor(sceneFrame / hold) % plates.length : 0;
@@ -412,10 +423,10 @@ const Montage: React.FC<{
   const fade = plates.length ? (sceneFrame % hold) / hold : 0;
   return (
     <AbsoluteFill>
-      {plates[index] ? <Still plate={plates[index]} ken={kenBurns(sceneFrame, 300, index)} blur /> : null}
+      {plates[index] ? <Still plate={plates[index]} ken={kenBurns(sceneFrame, 300, index, subtle)} blur /> : null}
       {plates[next] ? (
         <div style={{ position: 'absolute', inset: 0, opacity: fade > 0.72 ? (fade - 0.72) / 0.28 : 0 }}>
-          <Still plate={plates[next]} ken={kenBurns(sceneFrame, 300, next)} blur />
+          <Still plate={plates[next]} ken={kenBurns(sceneFrame, 300, next, subtle)} blur />
         </div>
       ) : null}
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(12,8,6,0.25), rgba(12,8,6,0.55))' }} />
