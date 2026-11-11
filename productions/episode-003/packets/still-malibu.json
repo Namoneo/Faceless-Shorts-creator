@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "still-malibu",
+  "sceneId": "r1-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photorealistic 16:9 photograph of a longer mid-2010s midsize four-door sedan in a dark metallic colour, parked on a wider Uzbek city street in clean morning light, three-quarter front view. No manufacturer badge, no model lettering, no license-plate text, no readable signs, no logo. Only distant unrecognizable pedestrians, no celebrity faces.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 50.1,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.52
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": true,
+    "amount": 0,
+    "currency": "credits",
+    "model": "Nano Banana 2.1",
+    "tableId": "delivered-receipt",
+    "label": "Delivered still. 0 Flow credits.",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "6c5c3880c68f1a4868a2015c39c30a6732a27bfcee4615f0da7bd62a607d0879",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the longer midsize sedan body central.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-malibu.jpg",
+  "deliveredWidth": 1376,
+  "deliveredHeight": 768
+}
