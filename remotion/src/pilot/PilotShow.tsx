@@ -20,6 +20,7 @@ export type PilotScene = {
   round: number | null;
   cues: PilotCue[];
   countdown: { start: number; end: number } | null;
+  countdownBeats?: { digit: string; start: number; end: number }[] | null;
   fact: { line: string; sub: string | null; still: string } | null;
   titles: string[];
 };
@@ -144,15 +145,22 @@ const Choice: React.FC<{
       <Half plate={scene.plates[1]} label={scene.labels[1] ?? ''} index={1} sceneFrame={sceneFrame} sceneFrames={sceneFrames} portrait={portrait} side="b" subtle={subtle} />
       {count ? (
         <Countdown digit={count.digit} progress={count.progress} portrait={portrait} sceneFrame={sceneFrame} />
-      ) : (
+      ) : scene.role === 'choice' ? (
         <Badge text="YOKI" portrait={portrait} sceneFrame={sceneFrame} />
-      )}
+      ) : null}
       {scene.round ? <RoundMark round={scene.round} portrait={portrait} /> : null}
     </AbsoluteFill>
   );
 };
 
 const countAt = (scene: PilotScene, local: number): { digit: string; progress: number } | null => {
+  const beats = scene.countdownBeats;
+  if (beats && beats.length > 0) {
+    const beat = beats.find((item) => local >= item.start && local < item.end);
+    if (!beat) return null;
+    const span = Math.max(0.05, beat.end - beat.start);
+    return { digit: beat.digit, progress: Math.min(0.999, (local - beat.start) / span) };
+  }
   const window = scene.countdown;
   if (!window || local < window.start || local >= window.end) return null;
   const span = Math.max(0.2, window.end - window.start);
@@ -187,8 +195,8 @@ const Half: React.FC<{
           left: 36,
           right: 36,
           bottom: portrait ? undefined : 170,
-          top: portrait ? (side === 'b' ? 150 : undefined) : undefined,
-          ...(portrait && side === 'a' ? { bottom: 150 } : {}),
+          top: portrait ? (side === 'b' ? 168 : undefined) : undefined,
+          ...(portrait && side === 'a' ? { bottom: 168 } : {}),
           textAlign: 'center',
           color: '#fffaf3',
           fontSize: portrait ? 64 : 78,
@@ -526,8 +534,8 @@ const Caption: React.FC<{ cues: PilotCue[]; local: number; portrait: boolean; wi
         bottom: portrait ? height * 0.2 : height * 0.07,
         textAlign: 'center',
         color: '#fffaf3',
-        fontSize: portrait ? 68 : 60,
-        lineHeight: 1.15,
+        fontSize: portrait ? 52 : 60,
+        lineHeight: 1.12,
         WebkitTextStroke: '2px rgba(0,0,0,0.8)',
         paintOrder: 'stroke fill',
         textShadow: '0 3px 0 #000, 0 8px 18px rgba(0,0,0,0.55)',

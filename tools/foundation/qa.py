@@ -30,6 +30,8 @@ def check_episode(
     checks.extend(check_timeline(manifest))
     checks.extend(check_captions(manifest))
     checks.extend(check_uzbek_apostrophes(manifest))
+    checks.extend(check_caption_straight_apostrophe(manifest))
+    checks.extend(check_distinct_plates(manifest))
     checks.extend(check_uzbek_address(manifest))
     checks.extend(check_timing_binding(manifest, timing_by_asset))
     for fmt in manifest["formats"]:
@@ -197,6 +199,9 @@ def check_media(path: Path, fmt: dict[str, Any], manifest: dict[str, Any]) -> li
     items.append(_item("video-codec", codec == "h264", {"formatId": label, "codec": codec}))
     audio_codec = None if audio is None else audio.get("codec_name")
     items.append(_item("audio-stream", audio is not None and audio_codec == "aac", {"formatId": label, "codec": audio_codec}))
+    if audio is not None:
+        rate = int(audio.get("sample_rate") or 0)
+        items.append(_item("audio-rate", rate == 48000, {"formatId": label, "sampleRate": rate, "expected": 48000}))
     duration = duration_seconds(info)
     expected = float(manifest["episodeDurationSec"])
     tolerance = DURATION_FRAMES / float(manifest["fps"])
@@ -257,6 +262,37 @@ def check_uzbek_apostrophes(manifest: dict[str, Any]) -> list[dict[str, Any]]:
                 {"sceneId": scene["id"], "hits": hits, "marks": pairs},
             )
         )
+    return items
+
+
+def check_caption_straight_apostrophe(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    """Rendered caption strings may use U+02BB and U+02BC. A straight quote (U+0027) fails."""
+    items = []
+    for scene in manifest["scenes"]:
+        texts: list[str] = []
+        for cue in scene.get("captionCues") or []:
+            if isinstance(cue, dict) and isinstance(cue.get("text"), str):
+                texts.append(cue["text"])
+            elif isinstance(cue, str):
+                texts.append(cue)
+        display = scene.get("text", {}).get("uz-Latn", "")
+        if isinstance(display, str) and display:
+            texts.append(display)
+        hits = [text for text in texts if "\u0027" in text]
+        items.append(_item("caption-apostrophe", not hits, {"sceneId": scene["id"], "hits": hits}))
+    return items
+
+
+def check_distinct_plates(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    """A choice pair must be two different stills. Identical hashes fail."""
+    items = []
+    for scene in manifest["scenes"]:
+        plates = scene.get("plates") or []
+        if len(plates) < 2:
+            continue
+        hashes = [str(plate.get("sha256") or "") for plate in plates]
+        distinct = len(hashes) == len(set(hashes)) and all(hashes)
+        items.append(_item("distinct-plates", distinct, {"sceneId": scene["id"], "hashes": hashes}))
     return items
 
 

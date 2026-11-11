@@ -34,6 +34,11 @@ from tools.foundation.timing import resolve_timing
 
 FPS = 30
 HOLD_SEC = 2.0
+SHORT_LEAD_SEC = 0.3
+SHORT_TARGET_SEC = 54.85
+SHORT_MIN_GAP_SEC = 0.08
+COUNT_DIGITS = ("5", "4", "3", "2", "1")
+AUDIO_RATE = 48000
 PLACEHOLDER_LABEL = "PLACEHOLDER NARRATION - not a VoiceStudio take"
 LABELS = {
     "still-palov": "PALOV",
@@ -406,6 +411,13 @@ def _align_recorded(
                 "cues": cues,
                 "plates": plates,
                 "countdown": countdown,
+                "countdownBeats": countdown_beats(
+                    countdown["start"],
+                    countdown["end"],
+                    cues[0]["start"] if cues else countdown["end"],
+                )
+                if countdown
+                else None,
                 "round": spec["round"],
                 "allowSilence": spec["role"] == "countdown",
             }
@@ -491,6 +503,29 @@ def _plates(
     if len(plates) != 2:
         raise PilotError(f"{scene_id} needs two stills")
     return plates
+
+
+def countdown_beats(start: float, end: float, hold_end: float) -> list[dict[str, Any]]:
+    """Five spoken beats, then keep 1 on screen through the hold so YOKI cannot replace it."""
+    span = max(0.2, float(end) - float(start))
+    beats = []
+    for step, digit in enumerate(COUNT_DIGITS):
+        beats.append(
+            {
+                "digit": digit,
+                "start": round(float(start) + span * step / 5, 3),
+                "end": round(float(start) + span * (step + 1) / 5, 3),
+            }
+        )
+    beats[-1]["end"] = round(max(beats[-1]["end"], float(hold_end)), 3)
+    return beats
+
+
+def digit_at(beats: list[dict[str, Any]], moment: float) -> str | None:
+    for beat in beats:
+        if float(beat["start"]) <= moment < float(beat["end"]):
+            return str(beat["digit"])
+    return None
 
 
 def _countdown_words(text: str) -> list[str]:
@@ -690,6 +725,7 @@ def _show_props(
                 "round": number,
                 "cues": scene.get("cues") or [],
                 "countdown": scene.get("countdown"),
+                "countdownBeats": scene.get("countdownBeats"),
                 "fact": fact,
                 "titles": titles.get(str(scene.get("role")), []),
             }
@@ -761,11 +797,14 @@ def _write_bed(dest: Path, duration: float) -> None:
             "-i",
             f"anoisesrc=color=pink:sample_rate=48000:duration={duration:.3f}",
             "-filter_complex",
-            "[1:a]lowpass=f=280,highpass=f=70,volume=0.15[n];[0:a][n]amix=inputs=2:duration=first,volume=2[a]",
+            "[1:a]lowpass=f=280,highpass=f=70,volume=0.15[n];"
+            "[0:a][n]amix=inputs=2:duration=first:normalize=0,volume=2,aresample=48000[a]",
             "-map",
             "[a]",
             "-ac",
             "2",
+            "-ar",
+            str(AUDIO_RATE),
             "-c:a",
             "pcm_s16le",
             str(raw),
@@ -781,9 +820,11 @@ def _write_bed(dest: Path, duration: float) -> None:
             "-i",
             str(raw),
             "-af",
-            "loudnorm=I=-28:TP=-2:LRA=11",
+            "loudnorm=I=-28:TP=-2:LRA=11,aresample=48000",
             "-ac",
             "2",
+            "-ar",
+            str(AUDIO_RATE),
             "-c:a",
             "pcm_s16le",
             str(dest),
@@ -803,8 +844,8 @@ def _mix_tracks(
     whoosh = repo / "media" / "library" / "sfx" / "clips" / "whoosh-soft.mp3"
     tick = repo / "media" / "library" / "sfx" / "clips" / "clock-tick-soft.mp3"
     parts = [
-        "[0:a]aformat=channel_layouts=stereo,asplit=2[voice][sc]",
-        "[1:a]aformat=channel_layouts=stereo[bedin]",
+        "[0:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit=2[voice][sc]",
+        "[1:a]aformat=sample_rates=48000:channel_layouts=stereo[bedin]",
         "[bedin][sc]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=350[bed]",
     ]
     labels = ["[voice]", "[bed]"]
@@ -833,6 +874,8 @@ def _mix_tracks(
             f"{duration:.3f}",
             "-ac",
             "2",
+            "-ar",
+            str(AUDIO_RATE),
             "-c:a",
             "pcm_s16le",
             str(staged),
@@ -851,11 +894,11 @@ def _place_sfx(
     volume: float,
 ) -> None:
     if len(times) == 1:
-        parts.append(f"[{input_index}:a]aformat=channel_layouts=stereo,volume={volume}[{tag}0]")
+        parts.append(f"[{input_index}:a]aformat=sample_rates=48000:channel_layouts=stereo,volume={volume}[{tag}0]")
     else:
         split = "".join(f"[{tag}{index}]" for index in range(len(times)))
         parts.append(
-            f"[{input_index}:a]aformat=channel_layouts=stereo,volume={volume},asplit={len(times)}{split}"
+            f"[{input_index}:a]aformat=sample_rates=48000:channel_layouts=stereo,volume={volume},asplit={len(times)}{split}"
         )
     for index, moment in enumerate(times):
         delay = max(0, int(round(moment * 1000)))
@@ -899,6 +942,8 @@ def _loudnorm_file(source: Path, dest: Path, integrated: float) -> None:
             measured,
             "-ac",
             "2",
+            "-ar",
+            str(AUDIO_RATE),
             "-c:a",
             "pcm_s16le",
             str(dest),
@@ -944,15 +989,15 @@ def _render_short(
             raise PilotError(f"{plan['id']} would regenerate {asset['packetId']}")
         asset["sourceHash"] = packet["sourceHash"]
         asset["regenerated"] = False
-    offset = chosen[0]["start"]
-    window_end = chosen[-1]["end"]
-    if plan.get("inSec") is not None and plan.get("outSec") is not None:
-        offset = float(plan["inSec"])
-        window_end = float(plan["outSec"])
-    local, cursor = _clip_scenes(chosen, offset, window_end)
     final = out_dir / "assemble" / f"{plan['id']}.mp4"
     audio = out_dir / "audio" / f"{plan['id']}.wav"
-    _slice_audio(narration, audio, offset, cursor)
+    if plan.get("inSec") is not None and plan.get("outSec") is not None:
+        local, pieces, cursor = _pack_short(chosen, float(plan["inSec"]), float(plan["outSec"]))
+        _concat_audio(narration, audio, pieces, cursor)
+    else:
+        offset = chosen[0]["start"]
+        local, cursor = _clip_scenes(chosen, offset, chosen[-1]["end"])
+        _slice_audio(narration, audio, offset, cursor)
     _render_show(
         local,
         stills_dir,
@@ -970,6 +1015,210 @@ def _render_short(
     manifest = _short_manifest(out_dir, plan["id"], local, cursor)
     timing = _foundation_timing(local, sha256_file(audio))
     return {"id": plan["id"], "path": final, "durationSec": cursor, "manifest": manifest, "timing": timing}
+
+
+def _speech_spans(scenes: list[dict[str, Any]], start: float, end: float) -> list[tuple[float, float]]:
+    spans = []
+    for scene in scenes:
+        origin = float(scene["start"])
+        for cue in scene.get("cues") or []:
+            opening = origin + float(cue["start"])
+            closing = origin + float(cue["end"])
+            if closing > start and opening < end:
+                spans.append((max(opening, start), min(closing, end)))
+        window = scene.get("countdown")
+        if window:
+            opening = origin + float(window["start"])
+            closing = origin + float(window["end"])
+            if closing > start and opening < end:
+                spans.append((max(opening, start), min(closing, end)))
+    spans.sort()
+    merged: list[tuple[float, float]] = []
+    for opening, closing in spans:
+        if merged and opening <= merged[-1][1] + 0.02:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], closing))
+        else:
+            merged.append((opening, closing))
+    return merged
+
+
+def _shrink_gaps(lengths: list[float], excess: float, floor: float) -> list[float]:
+    """Shorten the longest pauses first. Speech is not in this list."""
+    shrunk = [float(item) for item in lengths]
+    for limit in (floor, 0.0):
+        while excess > 0.0005:
+            index = max(range(len(shrunk)), key=lambda item: shrunk[item] - limit)
+            room = shrunk[index] - limit
+            if room <= 0.0005:
+                break
+            cut = min(room, excess)
+            shrunk[index] -= cut
+            excess -= cut
+        if excess <= 0.0005:
+            break
+    return shrunk
+
+
+def _time_map(pieces: list[tuple[float, float]]) -> tuple[Any, float]:
+    ranges = []
+    dest = 0.0
+    for start, end in pieces:
+        ranges.append((start, end, dest))
+        dest += end - start
+
+    def map_time(moment: float) -> float:
+        if not ranges or moment <= ranges[0][0]:
+            return 0.0
+        for start, end, origin in ranges:
+            if moment < start:
+                return origin
+            if moment <= end:
+                return origin + (moment - start)
+        return dest
+
+    return map_time, dest
+
+
+def _pack_short(
+    scenes: list[dict[str, Any]],
+    in_sec: float,
+    out_sec: float,
+) -> tuple[list[dict[str, Any]], list[tuple[float, float]], float]:
+    """Open 0.3 s before the question, then drop pauses until the short is at most 55 s."""
+    lead_start = max(0.0, in_sec - SHORT_LEAD_SEC)
+    speech = _speech_spans(scenes, in_sec, out_sec)
+    if not speech:
+        raise PilotError("short window has no recorded speech")
+    gaps: list[tuple[float, float]] = []
+    cursor = in_sec
+    for opening, closing in speech:
+        if opening > cursor + 0.001:
+            gaps.append((cursor, opening))
+        cursor = max(cursor, closing)
+    if out_sec > cursor + 0.001:
+        gaps.append((cursor, out_sec))
+    lengths = [closing - opening for opening, closing in gaps]
+    excess = (out_sec - lead_start) - SHORT_TARGET_SEC
+    if excess > 0 and lengths:
+        lengths = _shrink_gaps(lengths, excess, SHORT_MIN_GAP_SEC)
+    pieces: list[tuple[float, float]] = []
+    if in_sec - lead_start > 0.001:
+        pieces.append((lead_start, in_sec))
+    gap_index = 0
+    for opening, closing in speech:
+        if gap_index < len(gaps) and abs(gaps[gap_index][1] - opening) < 0.02:
+            keep = lengths[gap_index]
+            if keep > 0.001:
+                pieces.append((gaps[gap_index][0], gaps[gap_index][0] + keep))
+            gap_index += 1
+        pieces.append((opening, closing))
+    if gap_index < len(gaps):
+        keep = lengths[gap_index]
+        if keep > 0.001:
+            pieces.append((gaps[gap_index][0], gaps[gap_index][0] + keep))
+    map_time, packed = _time_map(pieces)
+    frames = max(1, int(round(packed * FPS)))
+    duration = frames / FPS
+    local = []
+    for index, scene in enumerate(scenes):
+        src_start = float(scene["start"])
+        src_end = min(float(scene["end"]), out_sec)
+        if index == 0:
+            src_start = min(src_start, lead_start)
+        src_start = max(src_start, lead_start)
+        if src_end - src_start < (1 / FPS):
+            continue
+        dest_start = map_time(src_start)
+        dest_end = map_time(src_end)
+        scene_duration = dest_end - dest_start
+        if scene_duration < (1 / FPS):
+            continue
+        cues = []
+        for cue in scene.get("cues") or []:
+            abs_start = float(scene["start"]) + float(cue["start"])
+            abs_end = float(scene["start"]) + float(cue["end"])
+            if abs_end <= in_sec + 0.02 or abs_start >= out_sec - 0.02:
+                continue
+            cues.append(
+                {
+                    "text": cue["text"],
+                    "start": round(max(0.0, map_time(abs_start) - dest_start), 3),
+                    "end": round(min(scene_duration, map_time(abs_end) - dest_start), 3),
+                }
+            )
+        countdown = None
+        if scene.get("countdown"):
+            abs_start = float(scene["start"]) + float(scene["countdown"]["start"])
+            abs_end = float(scene["start"]) + float(scene["countdown"]["end"])
+            if abs_end > in_sec and abs_start < out_sec:
+                countdown = {
+                    "start": round(max(0.0, map_time(abs_start) - dest_start), 3),
+                    "end": round(min(scene_duration, map_time(abs_end) - dest_start), 3),
+                }
+        beats = None
+        if countdown:
+            hold_end = cues[0]["start"] if cues else countdown["end"]
+            beats = countdown_beats(countdown["start"], countdown["end"], hold_end)
+        whole = abs(src_start - float(scene["start"])) < 0.02 and abs(src_end - float(scene["end"])) < 0.02
+        if whole:
+            text = scene["text"]
+        else:
+            parts = [str(cue["text"]) for cue in cues]
+            if countdown:
+                parts.insert(0, "Besh. Toʻrt. Uch. Ikki. Bir.")
+            text = " ".join(parts) or scene["text"]
+        item = dict(scene)
+        item["start"] = round(dest_start, 3)
+        item["duration"] = round(scene_duration, 3)
+        item["end"] = round(dest_end, 3)
+        item["cues"] = cues
+        item["countdown"] = countdown
+        item["countdownBeats"] = beats
+        item["text"] = text
+        local.append(item)
+    if not local:
+        raise PilotError("short window does not overlap the aligned scenes")
+    drift = duration - local[-1]["end"]
+    local[-1]["duration"] = round(local[-1]["duration"] + drift, 3)
+    local[-1]["end"] = round(local[-1]["start"] + local[-1]["duration"], 3)
+    return local, pieces, duration
+
+
+def _concat_audio(source: Path, dest: Path, pieces: list[tuple[float, float]], duration: float) -> None:
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    filters = []
+    labels = []
+    for index, (start, end) in enumerate(pieces):
+        filters.append(
+            f"[0:a]atrim=start={start:.4f}:end={end:.4f},asetpts=PTS-STARTPTS[a{index}]"
+        )
+        labels.append(f"[a{index}]")
+    filters.append(
+        "".join(labels)
+        + f"concat=n={len(labels)}:v=0:a=1,aresample={AUDIO_RATE},apad,atrim=0:{duration:.4f}[a]"
+    )
+    run(
+        [
+            "ffmpeg",
+            "-y",
+            "-hide_banner",
+            "-v",
+            "error",
+            "-i",
+            str(source),
+            "-filter_complex",
+            ";".join(filters),
+            "-map",
+            "[a]",
+            "-ac",
+            "2",
+            "-ar",
+            str(AUDIO_RATE),
+            "-c:a",
+            "pcm_s16le",
+            str(dest),
+        ]
+    )
 
 
 def _clip_scenes(
@@ -1248,6 +1497,8 @@ def _mux(videos: list[Path], narration: Path, dest: Path, duration: float) -> No
             "apad",
             "-c:a",
             "aac",
+            "-ar",
+            str(AUDIO_RATE),
             "-b:a",
             "160k",
             "-t",
@@ -1387,6 +1638,11 @@ def _base_manifest(
                     "maxLines": 2,
                 },
                 "captionCues": scene["cues"],
+                "plates": [
+                    {"id": str(plate["id"]), "sha256": sha256_file(Path(plate["path"]))}
+                    for plate in scene.get("plates") or []
+                    if plate.get("path")
+                ],
                 "qa": {
                     "allowSilence": False,
                     "silenceGapSec": 2.5 if scene.get("allowSilence") else 1.0,

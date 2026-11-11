@@ -15,7 +15,15 @@ from tools.foundation.ffmpeg import frame_luma, volume_detect
 from tools.foundation.hashutil import sha256_file
 from tools.foundation.manifest import ManifestError, load_manifest
 from tools.foundation.narration import prepare_narration, prepare_one
-from tools.foundation.qa import check_black_span, check_levels, check_media, check_timeline
+from tools.foundation.pilot import countdown_beats, digit_at, _pack_short
+from tools.foundation.qa import (
+    check_black_span,
+    check_caption_straight_apostrophe,
+    check_distinct_plates,
+    check_levels,
+    check_media,
+    check_timeline,
+)
 from tools.foundation.render import RenderFailure, run_episode
 
 
@@ -361,3 +369,91 @@ class QaNegativeTests(unittest.TestCase):
         self.assertFalse(checks["duration"]["pass"])
         timeline = check_timeline({"episodeDurationSec": 9, "fps": 30, "scenes": [{"id": "scene-hook", "durationSec": 2}, {"id": "scene-hold", "durationSec": 2}], "transitions": [{"after": "scene-hook", "durationSec": 0}]})
         self.assertFalse(timeline[0]["pass"])
+
+
+class EpisodeReviewTests(unittest.TestCase):
+    def test_countdown_shows_one_through_the_hold(self) -> None:
+        beats = countdown_beats(0.0, 3.32, 5.32)
+        self.assertEqual([item["digit"] for item in beats], ["5", "4", "3", "2", "1"])
+        self.assertEqual(digit_at(beats, 3.1), "1")
+        self.assertEqual(digit_at(beats, 4.8), "1")
+        self.assertIsNone(digit_at(beats, 5.32))
+        self.assertNotIn("YOKI", [item["digit"] for item in beats])
+
+    def test_caption_straight_apostrophe_fails_and_okina_passes(self) -> None:
+        straight = check_caption_straight_apostrophe(
+            {"scenes": [{"id": "bad", "text": {"uz-Latn": "o'zi"}, "captionCues": [{"text": "o'zi"}]}]}
+        )
+        self.assertFalse(straight[0]["pass"])
+        kept = check_caption_straight_apostrophe(
+            {
+                "scenes": [
+                    {
+                        "id": "good",
+                        "text": {"uz-Latn": "o\u02bbzi An\u02bcanaviy"},
+                        "captionCues": [{"text": "o\u02bbzi"}, {"text": "An\u02bcanaviy"}],
+                    }
+                ]
+            }
+        )
+        self.assertTrue(kept[0]["pass"])
+
+    def test_choice_pair_must_use_two_hashes(self) -> None:
+        same = check_distinct_plates(
+            {"scenes": [{"id": "r3-choice", "plates": [{"id": "a", "sha256": "abc"}, {"id": "b", "sha256": "abc"}]}]}
+        )
+        self.assertFalse(same[0]["pass"])
+        different = check_distinct_plates(
+            {"scenes": [{"id": "r3-choice", "plates": [{"id": "a", "sha256": "abc"}, {"id": "b", "sha256": "def"}]}]}
+        )
+        self.assertTrue(different[0]["pass"])
+
+    def test_short_trims_pauses_and_keeps_a_lead_in(self) -> None:
+        scenes = [
+            {
+                "id": "r1-choice",
+                "role": "choice",
+                "start": 10.0,
+                "end": 40.0,
+                "duration": 30.0,
+                "text": "Savol.",
+                "cues": [{"text": "Savol.", "start": 0.0, "end": 30.0}],
+                "countdown": None,
+                "plates": [],
+                "round": 1,
+            },
+            {
+                "id": "r1-count",
+                "role": "countdown",
+                "start": 40.0,
+                "end": 47.0,
+                "duration": 7.0,
+                "text": "Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi.",
+                "cues": [{"text": "Tanlovingiz qabul qilindi.", "start": 5.0, "end": 6.2}],
+                "countdown": {"start": 0.0, "end": 3.0},
+                "plates": [],
+                "round": 1,
+                "allowSilence": True,
+            },
+            {
+                "id": "r1-fact",
+                "role": "reveal",
+                "start": 47.0,
+                "end": 80.0,
+                "duration": 33.0,
+                "text": "Fakt.",
+                "cues": [{"text": "Fakt.", "start": 0.35, "end": 18.0}],
+                "countdown": None,
+                "plates": [],
+                "round": 1,
+            },
+        ]
+        local, pieces, duration = _pack_short(scenes, 10.0, 65.0)
+        self.assertLessEqual(duration, 55.0)
+        self.assertGreater(duration, 30.0)
+        self.assertAlmostEqual(pieces[0][1] - pieces[0][0], 0.3, places=2)
+        self.assertEqual(local[0]["cues"][0]["text"], "Savol.")
+        self.assertEqual(local[-1]["cues"][-1]["text"], "Fakt.")
+        count = next(item for item in local if item["role"] == "countdown")
+        self.assertEqual(digit_at(count["countdownBeats"], count["countdown"]["end"] - 0.05), "1")
+        self.assertEqual(digit_at(count["countdownBeats"], count["countdown"]["end"] + 0.05), "1")

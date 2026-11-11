@@ -22,7 +22,7 @@
       },
       {
         "packetId": "still-cobalt",
-        "sourceHash": "a2ad3344280bf56cd60219a39f0b23f7b619f0fc3a3444d8f85fce35f6fcf876",
+        "sourceHash": "8a6901783257dfab379538490be60b3701fc35983e133a24b2057a10ead3b41d",
         "sourceHashAssignedAt": "import",
         "regenerated": false
       }
@@ -52,7 +52,7 @@
       },
       {
         "packetId": "still-samsung",
-        "sourceHash": "01802a34711d31f9c114754c97e0d5e85020bd9acdca2718866c2f95d694b7fc",
+        "sourceHash": "ee2727ebef9368ff3b940013fdebc396d0cd80777b123f310777a01cb0b895fa",
         "sourceHashAssignedAt": "import",
         "regenerated": false
       }
