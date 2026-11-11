@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "still-restoran",
+  "sceneId": "r5-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photorealistic 16:9 photograph of a quiet modern restaurant interior in Uzbekistan, a set table with plates and glasses, chairs in a row, warm indoor lighting, a closed menu lying face-down so no text is readable. No logos, no readable signs, no celebrity faces. If staff or diners appear, they are distant and unrecognizable.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 41.3,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.52
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": true,
+    "amount": 0,
+    "currency": "credits",
+    "model": "Nano Banana 2.1",
+    "tableId": "delivered-receipt",
+    "label": "Delivered still. 0 Flow credits.",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "507a5e1d7f8f36ea837110a32fccfff1c5743e0d270265294c38282f64f0f8cc",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the set table and chairs central.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-restoran.jpg",
+  "deliveredWidth": 1376,
+  "deliveredHeight": 768
+}

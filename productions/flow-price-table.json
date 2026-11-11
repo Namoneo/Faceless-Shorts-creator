@@ -1,0 +1,15 @@
+{
+  "id": "local-estimate-table",
+  "label": "Estimate only. Verify the current price in Flow before approval. This table does not contact Flow.",
+  "currency": "credits",
+  "models": {
+    "synthetic-stand-in": {
+      "creditsPerSecond": 0,
+      "note": "Offline ffmpeg test pattern. Not a Flow charge."
+    },
+    "flow-manual-placeholder": {
+      "creditsPerSecond": 12,
+      "note": "Placeholder arithmetic so the packet can show a number. Not a Flow quote."
+    }
+  }
+}

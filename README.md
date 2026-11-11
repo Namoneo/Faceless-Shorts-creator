@@ -9,6 +9,8 @@ Three production tracks in one repo — you just describe the video, and the rig
 | *"make an AI video short with blue-man"* | **Generative** (`/make-ai-short`) | a fal video model animating a **locked recurring character** |
 | *"make a vox-style short about coffee"* | **Collage** (`/make-vox`) | Vox-documentary paper collage — AI-image layers, die-cuts, a traveling camera |
 
+An offline long-form path sits beside those three tracks. `/make-long` plans a 16:9 episode and stops for a manual Flow export and an imported narration file. `/repurpose-short` cuts 9:16 Shorts from that episode by reusing asset hashes. Neither path calls fal, ElevenLabs, or VoiceStudio. The VoiceStudio door is a stub that requests engine `cosyvoice`, voice profile Nodira, and a Navoiy checkpoint for Uzbek, then refuses. Commercial use stays blocked until `voiceConsent` is set. Details are in `productions/FOUNDATION.md`.
+
 Every track shares the same backbone: ElevenLabs voice with **word-exact synced captions**,
 frame-by-frame QA at phone scale, a reusable self-growing SFX/music library, seamless
 frame-0==last-frame loops, and no dated engagement-CTA outros.

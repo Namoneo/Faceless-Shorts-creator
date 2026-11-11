@@ -1,0 +1,120 @@
+{
+  "topic": "Nexia YOKI Malibu — oxirigacha yetib bora olasizmi?",
+  "channel": "Qani, tanlang!",
+  "language": "uz-Latn",
+  "address": "siz",
+  "audience": "Oʻzbek oilaviy tomoshabin",
+  "episodeId": "episode-003",
+  "title": "Nexia YOKI Malibu — oxirigacha yetib bora olasizmi?",
+  "approvedBy": "Sherzod",
+  "durationSec": 535.814,
+  "stopped": false,
+  "rendersMedia": true,
+  "narration": {
+    "door": "import",
+    "engine": "cosyvoice (Navoiy)",
+    "voice": "Nodira d42273dd",
+    "called": false,
+    "note": "Local imported take. This runner does not call VoiceStudio. Scene times are rebased on timings.json."
+  },
+  "flowPackets": [
+    {
+      "id": "still-nexia",
+      "status": "validated",
+      "sourceHash": "74d934f120dbf94cb981ebb7fc07f032dd88e9994b95478f5bb290d62a3c32c9",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-malibu",
+      "status": "validated",
+      "sourceHash": "6c5c3880c68f1a4868a2015c39c30a6732a27bfcee4615f0da7bd62a607d0879",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-lagmon",
+      "status": "validated",
+      "sourceHash": "a3c79b9913df5f195fc41a649cb8973aef8fd1fa94b3111a74f14bd6c9f0aac3",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-shashlik",
+      "status": "validated",
+      "sourceHash": "db7468211b45b0fe257032f873d6cbd68eae4cdcb69b7d035ec1083c76901191",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-telegram",
+      "status": "validated",
+      "sourceHash": "8a77f0625b3dabd5b6fab1ac261836881677c220b7a432402fd9c91ee0b172c3",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-instagram",
+      "status": "validated",
+      "sourceHash": "103ccd82ecbb8adab251bde5e5a6285b2553730fe2f83c25fcaacdb097dbb151",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-qovun",
+      "status": "validated",
+      "sourceHash": "4d4817adcbb5fd0acd4e8685e027484b773c23559c14ea4806cf99808e92fd3b",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-tarvuz",
+      "status": "validated",
+      "sourceHash": "a4064f7649bac806945727c248b2384d75b3bd1446415dc1dd3f6d5df847f185",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-choyxona",
+      "status": "validated",
+      "sourceHash": "71e2ef4a8682a58566082f80f1aa69cca3b41ea5a522ab34ee3e3434d6bc52f4",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-restoran",
+      "status": "validated",
+      "sourceHash": "507a5e1d7f8f36ea837110a32fccfff1c5743e0d270265294c38282f64f0f8cc",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-kelin-salom",
+      "status": "validated",
+      "sourceHash": "779e6c4e35dba6dd27c78e638acbd4fda71f371f221518a0e8988c54b8920cb7",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-qisqa-salom",
+      "status": "validated",
+      "sourceHash": "8b7dc749d1d25d3d0ddd97c7e85e1754c772b7f2d893cc2effa2e9f446cf3540",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-navroz",
+      "status": "validated",
+      "sourceHash": "1391d97b8cfe226201620be94b339111ffe1777df0ce1d5fb2fbb0f928a2eeec",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-yangi-yil",
+      "status": "validated",
+      "sourceHash": "b12951d4b80c3b644608e482ae95532cdd02205f62b7397765f5e0ca3824f83f",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    }
+  ]
+}

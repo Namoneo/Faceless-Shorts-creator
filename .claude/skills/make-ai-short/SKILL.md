@@ -87,3 +87,7 @@ media/projects/<name>/        — THE clip copies for staticFile() (committed �
 character consistent in every frame of every clip (frame-by-frame QA'd) · loop verified
 (last frame vs frame 0 side-by-side) · captions on real word times · costs stated before each
 spend and totalled after · SFX audition rendered, awaiting the user's ear · no CTA outro.
+
+## Not this skill
+
+fal stays on this track only. `/make-long` does not call fal or this skill. A Flow export, when one is used there, is manual. This skill is unchanged.

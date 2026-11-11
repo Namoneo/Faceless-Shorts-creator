@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "still-kelin-salom",
+  "sceneId": "r6-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photorealistic 16:9 photograph of a traditional Uzbek courtyard greeting the morning after a wedding: a bride in embroidered dress and a light veil is seen from behind or in soft unidentifiable profile, bowing slightly toward seated elders whose faces are turned away or out of focus, a few gifts on a low table, warm morning light. No recognizable faces, no celebrity likeness, no readable banners or embroidery lettering, no logos.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 46.8,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.48
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": true,
+    "amount": 0,
+    "currency": "credits",
+    "model": "Nano Banana 2.1",
+    "tableId": "delivered-receipt",
+    "label": "Delivered still. 0 Flow credits.",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "779e6c4e35dba6dd27c78e638acbd4fda71f371f221518a0e8988c54b8920cb7",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the bowing figure and nearest guests in the centre, faces unreadable.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-kelin-salom.jpg",
+  "deliveredWidth": 1376,
+  "deliveredHeight": 768
+}

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "id": "still-sumalak",
+  "sceneId": "r6-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photograph of a bowl of dark sweet sumalak with a spoon on a Navroʻz table. No people. No written text. No logo.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 28.851,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.6
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": false,
+    "amount": null,
+    "currency": "credits",
+    "model": "flow-image",
+    "tableId": "local-estimate-table",
+    "label": "Estimate only. Verify the current price in Flow before approval.",
+    "note": "No row in the local price table.",
+    "planningNote": "Stills have no per-second rate in this brief. See plan.md."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "b21b46bfd16c18aded3a8d81d156f75decfd14c85e730a868a4ee687b814d3cd",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the bowl low and central.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-sumalak.jpg",
+  "deliveredWidth": 2752,
+  "deliveredHeight": 1536
+}

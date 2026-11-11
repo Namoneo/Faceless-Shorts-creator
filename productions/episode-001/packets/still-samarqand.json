@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "id": "still-samarqand",
+  "sceneId": "r3-choice",
+  "status": "validated",
+  "prompt": "A family-friendly wide photograph of Registan in Samarkand: the open square and the madrasas, late afternoon light, only distant small figures. No readable text. No logo.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 28.0,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.42
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": false,
+    "amount": null,
+    "currency": "credits",
+    "model": "flow-image",
+    "tableId": "local-estimate-table",
+    "label": "Estimate only. Verify the current price in Flow before approval.",
+    "note": "No row in the local price table.",
+    "planningNote": "Stills have no per-second rate in this brief. See plan.md."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "22f1ad1a79af011e2b57918b620dcd9ffb8c695831c29e2137aebb2dcc9096fd",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the building line above centre so the square remains in a portrait crop.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-samarqand.jpg",
+  "deliveredWidth": 2752,
+  "deliveredHeight": 1536
+}

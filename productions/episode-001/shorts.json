@@ -1,0 +1,80 @@
+[
+  {
+    "id": "short-palov",
+    "durationSec": 45.447,
+    "hook": "Palovmi yoki somsa? Besh soniyada tanlang.",
+    "scenes": [
+      "r1-choice",
+      "r1-count",
+      "r1-fact"
+    ],
+    "note": "Standalone. The round's first sentence is replaced by the hook. The round's closing transition is replaced by the ending. The choice, the countdown, and the fact stay. sourceHash is assigned at import and is not regenerated.",
+    "assets": [
+      {
+        "packetId": "still-palov",
+        "sourceHash": "33a027c88e0e12653356aa13c71a729bc9978b08f80c570441b7336c78e015e2",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      },
+      {
+        "packetId": "still-somsa",
+        "sourceHash": "4d060aac5d1fb2fdf1214a92b99a6ceed4490bbad55eee74b3148e046f28625c",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      }
+    ],
+    "ending": "Shu tanlov sizniki. Kanal: Qani, tanlang!"
+  },
+  {
+    "id": "short-shahar",
+    "durationSec": 43.318,
+    "hook": "Samarqandmi yoki Buxoro? Qarang va tanlang.",
+    "scenes": [
+      "r3-choice",
+      "r3-count",
+      "r3-fact"
+    ],
+    "note": "Standalone. The round's first sentence is replaced by the hook. The round's closing transition is replaced by the ending. The choice, the countdown, and the fact stay. sourceHash is assigned at import and is not regenerated.",
+    "assets": [
+      {
+        "packetId": "still-samarqand",
+        "sourceHash": "22f1ad1a79af011e2b57918b620dcd9ffb8c695831c29e2137aebb2dcc9096fd",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      },
+      {
+        "packetId": "still-buxoro",
+        "sourceHash": "51594fd267ff2e5e61b62b37efdb4bc90a27c68c07645202e07c11c311be64ff",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      }
+    ],
+    "ending": "Shu tanlov sizniki. Kanal: Qani, tanlang!"
+  },
+  {
+    "id": "short-yetti",
+    "durationSec": 43.746,
+    "hook": "Erta bozormi yoki kechki hovli? Oxirigacha qoling.",
+    "scenes": [
+      "r7-choice",
+      "r7-count",
+      "r7-fact"
+    ],
+    "note": "Standalone. The round's first sentence is replaced by the hook. The round's closing transition is replaced by the ending. The choice, the countdown, and the fact stay. sourceHash is assigned at import and is not regenerated.",
+    "assets": [
+      {
+        "packetId": "still-bozor",
+        "sourceHash": "2d8d0d0beeea621e219b5632f09d3ad248a13fe700ed65fe9f7ab09584bdc3d6",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      },
+      {
+        "packetId": "still-hovli",
+        "sourceHash": "50634627212fbcda65e5ddb973d6ebdf8c3e5a715578dc7428ec2be57d5c1d9d",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      }
+    ],
+    "ending": "Shu tanlov sizniki. Kanal: Qani, tanlang!"
+  }
+]
