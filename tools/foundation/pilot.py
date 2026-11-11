@@ -15,7 +15,7 @@ import wave
 from pathlib import Path
 from typing import Any
 
-from tools.foundation.ffmpeg import duration_seconds, probe, run
+from tools.foundation.ffmpeg import duration_seconds, probe, run, silence_intervals
 from tools.foundation.flow import (
     FlowError,
     import_export,
@@ -29,7 +29,7 @@ from tools.foundation.layout import caption_overflow
 from tools.foundation.manifest import ManifestError, validate_manifest
 from tools.foundation.narration import prepare_one
 from tools.foundation.pictures import FONT, wrap_text
-from tools.foundation.qa import check_episode
+from tools.foundation.qa import SHORT_MAX_SEC, check_episode, within_short_cap
 from tools.foundation.timing import resolve_timing
 
 FPS = 30
@@ -37,6 +37,7 @@ HOLD_SEC = 2.0
 SHORT_LEAD_SEC = 0.3
 SHORT_TARGET_SEC = 54.85
 SHORT_MIN_GAP_SEC = 0.08
+PAUSE_INSET_SEC = 0.03
 COUNT_DIGITS = ("5", "4", "3", "2", "1")
 AUDIO_RATE = 48000
 PLACEHOLDER_LABEL = "PLACEHOLDER NARRATION - not a VoiceStudio take"
@@ -992,7 +993,15 @@ def _render_short(
     final = out_dir / "assemble" / f"{plan['id']}.mp4"
     audio = out_dir / "audio" / f"{plan['id']}.wav"
     if plan.get("inSec") is not None and plan.get("outSec") is not None:
-        local, pieces, cursor = _pack_short(chosen, float(plan["inSec"]), float(plan["outSec"]))
+        voice = out_dir / "canonical" / "narration-main.wav"
+        local, pieces, cursor = _pack_short(
+            chosen,
+            float(plan["inSec"]),
+            float(plan["outSec"]),
+            voice=voice if voice.is_file() else None,
+        )
+        if not within_short_cap(cursor):
+            raise PilotError(f"{plan['id']} is {cursor:.3f}s, over the {SHORT_MAX_SEC:.1f}s Short cap")
         _concat_audio(narration, audio, pieces, cursor)
     else:
         offset = chosen[0]["start"]
@@ -1079,16 +1088,99 @@ def _time_map(pieces: list[tuple[float, float]]) -> tuple[Any, float]:
     return map_time, dest
 
 
+def _kept_intervals(scenes: list[dict[str, Any]], start: float, end: float) -> list[tuple[float, float]]:
+    """Countdown audio and the whole fact stay. Pauses inside the question may be shortened."""
+    kept = []
+    for scene in scenes:
+        origin = float(scene["start"])
+        window = scene.get("countdown")
+        if window:
+            opening = origin + float(window["start"])
+            closing = origin + float(window["end"])
+            if closing > start and opening < end:
+                kept.append((max(opening, start), min(closing, end)))
+        if scene.get("role") == "reveal":
+            opening = float(scene["start"])
+            closing = float(scene["end"])
+            if closing > start and opening < end:
+                kept.append((max(opening, start), min(closing, end)))
+    return kept
+
+
+def _voice_pauses(voice: Path | None, start: float, end: float) -> list[tuple[float, float]]:
+    if voice is None or not voice.is_file():
+        return []
+    found = []
+    for item in silence_intervals(voice, noise_db=-35.0, min_duration=0.18):
+        opening = float(item["start"])
+        closing = float(item["end"])
+        if closing <= start or opening >= end:
+            continue
+        found.append((max(opening, start), min(closing, end)))
+    return found
+
+
+def _pause_cuts(
+    speech: list[tuple[float, float]],
+    pauses: list[tuple[float, float]],
+    kept: list[tuple[float, float]],
+) -> list[tuple[float, float]]:
+    cuts = []
+    for opening, closing in pauses:
+        opening += PAUSE_INSET_SEC
+        closing -= PAUSE_INSET_SEC
+        if closing - opening < 0.05:
+            continue
+        if any(opening < stop and closing > begin for begin, stop in kept):
+            continue
+        for span_start, span_end in speech:
+            cut_start = max(opening, span_start)
+            cut_end = min(closing, span_end)
+            if cut_end - cut_start >= 0.05 and cut_start > span_start + 0.02 and cut_end < span_end - 0.02:
+                cuts.append((cut_start, cut_end))
+    return cuts
+
+
+def _split_speech(
+    spans: list[tuple[float, float]],
+    cuts: list[tuple[float, float]],
+) -> list[tuple[float, float]]:
+    if not cuts:
+        return spans
+    pieces = []
+    for opening, closing in spans:
+        cursor = opening
+        for start, end in sorted(cuts):
+            if end <= cursor or start >= closing:
+                continue
+            start = max(start, cursor)
+            end = min(end, closing)
+            if start > cursor + 0.02:
+                pieces.append((cursor, start))
+            cursor = max(cursor, end)
+        if closing > cursor + 0.02:
+            pieces.append((cursor, closing))
+    return pieces
+
+
 def _pack_short(
     scenes: list[dict[str, Any]],
     in_sec: float,
     out_sec: float,
+    voice: Path | None = None,
+    pauses: list[tuple[float, float]] | None = None,
 ) -> tuple[list[dict[str, Any]], list[tuple[float, float]], float]:
-    """Open 0.3 s before the question, then drop pauses until the short is at most 55 s."""
+    """Open 0.3 s before the question, then drop pauses until the short is at most 55 s.
+
+    Inter-chunk gaps go first. If the question is still too long, pauses inside the
+    question are shortened. The countdown and the fact are not cut.
+    """
     lead_start = max(0.0, in_sec - SHORT_LEAD_SEC)
     speech = _speech_spans(scenes, in_sec, out_sec)
     if not speech:
         raise PilotError("short window has no recorded speech")
+    found = pauses if pauses is not None else _voice_pauses(voice, in_sec, out_sec)
+    speech = _split_speech(speech, _pause_cuts(speech, found, _kept_intervals(scenes, in_sec, out_sec)))
     gaps: list[tuple[float, float]] = []
     cursor = in_sec
     for opening, closing in speech:

@@ -213,6 +213,14 @@ def check_media(path: Path, fmt: dict[str, Any], manifest: dict[str, Any]) -> li
             {"formatId": label, "durationSec": duration, "expected": expected, "toleranceSec": tolerance},
         )
     )
+    if _is_short(manifest):
+        items.append(
+            _item(
+                "short-cap",
+                within_short_cap(duration),
+                {"formatId": label, "durationSec": duration, "maxSec": SHORT_MAX_SEC},
+            )
+        )
     items.extend(_scene_picture_and_audio(path, manifest, label))
     if height > width:
         items.extend(check_portrait_fill(path, width, height, manifest))
@@ -221,8 +229,18 @@ def check_media(path: Path, fmt: dict[str, Any], manifest: dict[str, Any]) -> li
 
 MIN_PORTRAIT_CONTENT = 0.70
 DENSE_PICTURE = 0.50
+SHORT_MAX_SEC = 55.0
 APOSTROPHE_MARKS = "\u0027\u02bb\u2018\u2019\u02bc"
 ASCII_OG = re.compile(r"[OoGg]\u0027")
+
+
+def within_short_cap(duration: float | None) -> bool:
+    """A Short may be 55.0 s. Anything longer fails, including a file that matches its own manifest."""
+    return duration is not None and duration <= SHORT_MAX_SEC + 0.001
+
+
+def _is_short(manifest: dict[str, Any]) -> bool:
+    return str(manifest.get("id", "")).startswith("short-")
 
 
 def _caption_texts(scene: dict[str, Any], language: str) -> list[str]:

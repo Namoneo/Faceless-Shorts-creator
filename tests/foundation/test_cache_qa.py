@@ -23,6 +23,7 @@ from tools.foundation.qa import (
     check_levels,
     check_media,
     check_timeline,
+    within_short_cap,
 )
 from tools.foundation.render import RenderFailure, run_episode
 
@@ -457,3 +458,113 @@ class EpisodeReviewTests(unittest.TestCase):
         count = next(item for item in local if item["role"] == "countdown")
         self.assertEqual(digit_at(count["countdownBeats"], count["countdown"]["end"] - 0.05), "1")
         self.assertEqual(digit_at(count["countdownBeats"], count["countdown"]["end"] + 0.05), "1")
+
+    def test_internal_question_pauses_can_be_cut_without_the_fact(self) -> None:
+        scenes = [
+            {
+                "id": "r7-choice",
+                "role": "choice",
+                "start": 10.0,
+                "end": 40.0,
+                "duration": 30.0,
+                "text": "Savol.",
+                "cues": [{"text": "Savol.", "start": 0.0, "end": 30.0}],
+                "countdown": None,
+                "plates": [],
+                "round": 7,
+            },
+            {
+                "id": "r7-count",
+                "role": "countdown",
+                "start": 42.0,
+                "end": 47.0,
+                "duration": 5.0,
+                "text": "Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi.",
+                "cues": [{"text": "Tanlovingiz qabul qilindi.", "start": 3.0, "end": 4.5}],
+                "countdown": {"start": 0.0, "end": 3.0},
+                "plates": [],
+                "round": 7,
+                "allowSilence": True,
+            },
+            {
+                "id": "r7-fact",
+                "role": "reveal",
+                "start": 49.0,
+                "end": 80.0,
+                "duration": 31.0,
+                "text": "Fakt. Chorvoq.",
+                "cues": [{"text": "Fakt. Chorvoq.", "start": 0.0, "end": 26.0}],
+                "countdown": None,
+                "plates": [],
+                "round": 7,
+            },
+        ]
+        local, pieces, duration = _pack_short(
+            scenes,
+            10.0,
+            75.0,
+            pauses=[(15.0, 28.0), (43.2, 44.4), (55.0, 68.0)],
+        )
+        self.assertLessEqual(duration, 55.0)
+        self.assertEqual(local[0]["cues"][0]["text"], "Savol.")
+        self.assertEqual(local[-1]["cues"][-1]["text"], "Fakt. Chorvoq.")
+
+        def covered(moment: float) -> bool:
+            return any(start <= moment <= end for start, end in pieces)
+
+        self.assertFalse(covered(20.0))
+        self.assertTrue(covered(43.5))
+        self.assertTrue(covered(60.0))
+
+    def test_short_over_55_seconds_is_a_hard_fail(self) -> None:
+        self.assertTrue(within_short_cap(55.0))
+        self.assertFalse(within_short_cap(55.033))
+        self.assertFalse(within_short_cap(57.1))
+        root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, root)
+        long = root / "long.mp4"
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-y",
+                "-hide_banner",
+                "-v",
+                "error",
+                "-f",
+                "lavfi",
+                "-i",
+                "color=c=0x1e2a3a:s=64x64:r=30:d=57.1",
+                "-f",
+                "lavfi",
+                "-i",
+                "sine=frequency=440:sample_rate=48000:duration=57.1",
+                "-c:v",
+                "libx264",
+                "-preset",
+                "ultrafast",
+                "-pix_fmt",
+                "yuv420p",
+                "-c:a",
+                "aac",
+                "-shortest",
+                str(long),
+            ],
+            check=True,
+        )
+        manifest = {
+            "id": "short-fasl",
+            "fps": 30,
+            "episodeDurationSec": 57.1,
+            "qa": {"allowBlack": False, "allowSilence": False, "allowClipping": False, "allowCaptionOverflow": False},
+            "scenes": [{"id": "r7-fact", "durationSec": 57.1, "startSec": 0, "text": {"uz-Latn": "Fakt."}}],
+            "transitions": [],
+        }
+        fmt = {"id": "portrait", "width": 64, "height": 64}
+        checks = [item for item in check_media(long, fmt, manifest) if item["id"] == "short-cap"]
+        self.assertEqual(len(checks), 1)
+        self.assertFalse(checks[0]["pass"])
+        self.assertGreater(checks[0]["detail"]["durationSec"], 55.0)
+        episode = dict(manifest)
+        episode["id"] = "episode-002"
+        episode["episodeDurationSec"] = 526.367
+        self.assertFalse(any(item["id"] == "short-cap" for item in check_media(long, fmt, episode)))
