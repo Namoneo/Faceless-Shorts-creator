@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "still-chimgan",
+  "id": "still-chimyon",
   "sceneId": "r7-choice",
   "status": "validated",
-  "prompt": "A family-friendly photorealistic 16:9 winter photograph of a snowy mountain slope in the Chimgan range, a simple ski run, clear cold light, a high ridge. No brand names on lifts or boards, no readable text, no logos. Distant small figures in generic winter clothes, unrecognizable, no celebrity faces.",
+  "prompt": "A family-friendly photorealistic 16:9 winter photograph of a snowy mountain slope in the Chimyon range, a simple ski run, clear cold light, a high ridge. No brand names on lifts or boards, no readable text, no logos. Distant small figures in generic winter clothes, unrecognizable, no celebrity faces.",
   "referenceAssetIds": [],
   "referenceFiles": [],
   "requestedModel": "flow-image",
@@ -58,7 +58,7 @@
   "mediaKind": "still",
   "focalGuidance": "Keep the snowy slope and ridge in the middle of the frame.",
   "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
-  "sourceFile": "still-chimgan.jpg",
+  "sourceFile": "still-chimyon.jpg",
   "deliveredWidth": 1376,
   "deliveredHeight": 768
 }

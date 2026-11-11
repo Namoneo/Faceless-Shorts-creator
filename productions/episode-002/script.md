@@ -338,4 +338,4 @@ Fakt 6. Oʻzbekiston nomoddiy madaniy merosi milliy roʻyxatidagi «Nikoh (Weddi
 
 Fakt 7. meros.uz ga koʻra, Chorvoq suv ombori Chirchiq daryosida 1963–1970-yillarda qurilgan, toʻgʻon balandligi 168 m, obʼyekt sanasi 1970. Ovozda qurilish oraligʻi qisqartirilib, ombor 1970-yili ishga tushgani va toʻgʻon 168 metr ekani aytiladi. Uzbekistan Travel: Katta Chimyon choʻqqisi dengiz sathidan 3309 m, Kichik Chimyon 2097 m; qishda Chimyon, Beldersay va Amirsoy changʻi maskanlari ishlaydi. Ovozda faqat Katta Chimyon balandligi aytiladi. Manba:
 - https://meros.uz/en/object/chorvoq-suv-ombori
-- https://uzbekistan.travel/en/o/chimgan/
+- https://uzbekistan.travel/en/o/chimyon/

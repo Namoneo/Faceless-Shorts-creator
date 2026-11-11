@@ -227,12 +227,12 @@
     "role": "choice",
     "startSec": 437.8,
     "durationSec": 41.5,
-    "text": "Chorvoq and Chimgan stills, the question",
-    "onScreen": "Chorvoq and Chimgan stills, the question",
+    "text": "Chorvoq and Chimyon stills, the question",
+    "onScreen": "Chorvoq and Chimyon stills, the question",
     "round": 7,
     "flowPlates": [
       "still-chorvoq",
-      "still-chimgan"
+      "still-chimyon"
     ]
   },
   {

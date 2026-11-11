@@ -72,7 +72,7 @@ The clock is Remotion: cards, the choice UI, the countdown, captions, the fact, 
 | 376.6 | 37.6 | `r6-choice` | remotion | large wedding and small wedding stills, the question |
 | 414.2 | 7.0 | `r6-count` | remotion | countdown 5 to 1, then a 2 second hold |
 | 421.2 | 16.6 | `r6-fact` | remotion | fact card, then the transition |
-| 437.8 | 41.5 | `r7-choice` | remotion | Chorvoq and Chimgan stills, the question |
+| 437.8 | 41.5 | `r7-choice` | remotion | Chorvoq and Chimyon stills, the question |
 | 479.3 | 7.0 | `r7-count` | remotion | countdown 5 to 1, then a 2 second hold |
 | 486.3 | 18.8 | `r7-fact` | remotion | fact card, then the transition |
 | 505.1 | 24.9 | `cta` | remotion | comment and subscribe card |
@@ -131,7 +131,7 @@ The five strongest local debates, in this cut order:
 - `short-phone` — about 46 s. Hook: «iPhonemi yoki Samsung? Qarang va tanlang.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-iphone`, `still-samsung`. sourceHash: null until import.
 - `short-toy` — about 47 s. Hook: «Katta toʻymi yoki kichik toʻy? Oxirigacha qoling.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-katta-toy`, `still-kichik-toy`. sourceHash: null until import.
 - `short-shahar` — about 45 s. Hook: «Toshkentdami yoki viloyatda? Besh soniyada tanlang.» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-toshkent`, `still-viloyat`. sourceHash: null until import.
-- `short-fasl` — about 49 s. Hook: «Yozda Chorvoqdami yoki qishda Chimyonda? Qaysi yoʻlni tanlaysiz?» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-chorvoq`, `still-chimgan`. sourceHash: null until import.
+- `short-fasl` — about 49 s. Hook: «Yozda Chorvoqdami yoki qishda Chimyonda? Qaysi yoʻlni tanlaysiz?» Ending: «Shu tanlov sizniki. Kanal: Qani, tanlang!» Assets: `still-chorvoq`, `still-chimyon`. sourceHash: null until import.
 
 Manti/chuchvara and Matiz/Spark stay in the long episode. They are the reserve cuts if a fifth short is dropped.
 
@@ -154,7 +154,7 @@ Fourteen stills. Status `planned`. `sourceHash` is null until a person exports t
 | `still-katta-toy` | `r6-choice` | 44.6 | 0.50, 0.48 | Keep the long tables receding through the centre of a portrait crop. |
 | `still-kichik-toy` | `r6-choice` | 44.6 | 0.50, 0.55 | Keep the small table and nearest lamp central. |
 | `still-chorvoq` | `r7-choice` | 48.5 | 0.50, 0.48 | Keep the waterline near the centre, mountains in the upper half. |
-| `still-chimgan` | `r7-choice` | 48.5 | 0.50, 0.46 | Keep the snowy slope and ridge in the middle of the frame. |
+| `still-chimyon` | `r7-choice` | 48.5 | 0.50, 0.46 | Keep the snowy slope and ridge in the middle of the frame. |
 
 Prompts, all family-friendly, photorealistic, 16:9, and without written text:
 
@@ -171,7 +171,7 @@ Prompts, all family-friendly, photorealistic, 16:9, and without written text:
 - `still-katta-toy`: A family-friendly photorealistic 16:9 photograph of a large festive Uzbek wedding hall with many long set tables, warm string lights, a sense of a full room, guests seen only from behind or far away and unrecognizable. No readable banners, no logos, no celebrity faces.
 - `still-kichik-toy`: A family-friendly photorealistic 16:9 photograph of a small intimate evening gathering around a short courtyard table set for a family meal, a few place settings, one warm lamp, quiet and close. No readable text. No logo. Faces turned away or distant, no celebrity faces.
 - `still-chorvoq`: A family-friendly photorealistic 16:9 summer photograph of a wide turquoise mountain reservoir in the Tashkent region, a rocky shoreline in the foreground, high ranges beyond the water, bright daylight. No readable signs, no logos, no boats with lettering. Only tiny distant figures if any, no celebrity faces.
-- `still-chimgan`: A family-friendly photorealistic 16:9 winter photograph of a snowy mountain slope in the Chimgan range, a simple ski run, clear cold light, a high ridge. No brand names on lifts or boards, no readable text, no logos. Distant small figures in generic winter clothes, unrecognizable, no celebrity faces.
+- `still-chimyon`: A family-friendly photorealistic 16:9 winter photograph of a snowy mountain slope in the Chimyon range, a simple ski run, clear cold light, a high ridge. No brand names on lifts or boards, no readable text, no logos. Distant small figures in generic winter clothes, unrecognizable, no celebrity faces.
 
 ## Credit estimates
 
@@ -195,7 +195,7 @@ Spoken claims, and where they were checked. The Tekshiruv section of `script.md`
 4. Matiz and Spark. Matiz production at Asaka started in August 2001; Spark production started in August 2010. The script speaks only those start years. The later end of Matiz production is not spoken.
 5. Toshkent and the region. Tashkent became the capital on 17 August 1930, when the capital moved from Samarkand. As of 1 January 2026, official permanent population is 3,178,100 in Tashkent city and 3,160,700 in Tashkent Region — both over three million. The script does not speak the exact thousands.
 6. Weddings. The national ICH entry «Nikoh» describes a wedding as several ceremonies. One early stage is fotiha toʻyi, also called kichik toʻy in some places; the main wedding is katta toʻy. No guest-count is spoken, because a stable official average was not found.
-7. Chorvoq and Chimgan. meros.uz gives the Chorvoq dam height as 168 m and the reservoir’s date as 1970 (built 1963–1970). Uzbekistan Travel gives Greater Chimgan as 3,309 m. The script speaks the dam height, the year 1970, and the Greater Chimgan height.
+7. Chorvoq and Chimyon. meros.uz gives the Chorvoq dam height as 168 m and the reservoir’s date as 1970 (built 1963–1970). Uzbekistan Travel gives Greater Chimyon as 3,309 m. The script speaks the dam height, the year 1970, and the Greater Chimyon height.
 
 ## Stop
 
