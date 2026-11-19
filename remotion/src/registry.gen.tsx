@@ -14,6 +14,9 @@ import Shot10, { compositionConfig as cfg10 } from './shots/short-7/Short7Kids';
 import Shot11, { compositionConfig as cfg11 } from './shots/short-8/Short8Phish';
 import Shot12, { compositionConfig as cfg12 } from './shots/short-9/Short9Chords';
 import Shot13, { compositionConfig as cfg13 } from './shots/vox-1/Vox1Coffee';
+// Hand-appended. scripts/gen-registry.mjs sorts every shot and would reorder the 14 above.
+import Shot14, { compositionConfig as cfg14 } from './shots/foundation/FoundationLandscape';
+import Shot15, { compositionConfig as cfg15 } from './shots/foundation/FoundationPortrait';
 
 export const shots: { Comp: React.FC; config: any }[] = [
   { Comp: Shot0 as React.FC, config: cfg0 },
@@ -30,4 +33,6 @@ export const shots: { Comp: React.FC; config: any }[] = [
   { Comp: Shot11 as React.FC, config: cfg11 },
   { Comp: Shot12 as React.FC, config: cfg12 },
   { Comp: Shot13 as React.FC, config: cfg13 },
+  { Comp: Shot14 as React.FC, config: cfg14 },
+  { Comp: Shot15 as React.FC, config: cfg15 },
 ];

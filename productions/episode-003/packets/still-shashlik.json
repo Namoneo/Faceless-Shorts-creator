@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "still-shashlik",
+  "sceneId": "r2-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photorealistic 16:9 photograph of lamb skewers grilling over a long narrow charcoal mangal in an open Uzbek courtyard, bread and raw onion on a side plate, light smoke, late-afternoon light. A cook may appear only as a distant unrecognizable figure, or not at all. No written text, no logos, no celebrity faces.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 44.6,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.58
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": true,
+    "amount": 0,
+    "currency": "credits",
+    "model": "Nano Banana 2.1",
+    "tableId": "delivered-receipt",
+    "label": "Delivered still. 0 Flow credits.",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "db7468211b45b0fe257032f873d6cbd68eae4cdcb69b7d035ec1083c76901191",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the grill and skewers low and central.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-shashlik.jpg",
+  "deliveredWidth": 1376,
+  "deliveredHeight": 768
+}

@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "still-chimyon",
+  "sceneId": "r7-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photorealistic 16:9 winter photograph of a snowy mountain slope in the Chimyon range, a simple ski run, clear cold light, a high ridge. No brand names on lifts or boards, no readable text, no logos. Distant small figures in generic winter clothes, unrecognizable, no celebrity faces.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 48.5,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.46
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": true,
+    "amount": 0,
+    "currency": "credits",
+    "model": "Nano Banana 2.1",
+    "tableId": "delivered-receipt",
+    "label": "Delivered still. 0 Flow credits.",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "b3e3cd2c7ea28a6c7e00fd6fdc29fe8162f6b446a3c0be666a64c8659e126556",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the snowy slope and ridge in the middle of the frame.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-chimyon.jpg",
+  "deliveredWidth": 1376,
+  "deliveredHeight": 768
+}

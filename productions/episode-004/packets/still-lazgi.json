@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "still-lazgi",
+  "sceneId": "r6-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photorealistic 16:9 photograph of a traditional Uzbek courtyard dance in the Khorezm manner, a dancer seen from the side or behind with lifted hands and lively shoulders, patterned dress without readable embroidery lettering, a few musicians or guests far away and unrecognizable, warm late-afternoon light. No celebrity faces, no logos, no banners.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 44.6,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.48
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": true,
+    "amount": 0,
+    "currency": "credits",
+    "model": "Nano Banana 2.1",
+    "tableId": "delivered-receipt",
+    "label": "Delivered still. 0 Flow credits.",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "9589b0a747c67e65c753e7e69da892d19f96cd6f4be5d203a2ac1dfc390d82ea",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the dancing figure central, face turned away or unreadable.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-lazgi.jpg",
+  "deliveredWidth": 1344,
+  "deliveredHeight": 756
+}

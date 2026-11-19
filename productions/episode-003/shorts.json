@@ -1,0 +1,152 @@
+[
+  {
+    "id": "short-nexia",
+    "durationSec": 58.311,
+    "hook": null,
+    "inSec": 68.298,
+    "outSec": 126.609,
+    "openChunk": "r1-01",
+    "endChunk": "r1-09",
+    "scenes": [
+      "r1-choice",
+      "r1-count",
+      "r1-fact"
+    ],
+    "note": "Cut from the recorded episode mix. Opens on the round's question chunk and ends on the fact chunk. The plan's unrecorded hook and ending lines are not spoken. The end card is the on-screen line Qani, tanlang!.",
+    "assets": [
+      {
+        "packetId": "still-nexia",
+        "sourceHash": "0d35918adc959b62974704114b219c14e4158bff3a895d628e3e2ff65e34d4ba",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      },
+      {
+        "packetId": "still-malibu",
+        "sourceHash": "133b87235837a1d6aa7c4281197718a60edb2b36391aeb5bba25caa5259a5fcc",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      }
+    ],
+    "ending": "Qani, tanlang!"
+  },
+  {
+    "id": "short-apps",
+    "durationSec": 55.665,
+    "hook": null,
+    "inSec": 193.573,
+    "outSec": 249.238,
+    "openChunk": "r3-01",
+    "endChunk": "r3-09",
+    "scenes": [
+      "r3-choice",
+      "r3-count",
+      "r3-fact"
+    ],
+    "note": "Cut from the recorded episode mix. Opens on the round's question chunk and ends on the fact chunk. The plan's unrecorded hook and ending lines are not spoken. The end card is the on-screen line Qani, tanlang!.",
+    "assets": [
+      {
+        "packetId": "still-telegram",
+        "sourceHash": "8a77f0625b3dabd5b6fab1ac261836881677c220b7a432402fd9c91ee0b172c3",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      },
+      {
+        "packetId": "still-instagram",
+        "sourceHash": "103ccd82ecbb8adab251bde5e5a6285b2553730fe2f83c25fcaacdb097dbb151",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      }
+    ],
+    "ending": "Qani, tanlang!"
+  },
+  {
+    "id": "short-meva",
+    "durationSec": 57.216,
+    "hook": null,
+    "inSec": 253.28,
+    "outSec": 310.496,
+    "openChunk": "r4-01",
+    "endChunk": "r4-10",
+    "scenes": [
+      "r4-choice",
+      "r4-count",
+      "r4-fact"
+    ],
+    "note": "Cut from the recorded episode mix. Opens on the round's question chunk and ends on the fact chunk. The plan's unrecorded hook and ending lines are not spoken. The end card is the on-screen line Qani, tanlang!.",
+    "assets": [
+      {
+        "packetId": "still-qovun",
+        "sourceHash": "4d4817adcbb5fd0acd4e8685e027484b773c23559c14ea4806cf99808e92fd3b",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      },
+      {
+        "packetId": "still-tarvuz",
+        "sourceHash": "a4064f7649bac806945727c248b2384d75b3bd1446415dc1dd3f6d5df847f185",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      }
+    ],
+    "ending": "Qani, tanlang!"
+  },
+  {
+    "id": "short-kelin",
+    "durationSec": 56.109,
+    "hook": null,
+    "inSec": 372.703,
+    "outSec": 428.812,
+    "openChunk": "r6-01",
+    "endChunk": "r6-09",
+    "scenes": [
+      "r6-choice",
+      "r6-count",
+      "r6-fact"
+    ],
+    "note": "Cut from the recorded episode mix. Opens on the round's question chunk and ends on the fact chunk. The plan's unrecorded hook and ending lines are not spoken. The end card is the on-screen line Qani, tanlang!.",
+    "assets": [
+      {
+        "packetId": "still-kelin-salom",
+        "sourceHash": "8f4d4c0f7d39f7d6176cedc5dcc49fd33555df14aa31eaa56d0d9a86f3515229",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      },
+      {
+        "packetId": "still-qisqa-salom",
+        "sourceHash": "697558d2d5ac6262a4228478a0fa26099c1e208b50f7ee062304e8789883fd28",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      }
+    ],
+    "ending": "Qani, tanlang!"
+  },
+  {
+    "id": "short-bayram",
+    "durationSec": 59.152,
+    "hook": null,
+    "inSec": 433.082,
+    "outSec": 492.234,
+    "openChunk": "r7-01",
+    "endChunk": "r7-10",
+    "scenes": [
+      "r7-choice",
+      "r7-count",
+      "r7-fact"
+    ],
+    "note": "Cut from the recorded episode mix. Opens on the round's question chunk and ends on the fact chunk. The plan's unrecorded hook and ending lines are not spoken. The end card is the on-screen line Qani, tanlang!.",
+    "assets": [
+      {
+        "packetId": "still-navroz",
+        "sourceHash": "521482649ad96180a9ec94b7e436fc2946279dda18867c1f872c2f5005dc6351",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      },
+      {
+        "packetId": "still-yangi-yil",
+        "sourceHash": "584ca9d4bdfac67aafd4fb869810e7474bcd5662e7b8714f1e671944761cc93f",
+        "sourceHashAssignedAt": "import",
+        "regenerated": false
+      }
+    ],
+    "ending": "Qani, tanlang!"
+  }
+]

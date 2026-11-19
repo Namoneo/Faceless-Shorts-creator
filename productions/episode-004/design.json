@@ -1,0 +1,75 @@
+{
+  "id": "episode-004",
+  "kenBurns": "subtle",
+  "labels": {
+    "still-damas": "DAMAS",
+    "still-labo": "LABO",
+    "still-norin": "NORIN",
+    "still-dimlama": "DIMLAMA",
+    "still-click": "CLICK",
+    "still-payme": "PAYME",
+    "still-samarqand-non": "SAMARQAND NONI",
+    "still-toshkent-non": "TOSHKENT NONI",
+    "still-poyezd": "POYEZD",
+    "still-samolyot": "SAMOLYOT",
+    "still-lazgi": "LAZGI",
+    "still-zamonaviy-raqs": "ZAMONAVIY RAQS",
+    "still-xiva": "XIVA",
+    "still-shahrisabz": "SHAHRISABZ"
+  },
+  "facts": {
+    "1": {
+      "still": "still-damas",
+      "line": "1996 · Damas",
+      "sub": "2015 · Labo"
+    },
+    "2": {
+      "still": "still-norin",
+      "line": "sovuq norin",
+      "sub": "qozonda dimlama"
+    },
+    "3": {
+      "still": "still-click",
+      "line": "2011 · Click",
+      "sub": "2016 · Payme"
+    },
+    "4": {
+      "still": "still-samarqand-non",
+      "line": "tik tandir",
+      "sub": "yotiq tandir"
+    },
+    "5": {
+      "still": "still-poyezd",
+      "line": "2011 · Afrosiyob",
+      "sub": "1992 · havo yoʻllari"
+    },
+    "6": {
+      "still": "still-lazgi",
+      "line": "Xorazm",
+      "sub": "2019 · YuNESKO"
+    },
+    "7": {
+      "still": "still-xiva",
+      "line": "1990 · Xiva",
+      "sub": "2000 · Shahrisabz"
+    }
+  },
+  "titles": {
+    "hook": [
+      "Damas",
+      "YOKI Labo"
+    ],
+    "rules": [
+      "Qoida",
+      "Ikki yoʻl. Siz tanlaysiz."
+    ],
+    "cta": [
+      "Qani, tanlang!",
+      "Obuna boʻling"
+    ],
+    "ending": [
+      "Qani, tanlang!",
+      "Shu yerda xayrlashamiz"
+    ]
+  }
+}

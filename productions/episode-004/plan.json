@@ -1,0 +1,119 @@
+{
+  "topic": "Damas YOKI Labo — oxirigacha yetib bora olasizmi?",
+  "channel": "Qani, tanlang!",
+  "language": "uz-Latn",
+  "address": "siz",
+  "audience": "Oʻzbek oilaviy tomoshabin",
+  "episodeId": "episode-004",
+  "title": "Damas YOKI Labo — oxirigacha yetib bora olasizmi?",
+  "durationSec": 581.72,
+  "stopped": false,
+  "rendersMedia": true,
+  "narration": {
+    "door": "import",
+    "engine": "cosyvoice (Navoiy)",
+    "voice": "Nodira d42273dd",
+    "called": false,
+    "note": "Local imported take. This runner does not call VoiceStudio. Scene times are rebased on timings.json."
+  },
+  "flowPackets": [
+    {
+      "id": "still-damas",
+      "status": "validated",
+      "sourceHash": "1a75ca23b25f0bc1c9e03c0c5b52e99438f09cc295217c4020b4d5266e58b8d4",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-labo",
+      "status": "validated",
+      "sourceHash": "b926b0f3ec3b66153273f564463aca8d3c87995397acfab4a30ed0df21de586f",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-norin",
+      "status": "validated",
+      "sourceHash": "c9858f4702bbc49c4a854038312697cf5f85a19002c2352d05a4e6a2fe2b584e",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-dimlama",
+      "status": "validated",
+      "sourceHash": "0c96953eb5d1569ab56bc270fb61cbb9264731980e09ef91654a7bdf0e5003b2",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-click",
+      "status": "validated",
+      "sourceHash": "5117f8cf35fa6f1135350f7382d4ccaf63a236b737c11bbed2e408aff26e1427",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-payme",
+      "status": "validated",
+      "sourceHash": "db626d1528bfe01cc0d4ed077d7b0717f3d2ab4487ff16556cb4ab90e763ba76",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-samarqand-non",
+      "status": "validated",
+      "sourceHash": "f09f01402c590381ed5038346a0f3cc31f63bf2e68fcf5489e788e95c288b932",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-toshkent-non",
+      "status": "validated",
+      "sourceHash": "b8b479786ba16ce32e3bc489c98e4a9f9f43cb5b955e7e66f0cb17138c223cec",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-poyezd",
+      "status": "validated",
+      "sourceHash": "c30d513081c65b782c9dc3be27aa16f71a606d257c81e54e25891ae76673514e",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-samolyot",
+      "status": "validated",
+      "sourceHash": "74626e18c4d7a993ebbebf856fb1e95eb44d346787c92043cbcfbee3eb083505",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-lazgi",
+      "status": "validated",
+      "sourceHash": "9589b0a747c67e65c753e7e69da892d19f96cd6f4be5d203a2ac1dfc390d82ea",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-zamonaviy-raqs",
+      "status": "validated",
+      "sourceHash": "32bbc3f0615938ad359e20ebdb9feee609e1d317817071285499de10d112567d",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-xiva",
+      "status": "validated",
+      "sourceHash": "d34a5a8ce0dfa0919ec4bf77d3c50c5dd450790b957067a95ef7e85abc735ee7",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-shahrisabz",
+      "status": "validated",
+      "sourceHash": "25dd8a65a4f1805ffe49f583e4d64680f8ce4c8069a6ffda4f4fd2648e10ac00",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    }
+  ]
+}

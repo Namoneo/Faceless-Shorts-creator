@@ -1,0 +1,276 @@
+[
+  {
+    "id": "hook",
+    "classification": "remotion",
+    "role": "hook",
+    "startSec": 0.0,
+    "durationSec": 40.188,
+    "text": "title card and channel line",
+    "onScreen": "title card and channel line"
+  },
+  {
+    "id": "rules",
+    "classification": "remotion",
+    "role": "rules",
+    "startSec": 40.188,
+    "durationSec": 28.11,
+    "text": "two-option rules card, «Qoida»",
+    "onScreen": "two-option rules card, «Qoida»"
+  },
+  {
+    "id": "r1-choice",
+    "classification": "remotion",
+    "role": "choice",
+    "startSec": 68.298,
+    "durationSec": 41.81,
+    "text": "Nexia and Malibu stills, the question",
+    "onScreen": "Nexia and Malibu stills, the question",
+    "round": 1,
+    "flowPlates": [
+      "still-nexia",
+      "still-malibu"
+    ]
+  },
+  {
+    "id": "r1-count",
+    "classification": "remotion",
+    "role": "countdown",
+    "startSec": 110.108,
+    "durationSec": 7.541,
+    "text": "countdown 5 to 1, then a 2 second hold",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "round": 1
+  },
+  {
+    "id": "r1-fact",
+    "classification": "remotion",
+    "role": "reveal",
+    "startSec": 117.649,
+    "durationSec": 12.67,
+    "text": "fact card, then the transition",
+    "onScreen": "fact card, then the transition",
+    "round": 1
+  },
+  {
+    "id": "r2-choice",
+    "classification": "remotion",
+    "role": "choice",
+    "startSec": 130.319,
+    "durationSec": 38.165,
+    "text": "lagʻmon and shashlik stills, the question",
+    "onScreen": "lagʻmon and shashlik stills, the question",
+    "round": 2,
+    "flowPlates": [
+      "still-lagmon",
+      "still-shashlik"
+    ]
+  },
+  {
+    "id": "r2-count",
+    "classification": "remotion",
+    "role": "countdown",
+    "startSec": 168.484,
+    "durationSec": 7.693,
+    "text": "countdown 5 to 1, then a 2 second hold",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "round": 2
+  },
+  {
+    "id": "r2-fact",
+    "classification": "remotion",
+    "role": "reveal",
+    "startSec": 176.177,
+    "durationSec": 17.396,
+    "text": "fact card, then the transition",
+    "onScreen": "fact card, then the transition",
+    "round": 2
+  },
+  {
+    "id": "r3-choice",
+    "classification": "remotion",
+    "role": "choice",
+    "startSec": 193.573,
+    "durationSec": 42.801,
+    "text": "Telegram and Instagram stills, the question",
+    "onScreen": "Telegram and Instagram stills, the question",
+    "round": 3,
+    "flowPlates": [
+      "still-telegram",
+      "still-instagram"
+    ]
+  },
+  {
+    "id": "r3-count",
+    "classification": "remotion",
+    "role": "countdown",
+    "startSec": 236.374,
+    "durationSec": 6.11,
+    "text": "countdown 5 to 1, then a 2 second hold",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "round": 3
+  },
+  {
+    "id": "r3-fact",
+    "classification": "remotion",
+    "role": "reveal",
+    "startSec": 242.484,
+    "durationSec": 10.796,
+    "text": "fact card, then the transition",
+    "onScreen": "fact card, then the transition",
+    "round": 3
+  },
+  {
+    "id": "r4-choice",
+    "classification": "remotion",
+    "role": "choice",
+    "startSec": 253.28,
+    "durationSec": 37.438,
+    "text": "qovun and tarvuz stills, the question",
+    "onScreen": "qovun and tarvuz stills, the question",
+    "round": 4,
+    "flowPlates": [
+      "still-qovun",
+      "still-tarvuz"
+    ]
+  },
+  {
+    "id": "r4-count",
+    "classification": "remotion",
+    "role": "countdown",
+    "startSec": 290.718,
+    "durationSec": 7.154,
+    "text": "countdown 5 to 1, then a 2 second hold",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "round": 4
+  },
+  {
+    "id": "r4-fact",
+    "classification": "remotion",
+    "role": "reveal",
+    "startSec": 297.872,
+    "durationSec": 16.497,
+    "text": "fact card, then the transition",
+    "onScreen": "fact card, then the transition",
+    "round": 4
+  },
+  {
+    "id": "r5-choice",
+    "classification": "remotion",
+    "role": "choice",
+    "startSec": 314.369,
+    "durationSec": 35.042,
+    "text": "choyxona and restoran stills, the question",
+    "onScreen": "choyxona and restoran stills, the question",
+    "round": 5,
+    "flowPlates": [
+      "still-choyxona",
+      "still-restoran"
+    ]
+  },
+  {
+    "id": "r5-count",
+    "classification": "remotion",
+    "role": "countdown",
+    "startSec": 349.411,
+    "durationSec": 6.974,
+    "text": "countdown 5 to 1, then a 2 second hold",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "round": 5
+  },
+  {
+    "id": "r5-fact",
+    "classification": "remotion",
+    "role": "reveal",
+    "startSec": 356.385,
+    "durationSec": 16.318,
+    "text": "fact card, then the transition",
+    "onScreen": "fact card, then the transition",
+    "round": 5
+  },
+  {
+    "id": "r6-choice",
+    "classification": "remotion",
+    "role": "choice",
+    "startSec": 372.703,
+    "durationSec": 40.265,
+    "text": "kelin salom and qisqa salom stills, the question",
+    "onScreen": "kelin salom and qisqa salom stills, the question",
+    "round": 6,
+    "flowPlates": [
+      "still-kelin-salom",
+      "still-qisqa-salom"
+    ]
+  },
+  {
+    "id": "r6-count",
+    "classification": "remotion",
+    "role": "countdown",
+    "startSec": 412.968,
+    "durationSec": 7.003,
+    "text": "countdown 5 to 1, then a 2 second hold",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "round": 6
+  },
+  {
+    "id": "r6-fact",
+    "classification": "remotion",
+    "role": "reveal",
+    "startSec": 419.971,
+    "durationSec": 13.111,
+    "text": "fact card, then the transition",
+    "onScreen": "fact card, then the transition",
+    "round": 6
+  },
+  {
+    "id": "r7-choice",
+    "classification": "remotion",
+    "role": "choice",
+    "startSec": 433.082,
+    "durationSec": 39.479,
+    "text": "Navroʻz and Yangi yil stills, the question",
+    "onScreen": "Navroʻz and Yangi yil stills, the question",
+    "round": 7,
+    "flowPlates": [
+      "still-navroz",
+      "still-yangi-yil"
+    ]
+  },
+  {
+    "id": "r7-count",
+    "classification": "remotion",
+    "role": "countdown",
+    "startSec": 472.561,
+    "durationSec": 7.483,
+    "text": "countdown 5 to 1, then a 2 second hold",
+    "onScreen": "countdown 5 to 1, then a 2 second hold",
+    "round": 7
+  },
+  {
+    "id": "r7-fact",
+    "classification": "remotion",
+    "role": "reveal",
+    "startSec": 480.044,
+    "durationSec": 17.2,
+    "text": "fact card, then the transition",
+    "onScreen": "fact card, then the transition",
+    "round": 7
+  },
+  {
+    "id": "cta",
+    "classification": "remotion",
+    "role": "cta",
+    "startSec": 497.244,
+    "durationSec": 25.602,
+    "text": "comment and subscribe card",
+    "onScreen": "comment and subscribe card"
+  },
+  {
+    "id": "ending",
+    "classification": "remotion",
+    "role": "ending",
+    "startSec": 522.846,
+    "durationSec": 12.968,
+    "text": "ending card",
+    "onScreen": "ending card"
+  }
+]

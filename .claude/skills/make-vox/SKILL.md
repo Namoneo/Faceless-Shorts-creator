@@ -101,3 +101,7 @@ The user's ear is the audit gate.
 script.md scenes each name their layers · all layers generated + sidecars in media/projects ·
 composition QA'd at cues and from the final mp4 · contrast rule honored · voice + SFX when
 requested · kit additions generic.
+
+## Not this skill
+
+A long episode or a repurposed Short is `/make-long` and `/repurpose-short`. They do not generate collage layers and they do not call this skill. This skill is unchanged.

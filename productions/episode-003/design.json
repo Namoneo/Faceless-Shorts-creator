@@ -1,0 +1,75 @@
+{
+  "id": "episode-003",
+  "kenBurns": "subtle",
+  "labels": {
+    "still-nexia": "NEXIA",
+    "still-malibu": "MALIBU",
+    "still-lagmon": "LAGʻMON",
+    "still-shashlik": "SHASHLIK",
+    "still-telegram": "TELEGRAM",
+    "still-instagram": "INSTAGRAM",
+    "still-qovun": "QOVUN",
+    "still-tarvuz": "TARVUZ",
+    "still-choyxona": "CHOYXONA",
+    "still-restoran": "RESTORAN",
+    "still-kelin-salom": "KELIN SALOM",
+    "still-qisqa-salom": "QISQA SALOM",
+    "still-navroz": "NAVROʻZ",
+    "still-yangi-yil": "YANGI YIL"
+  },
+  "facts": {
+    "1": {
+      "still": "still-nexia",
+      "line": "1996 · Nexia",
+      "sub": "2012 · Malibu"
+    },
+    "2": {
+      "still": "still-lagmon",
+      "line": "qoʻlda",
+      "sub": "choʻgʻda"
+    },
+    "3": {
+      "still": "still-telegram",
+      "line": "2010 · Instagram",
+      "sub": "2013 · Telegram"
+    },
+    "4": {
+      "still": "still-qovun",
+      "line": "XIV asr",
+      "sub": "quritilgan qovun"
+    },
+    "5": {
+      "still": "still-choyxona",
+      "line": "asrlar davomida",
+      "sub": "uchrashuv joyi"
+    },
+    "6": {
+      "still": "still-kelin-salom",
+      "line": "keyingi kuni",
+      "sub": "birma-bir"
+    },
+    "7": {
+      "still": "still-navroz",
+      "line": "21-mart",
+      "sub": "1-yanvar"
+    }
+  },
+  "titles": {
+    "hook": [
+      "Nexia",
+      "YOKI Malibu"
+    ],
+    "rules": [
+      "Qoida",
+      "Ikki yoʻl. Siz tanlaysiz."
+    ],
+    "cta": [
+      "Qani, tanlang!",
+      "Obuna boʻling"
+    ],
+    "ending": [
+      "Qani, tanlang!",
+      "Shu yerda xayrlashamiz"
+    ]
+  }
+}

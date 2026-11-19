@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "still-chorvoq",
+  "sceneId": "r7-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photorealistic 16:9 summer photograph of a wide turquoise mountain reservoir in the Tashkent region, a rocky shoreline in the foreground, high ranges beyond the water, bright daylight. No readable signs, no logos, no boats with lettering. Only tiny distant figures if any, no celebrity faces.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 48.5,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.48
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": true,
+    "amount": 0,
+    "currency": "credits",
+    "model": "Nano Banana 2.1",
+    "tableId": "delivered-receipt",
+    "label": "Delivered still. 0 Flow credits.",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "0bf4a651bb1c316e5bd32a0fb1c76485c9f381d35e78907f806f6c5ff35ec646",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the waterline near the centre, mountains in the upper half.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-chorvoq.jpg",
+  "deliveredWidth": 1376,
+  "deliveredHeight": 768
+}

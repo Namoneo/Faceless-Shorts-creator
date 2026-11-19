@@ -110,5 +110,21 @@
   "width": 1080,
   "height": 1920,
   "transparent": false
+ },
+ {
+  "id": "FoundationLandscape",
+  "durationInSeconds": 4,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "transparent": false
+ },
+ {
+  "id": "FoundationPortrait",
+  "durationInSeconds": 4,
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "transparent": false
  }
 ]

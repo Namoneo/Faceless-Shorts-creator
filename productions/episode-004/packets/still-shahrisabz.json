@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "still-shahrisabz",
+  "sceneId": "r7-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photorealistic 16:9 photograph of a wide open square in Shahrisabz, the towering ruined brick remains of a monumental gateway, southern daylight, a clear sky. No readable plaques, no logos, no scaffolding text, no celebrity faces. Only tiny distant figures if any, unrecognizable.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 44.6,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.45
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": true,
+    "amount": 0,
+    "currency": "credits",
+    "model": "Nano Banana 2.1",
+    "tableId": "delivered-receipt",
+    "label": "Delivered still. 0 Flow credits.",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "25dd8a65a4f1805ffe49f583e4d64680f8ce4c8069a6ffda4f4fd2648e10ac00",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the wide square and the ruined monumental gateway central.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-shahrisabz.jpg",
+  "deliveredWidth": 1344,
+  "deliveredHeight": 756
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "id": "fixture-foundation",
+  "language": "uz-Latn",
+  "supportedLanguages": ["uz-Latn", "en", "nl"],
+  "fps": 30,
+  "episodeDurationSec": 4,
+  "formats": [
+    {"id": "landscape", "width": 1920, "height": 1080, "fps": 30, "compositionId": "FoundationLandscape"},
+    {"id": "portrait", "width": 1080, "height": 1920, "fps": 30, "compositionId": "FoundationPortrait"}
+  ],
+  "assets": [
+    {
+      "id": "narration-main",
+      "kind": "narration",
+      "source": {
+        "provider": "synthetic-ffmpeg",
+        "role": "fixture-tone",
+        "synth": {"kind": "sine", "frequencyHz": 440, "durationSec": 4, "gainDb": -18}
+      },
+      "timing": "timing/narration-main.json",
+      "rights": {"status": "synthetic-fixture", "owner": "local-test"},
+      "provenance": {"tool": "ffmpeg-lavfi", "origin": "generated-locally"}
+    },
+    {
+      "id": "card-title",
+      "kind": "visual",
+      "source": {"provider": "remotion", "role": "scene-graphic", "component": "FoundationEpisode"},
+      "rights": {"status": "synthetic-fixture", "owner": "local-test"},
+      "provenance": {"tool": "remotion", "origin": "code"}
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene-hook",
+      "durationSec": 2,
+      "assetIds": ["narration-main", "card-title"],
+      "narration": {"assetId": "narration-main", "inSec": 0, "outSec": 2},
+      "focal": {"x": 0.5, "y": 0.4},
+      "safe": {"top": 0.08, "bottom": 0.18, "left": 0.06, "right": 0.06},
+      "text": {
+        "uz-Latn": "Qani, tanla! O\u02bbzbekcha g\u02bbalaba.",
+        "en": "Choose. Foundation fixture.",
+        "nl": "Kies. Basisfixture."
+      },
+      "caption": {"fontScale": 0.045, "maxLines": 2}
+    },
+    {
+      "id": "scene-hold",
+      "durationSec": 2,
+      "assetIds": ["narration-main", "card-title"],
+      "narration": {"assetId": "narration-main", "inSec": 2, "outSec": 4},
+      "focal": {"x": 0.5, "y": 0.55},
+      "safe": {"top": 0.08, "bottom": 0.18, "left": 0.06, "right": 0.06},
+      "text": {
+        "uz-Latn": "o\u2018g\u2018 varianti: g\u2018alaba.",
+        "en": "Hold the same assets.",
+        "nl": "Zelfde fixture."
+      },
+      "caption": {"fontScale": 0.045, "maxLines": 2}
+    }
+  ],
+  "transitions": [
+    {"after": "scene-hook", "type": "cut", "durationSec": 0}
+  ],
+  "qa": {
+    "allowBlack": false,
+    "allowSilence": false,
+    "allowClipping": false,
+    "allowCaptionOverflow": false
+  }
+}

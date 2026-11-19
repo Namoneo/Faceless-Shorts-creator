@@ -1,0 +1,48 @@
+{
+  "shorts": [
+    {
+      "id": "short-pattern",
+      "standsAlone": true,
+      "momentSceneId": "scene-flow",
+      "hookAudio": "audio/hook-tone.wav",
+      "hook": {
+        "durationSec": 3,
+        "text": {
+          "uz-Latn": "Naqshning o\u02bbzi.",
+          "en": "The pattern, by itself.",
+          "nl": "Het patroon, op zich."
+        }
+      },
+      "ending": {
+        "durationSec": 3,
+        "text": {
+          "uz-Latn": "Naqsh shu yerda tugaydi.",
+          "en": "The pattern ends here.",
+          "nl": "Het patroon eindigt hier."
+        }
+      }
+    },
+    {
+      "id": "short-middle",
+      "standsAlone": true,
+      "momentSceneId": "scene-mid",
+      "hookAudio": null,
+      "hook": {
+        "durationSec": 3,
+        "text": {
+          "uz-Latn": "O\u02bbrta joydan boshlanadi.",
+          "en": "It starts from the middle.",
+          "nl": "Het begint in het midden."
+        }
+      },
+      "ending": {
+        "durationSec": 3,
+        "text": {
+          "uz-Latn": "Shu yerda yakun.",
+          "en": "It ends here.",
+          "nl": "Hier stopt het."
+        }
+      }
+    }
+  ]
+}

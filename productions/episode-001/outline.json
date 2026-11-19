@@ -1,0 +1,32 @@
+{
+  "channel": "Qani, tanlang!",
+  "topic": "7 ta tanlov — oxirigacha yetib bora olasizmi?",
+  "audience": "Oʻzbek oilaviy tomoshabin",
+  "beats": [
+    "hook",
+    "rules",
+    "r1-choice",
+    "r1-count",
+    "r1-fact",
+    "r2-choice",
+    "r2-count",
+    "r2-fact",
+    "r3-choice",
+    "r3-count",
+    "r3-fact",
+    "r4-choice",
+    "r4-count",
+    "r4-fact",
+    "r5-choice",
+    "r5-count",
+    "r5-fact",
+    "r6-choice",
+    "r6-count",
+    "r6-fact",
+    "r7-choice",
+    "r7-count",
+    "r7-fact",
+    "cta",
+    "ending"
+  ]
+}

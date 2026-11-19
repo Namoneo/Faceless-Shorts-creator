@@ -125,3 +125,7 @@ Library beds in `media/library/music/` (gen_music.py to grow). Audition over the
 script.md + beats.json authored (facts verified) · composition QA'd frame-by-frame · rendered
 at scale 1 · voice generated with word-exact captions and muxed · SFX plan authored + audition
 mixed (~−15.5 LUFS, awaiting the user's ear) · library used_in updated · IDEAS.md queue updated.
+
+## Not this skill
+
+A long episode or a Short cut from one is `/make-long` and `/repurpose-short`. Those skills do not call this skill's voice or render tools. This skill is unchanged.

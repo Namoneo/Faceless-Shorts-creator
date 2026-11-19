@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "id": "fixture-longform",
+  "language": "uz-Latn",
+  "supportedLanguages": ["uz-Latn", "en", "nl"],
+  "fps": 30,
+  "episodeDurationSec": 24,
+  "formats": [
+    {"id": "landscape", "width": 1920, "height": 1080, "fps": 30, "compositionId": "ffmpeg-card"}
+  ],
+  "assets": [
+    {
+      "id": "narration-main",
+      "kind": "narration",
+      "source": {
+        "provider": "synthetic-ffmpeg",
+        "role": "fixture-tone",
+        "synth": {"kind": "sine", "frequencyHz": 440, "durationSec": 24, "gainDb": -18}
+      },
+      "timing": "timing/narration-main.json",
+      "rights": {"status": "synthetic-fixture", "owner": "local-test"},
+      "provenance": {"tool": "ffmpeg-lavfi", "origin": "synthetic tone, not TTS, not VoiceStudio"}
+    },
+    {
+      "id": "card-open",
+      "kind": "visual",
+      "source": {"provider": "synthetic-ffmpeg", "role": "title-card", "synth": {"kind": "card", "title": "Open"}},
+      "rights": {"status": "synthetic-fixture", "owner": "local-test"},
+      "provenance": {"tool": "ffmpeg-lavfi", "origin": "local card standing in for a Remotion scene"}
+    },
+    {
+      "id": "flow-pattern",
+      "kind": "visual",
+      "source": {"provider": "import", "role": "manual-flow-stand-in", "flowPacket": "packet-flow"},
+      "rights": {"status": "synthetic-fixture", "owner": "local-test"},
+      "provenance": {"tool": "ffmpeg-testsrc", "origin": "synthetic stand-in for a manual Flow export"}
+    },
+    {
+      "id": "card-mid",
+      "kind": "visual",
+      "source": {"provider": "synthetic-ffmpeg", "role": "title-card", "synth": {"kind": "card", "title": "Middle"}},
+      "rights": {"status": "synthetic-fixture", "owner": "local-test"},
+      "provenance": {"tool": "ffmpeg-lavfi", "origin": "local card standing in for a Remotion scene"}
+    },
+    {
+      "id": "card-close",
+      "kind": "visual",
+      "source": {"provider": "synthetic-ffmpeg", "role": "title-card", "synth": {"kind": "card", "title": "Close"}},
+      "rights": {"status": "synthetic-fixture", "owner": "local-test"},
+      "provenance": {"tool": "ffmpeg-lavfi", "origin": "local card standing in for a Remotion scene"}
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene-open",
+      "durationSec": 4,
+      "classification": "remotion",
+      "assetIds": ["narration-main", "card-open"],
+      "narration": {"assetId": "narration-main", "inSec": 0, "outSec": 4},
+      "focal": {"x": 0.5, "y": 0.4},
+      "safe": {"top": 0.08, "bottom": 0.18, "left": 0.06, "right": 0.06},
+      "text": {
+        "uz-Latn": "Uzoq fixture. O\u02bbzbekcha kirish.",
+        "en": "Long fixture. Opening card.",
+        "nl": "Lange fixture. Opening."
+      },
+      "caption": {"fontScale": 0.04, "maxLines": 2},
+      "picture": {"mode": "card", "assetId": "card-open", "standsInFor": "remotion"}
+    },
+    {
+      "id": "scene-flow",
+      "durationSec": 8,
+      "classification": "flow",
+      "standaloneCandidate": true,
+      "assetIds": ["narration-main", "flow-pattern"],
+      "narration": {"assetId": "narration-main", "inSec": 4, "outSec": 12},
+      "focal": {"x": 0.5, "y": 0.5},
+      "safe": {"top": 0.08, "bottom": 0.18, "left": 0.06, "right": 0.06},
+      "text": {
+        "uz-Latn": "Naqsh. Qo\u02bblda olingan tasvir.",
+        "en": "Pattern. A manual export stand-in.",
+        "nl": "Patroon. Handmatige export."
+      },
+      "caption": {"fontScale": 0.04, "maxLines": 2},
+      "picture": {"mode": "flow-master", "assetId": "flow-pattern"}
+    },
+    {
+      "id": "scene-mid",
+      "durationSec": 6,
+      "classification": "remotion",
+      "standaloneCandidate": true,
+      "assetIds": ["narration-main", "card-mid"],
+      "narration": {"assetId": "narration-main", "inSec": 12, "outSec": 18},
+      "focal": {"x": 0.5, "y": 0.5},
+      "safe": {"top": 0.08, "bottom": 0.18, "left": 0.06, "right": 0.06},
+      "text": {
+        "uz-Latn": "O\u02bbrta sahna. Alohida turadi.",
+        "en": "Middle scene. It can stand alone.",
+        "nl": "Middelste scene."
+      },
+      "caption": {"fontScale": 0.04, "maxLines": 2},
+      "picture": {"mode": "card", "assetId": "card-mid", "standsInFor": "remotion"}
+    },
+    {
+      "id": "scene-close",
+      "durationSec": 6,
+      "classification": "remotion",
+      "assetIds": ["narration-main", "card-close"],
+      "narration": {"assetId": "narration-main", "inSec": 18, "outSec": 24},
+      "focal": {"x": 0.5, "y": 0.55},
+      "safe": {"top": 0.08, "bottom": 0.18, "left": 0.06, "right": 0.06},
+      "text": {
+        "uz-Latn": "Yakun. Qayta ishlatiladi.",
+        "en": "Ending. Assets stay reusable.",
+        "nl": "Slot. Assets blijven herbruikbaar."
+      },
+      "caption": {"fontScale": 0.04, "maxLines": 2},
+      "picture": {"mode": "card", "assetId": "card-close", "standsInFor": "remotion"}
+    }
+  ],
+  "transitions": [
+    {"after": "scene-open", "type": "cut", "durationSec": 0},
+    {"after": "scene-flow", "type": "cut", "durationSec": 0},
+    {"after": "scene-mid", "type": "cut", "durationSec": 0}
+  ],
+  "qa": {
+    "allowBlack": false,
+    "allowSilence": false,
+    "allowClipping": false,
+    "allowCaptionOverflow": false
+  }
+}

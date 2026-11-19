@@ -1,0 +1,588 @@
+{
+  "topic": "7 ta tanlov — oxirigacha yetib bora olasizmi?",
+  "channel": "Qani, tanlang!",
+  "language": "uz-Latn",
+  "address": "siz",
+  "audience": "Oʻzbek oilaviy tomoshabin",
+  "durationSec": 342.384,
+  "stopped": true,
+  "rendersMedia": false,
+  "manualSteps": [
+    "Review the outline, script, and storyboard. This command does not render them.",
+    "For each Flow scene, generate the clip yourself in Flow and keep the receipt. This runner does not open Flow.",
+    "Move the packet to awaiting import only after that file exists, then import and approve it.",
+    "Import the narration file. VoiceStudio stays fail-closed until the Mac runner is approved.",
+    "Assemble the 16:9 export only after those approvals."
+  ],
+  "narration": {
+    "door": "import",
+    "voicestudio": "fail-closed",
+    "called": false,
+    "uzLatnRequest": {
+      "engine": "cosyvoice",
+      "voice_profile": "Nodira",
+      "require_navoiy": true,
+      "voiceConsent": null
+    },
+    "rate": "2.2 to 2.5 words per second for prose. The five count words are one second each. Each round then holds 2 seconds with no speech.",
+    "note": "voiceConsent is unset, so this plan does not authorize commercial synthesis. Import a file later, after consent and after the Mac runner is approved."
+  },
+  "wordsSpoken": 715,
+  "scenes": [
+    {
+      "id": "hook",
+      "classification": "remotion",
+      "role": "hook",
+      "startSec": 0.0,
+      "durationSec": 18.723,
+      "text": "Toʻxtang. Sizga yettita tanlov bor. Oxirigacha yetib bora olasizmi? Har safar ikkita yoʻl. Siz bittasini tanlaysiz. Notoʻgʻri javob yoʻq. Bu imtihon emas. Bu dasturxon atrofidagi oʻyin. Tayyormisiz? Unda boshlaymiz. Ekranga qarang. Ikkalasini ham koʻrib chiqing. Tanlov sizda. Bugun yettita eshik. Bittasini ham oʻtkazib yubormang.",
+      "onScreen": "title card and channel line"
+    },
+    {
+      "id": "rules",
+      "classification": "remotion",
+      "role": "rules",
+      "startSec": 18.723,
+      "durationSec": 19.149,
+      "text": "Qoida oddiy. Men ikkita variantni aytaman. Ekranda ikkita rasm turadi. Sanoq chiqadi. Beshdan birgacha. Shu paytda siz tanlaysiz. Shoshilmang. Keyin bitta qisqa fakt eshitasiz. Soʻng keyingi tanlov. Yettita raund bor. Qiyinlik sekin oshadi. Birinchi raund yengil. Yettinchi raund eng qiziq. Tayyor boʻlsangiz, birinchi eshikni ochamiz.",
+      "onScreen": "two-option rules card"
+    },
+    {
+      "id": "r1-choice",
+      "classification": "remotion",
+      "role": "choice",
+      "startSec": 37.872,
+      "durationSec": 22.979,
+      "text": "Birinchi tanlov. Palovmi yoki somsa? Koʻzingizni yumib koʻring. Issiq qozon. Guruch, sabzi va goʻsht birga pishadi. Uyga palov hidi kiradi. Yoki tandir. Yangi somsa. Xamir issiq. Ichlik ham issiq. Mehmonga qaysi birini qoʻyasiz? Katta laganmi? Yoki qoʻldagi somsa? Agar oila katta boʻlsa, lagan ochiladi. Agar vaqt qisqa boʻlsa, somsa qoʻlga tushadi. Qaysi birini tanlaysiz?",
+      "onScreen": "two stills and the question",
+      "flowPlates": [
+        "still-palov",
+        "still-somsa"
+      ],
+      "round": 1
+    },
+    {
+      "id": "r1-count",
+      "classification": "remotion",
+      "role": "countdown",
+      "startSec": 60.851,
+      "durationSec": 9.277,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi.",
+      "onScreen": "countdown 5 to 1, then a 2 second hold",
+      "flowPlates": [
+        "still-palov",
+        "still-somsa"
+      ],
+      "nonSpeechSec": 2.0,
+      "countPaceSec": 1.0,
+      "round": 1
+    },
+    {
+      "id": "r1-fact",
+      "classification": "remotion",
+      "role": "reveal",
+      "startSec": 70.128,
+      "durationSec": 11.064,
+      "text": "Fakt. Oʻzbekistonda shunday gap bor. Mehmonga palov tortilmaguncha, u uydan ketmaydi. Bu odat ikki ming oʻn olti yili YuNESKO roʻyxatiga kiritilgan. Birinchi tanlov boʻldi. Ikkinchisiga oʻting.",
+      "onScreen": "fact card, then the transition",
+      "flowPlates": [
+        "still-palov",
+        "still-somsa"
+      ],
+      "round": 1
+    },
+    {
+      "id": "r2-choice",
+      "classification": "remotion",
+      "role": "choice",
+      "startSec": 81.192,
+      "durationSec": 22.979,
+      "text": "Ikkinchi tanlov. Choy piyolasimi yoki bir qultum qatiq? Ertalab choy sekin ichiladi. Piyola qoʻlda turadi. Suhbat choʻziladi. Tushdan keyin qatiq. U salqin. Bir yutumda ham yetadi. Dasturxon har ikkalasini ham koʻtaradi. Siz qaysi paytni tanlaysiz? Ertalabki sokinlikmi? Yoki tushlikdagi salqinlik? Mehmon eshikdan kirsa, choy birinchi chiqadi. Bolalar esa qatiqni tez soʻraydi. Qaysi idishni uzatasiz?",
+      "onScreen": "two stills and the question",
+      "flowPlates": [
+        "still-choy",
+        "still-qatiq"
+      ],
+      "round": 2
+    },
+    {
+      "id": "r2-count",
+      "classification": "remotion",
+      "role": "countdown",
+      "startSec": 104.171,
+      "durationSec": 9.277,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi.",
+      "onScreen": "countdown 5 to 1, then a 2 second hold",
+      "flowPlates": [
+        "still-choy",
+        "still-qatiq"
+      ],
+      "nonSpeechSec": 2.0,
+      "countPaceSec": 1.0,
+      "round": 2
+    },
+    {
+      "id": "r2-fact",
+      "classification": "remotion",
+      "role": "reveal",
+      "startSec": 113.448,
+      "durationSec": 8.936,
+      "text": "Fakt. Choy avval piyolaga quyiladi. Soʻng choynakka qaytariladi. Buni uch marta qilishadi. Uchinchisidan keyin choy tayyor. Ikkinchi tanlov boʻldi. Uchinchisiga oʻting.",
+      "onScreen": "fact card, then the transition",
+      "flowPlates": [
+        "still-choy",
+        "still-qatiq"
+      ],
+      "round": 2
+    },
+    {
+      "id": "r3-choice",
+      "classification": "remotion",
+      "role": "choice",
+      "startSec": 122.384,
+      "durationSec": 18.723,
+      "text": "Uchinchi tanlov. Samarqandmi yoki Buxoro? Samarqandda qadam keng. Maydon ochiq. Registon koʻz oldingizda. Osmon katta. Buxoroda qadam sekin. Koʻchalar tor. Soya yaqin. Devor yaqin. Siz qayerda yurasiz? Keng maydonmi? Yoki tor koʻchami? Bir kunlik sayrda bitta shahar. Ikkinchisini keyinga qoldirasiz. Qaysi eshikni bugun ochasiz?",
+      "onScreen": "two stills and the question",
+      "flowPlates": [
+        "still-samarqand",
+        "still-buxoro"
+      ],
+      "round": 3
+    },
+    {
+      "id": "r3-count",
+      "classification": "remotion",
+      "role": "countdown",
+      "startSec": 141.107,
+      "durationSec": 9.277,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi.",
+      "onScreen": "countdown 5 to 1, then a 2 second hold",
+      "flowPlates": [
+        "still-samarqand",
+        "still-buxoro"
+      ],
+      "nonSpeechSec": 2.0,
+      "countPaceSec": 1.0,
+      "round": 3
+    },
+    {
+      "id": "r3-fact",
+      "classification": "remotion",
+      "role": "reveal",
+      "startSec": 150.384,
+      "durationSec": 13.191,
+      "text": "Fakt. Registonda uchta madrasa bor. Ulugʻbek, Sherdor va Tillakori. Buxoroda Kalon minorasi bor. U ming bir yuz yigirma yetti yilda bitgan. Balandligi qariyb qirq olti metr. Uchinchi tanlov boʻldi. Toʻrtinchisiga oʻting.",
+      "onScreen": "fact card, then the transition",
+      "flowPlates": [
+        "still-samarqand",
+        "still-buxoro"
+      ],
+      "round": 3
+    },
+    {
+      "id": "r4-choice",
+      "classification": "remotion",
+      "role": "choice",
+      "startSec": 163.575,
+      "durationSec": 19.149,
+      "text": "Toʻrtinchi tanlov. Doirami yoki rubob? Doira qoʻlda uriladi. Bayramda qoʻl yuradi. Tovush yaqin. Zal birga kiradi. Rubob torli cholgʻu. U sekin kuyni olib boradi. Tovush ingichka. Suhbat tinchlanadi. Qaysi tovush sizga yaqin? Doirami? Yoki rubobmi? Toʻyda doira yaqin turadi. Kechqurun rubob sekinroq. Qaysi tovushni eshitasiz?",
+      "onScreen": "two stills and the question",
+      "flowPlates": [
+        "still-doira",
+        "still-rubob"
+      ],
+      "round": 4
+    },
+    {
+      "id": "r4-count",
+      "classification": "remotion",
+      "role": "countdown",
+      "startSec": 182.724,
+      "durationSec": 9.277,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi.",
+      "onScreen": "countdown 5 to 1, then a 2 second hold",
+      "flowPlates": [
+        "still-doira",
+        "still-rubob"
+      ],
+      "nonSpeechSec": 2.0,
+      "countPaceSec": 1.0,
+      "round": 4
+    },
+    {
+      "id": "r4-fact",
+      "classification": "remotion",
+      "role": "reveal",
+      "startSec": 192.001,
+      "durationSec": 7.234,
+      "text": "Fakt. Doira ramkali baraban. Ichida koʻpincha metall halqalar turadi. Halqalar chalinganda jaranglaydi. Toʻrtinchi tanlov boʻldi. Beshinchisiga oʻting.",
+      "onScreen": "fact card, then the transition",
+      "flowPlates": [
+        "still-doira",
+        "still-rubob"
+      ],
+      "round": 4
+    },
+    {
+      "id": "r5-choice",
+      "classification": "remotion",
+      "role": "choice",
+      "startSec": 199.235,
+      "durationSec": 18.723,
+      "text": "Beshinchi tanlov. Kurashmi yoki futbol? Kurashda belbogʻ ushlanadi. Gilam ustida kuch sinashadi. Ikkita kurashchi yaqin. Nafas eshitiladi. Futbolda koptok oyoqda yuradi. Maydon keng. Ovoz baland. Qaysi tomosha sizni ushlab turadi? Gilammi? Yoki darvoza? Bolalar maydon chetida turadi. Kattalar gilam yonida turadi. Siz qayerda turasiz?",
+      "onScreen": "two stills and the question",
+      "flowPlates": [
+        "still-kurash",
+        "still-futbol"
+      ],
+      "round": 5
+    },
+    {
+      "id": "r5-count",
+      "classification": "remotion",
+      "role": "countdown",
+      "startSec": 217.958,
+      "durationSec": 9.277,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi.",
+      "onScreen": "countdown 5 to 1, then a 2 second hold",
+      "flowPlates": [
+        "still-kurash",
+        "still-futbol"
+      ],
+      "nonSpeechSec": 2.0,
+      "countPaceSec": 1.0,
+      "round": 5
+    },
+    {
+      "id": "r5-fact",
+      "classification": "remotion",
+      "role": "reveal",
+      "startSec": 227.235,
+      "durationSec": 8.085,
+      "text": "Fakt. Kurash belbogʻli kurash. Ikki ming oʻn sakkiz yili u Jakarta Osiyo oʻyinlarida boʻlgan. Beshinchi tanlov boʻldi. Oltinchisiga oʻting.",
+      "onScreen": "fact card, then the transition",
+      "flowPlates": [
+        "still-kurash",
+        "still-futbol"
+      ],
+      "round": 5
+    },
+    {
+      "id": "r6-choice",
+      "classification": "remotion",
+      "role": "choice",
+      "startSec": 235.32,
+      "durationSec": 19.574,
+      "text": "Oltinchi tanlov biroz qiyinroq. Sumalakmi yoki holva? Bayram stoli yoningizda. Bitta shirinlik tanlaysiz. Sumalak Navroʻz dasturxonida turadi. U shirin. U quyuq. Qoshiq sekin yuradi. Holva ham shirin. Boʻlak kichik. Taʼmi boshqacha. Siz qaysini tanlaysiz? Qoshiqdami? Yoki boʻlakda? Onangiz qoshiq uzatadi. Qoʻshningiz boʻlak uzatadi. Qaysi birini olasiz?",
+      "onScreen": "two stills and the question",
+      "flowPlates": [
+        "still-sumalak",
+        "still-holva"
+      ],
+      "round": 6
+    },
+    {
+      "id": "r6-count",
+      "classification": "remotion",
+      "role": "countdown",
+      "startSec": 254.894,
+      "durationSec": 9.277,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi.",
+      "onScreen": "countdown 5 to 1, then a 2 second hold",
+      "flowPlates": [
+        "still-sumalak",
+        "still-holva"
+      ],
+      "nonSpeechSec": 2.0,
+      "countPaceSec": 1.0,
+      "round": 6
+    },
+    {
+      "id": "r6-fact",
+      "classification": "remotion",
+      "role": "reveal",
+      "startSec": 264.171,
+      "durationSec": 9.787,
+      "text": "Fakt. Navroʻz yigirma bir mart. Sumalak unib chiqqan bugʻdoydan tayyorlanadi. Sharbatini oʻn soatgacha qaynatishadi. Qozonni navbat bilan aralashtirishadi. Oltinchi tanlov boʻldi. Yettinchisiga oʻting.",
+      "onScreen": "fact card, then the transition",
+      "flowPlates": [
+        "still-sumalak",
+        "still-holva"
+      ],
+      "round": 6
+    },
+    {
+      "id": "r7-choice",
+      "classification": "remotion",
+      "role": "choice",
+      "startSec": 273.958,
+      "durationSec": 22.128,
+      "text": "Yettinchi tanlov. Eng qiziq biri shu. Erta tongdagi bozormi yoki kechki hovlidagi dasturxon? Erta turasizmi? Yoki kech qolasizmi? Bozorda ovoz erta koʻtariladi. Savatlar toʻladi. Salomlar qisqa. Hovlida ovoz sekin tushadi. Chiroqlar yonadi. Qozon bugʻlanadi. Suhbat choʻziladi. Qaysi soat sizniki? Erta bozorda non issiq. Kechki hovlida choy ikkinchi marta. Siz qaysi soatni saqlaysiz?",
+      "onScreen": "two stills and the question",
+      "flowPlates": [
+        "still-bozor",
+        "still-hovli"
+      ],
+      "round": 7
+    },
+    {
+      "id": "r7-count",
+      "classification": "remotion",
+      "role": "countdown",
+      "startSec": 296.086,
+      "durationSec": 9.277,
+      "text": "Qarang. Besh. Toʻrt. Uch. Ikki. Bir. Tanlovingiz qabul qilindi.",
+      "onScreen": "countdown 5 to 1, then a 2 second hold",
+      "flowPlates": [
+        "still-bozor",
+        "still-hovli"
+      ],
+      "nonSpeechSec": 2.0,
+      "countPaceSec": 1.0,
+      "round": 7
+    },
+    {
+      "id": "r7-fact",
+      "classification": "remotion",
+      "role": "reveal",
+      "startSec": 305.363,
+      "durationSec": 10.213,
+      "text": "Fakt. Non tandirga yopishishdan oldin chekich bilan bosiladi. Chekich markazda naqsh qoldiradi. Teshiklardan bugʻ chiqadi. Markaz tekis qoladi. Yettita tanlov tugadi. Siz oxirigacha yurdingiz.",
+      "onScreen": "fact card, then the transition",
+      "flowPlates": [
+        "still-bozor",
+        "still-hovli"
+      ],
+      "round": 7
+    },
+    {
+      "id": "cta",
+      "classification": "remotion",
+      "role": "cta",
+      "startSec": 315.576,
+      "durationSec": 17.872,
+      "text": "Qaysi tanlov sizga qiyinroq boʻldi? Qaysi bittasi sizni oʻylatdi? Qaysi uchtasi oson tuyuldi? Izohda yozing. Bitta soʻz ham yetadi. Kanal nomi: Qani, tanlang! Obuna boʻling. Keyingi yettita tanlovni oʻtkazib yubormang. Doʻstingizga ham yuboring. Birga tanlang. Keyingi tanlovni ham kutib turing. Sizni kutamiz.",
+      "onScreen": "comment and subscribe card"
+    },
+    {
+      "id": "ending",
+      "classification": "remotion",
+      "role": "ending",
+      "startSec": 333.448,
+      "durationSec": 8.936,
+      "text": "Oxirigacha yetib bordingiz. Yettita eshik ochildi. Siz tanladingiz. Rahmat. Keyingi safar yana birga tanlaysiz. Shu yerda xayrlashamiz. Tanlovingiz siz bilan qoladi.",
+      "onScreen": "ending card"
+    }
+  ],
+  "flowPackets": [
+    {
+      "id": "still-palov",
+      "status": "validated",
+      "sourceHash": "33a027c88e0e12653356aa13c71a729bc9978b08f80c570441b7336c78e015e2",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-somsa",
+      "status": "validated",
+      "sourceHash": "4d060aac5d1fb2fdf1214a92b99a6ceed4490bbad55eee74b3148e046f28625c",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-choy",
+      "status": "validated",
+      "sourceHash": "3f2718b73ee90aef609c2b3ea6cdd688098948ec9fa89493b2f3c013d3358821",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-qatiq",
+      "status": "validated",
+      "sourceHash": "b1b9896cfb84acdbf19f5673d050188102d1766b60653ee144bbbfd1d329928a",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-samarqand",
+      "status": "validated",
+      "sourceHash": "22f1ad1a79af011e2b57918b620dcd9ffb8c695831c29e2137aebb2dcc9096fd",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-buxoro",
+      "status": "validated",
+      "sourceHash": "51594fd267ff2e5e61b62b37efdb4bc90a27c68c07645202e07c11c311be64ff",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-doira",
+      "status": "validated",
+      "sourceHash": "cb05ecbb908ec697166e29bab0c52e1ae9d1d8e5fbef5343d1257719e189ae8e",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-rubob",
+      "status": "validated",
+      "sourceHash": "edf4f6542dc4e3fba4d1e9faf40d02e35e53a604dcf7fe135228a5a353d5b327",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-kurash",
+      "status": "validated",
+      "sourceHash": "6152125bb2124cc582e65401f0874476cefd5ca087f9a66ddb11ca8d7271ff55",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-futbol",
+      "status": "validated",
+      "sourceHash": "2c01dc5ea73d4707c3d44ea7a95ac24980d0a5f9d5d903c8826e0692e230a46d",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-sumalak",
+      "status": "validated",
+      "sourceHash": "b21b46bfd16c18aded3a8d81d156f75decfd14c85e730a868a4ee687b814d3cd",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-holva",
+      "status": "validated",
+      "sourceHash": "4c9be5b0c528a56d6852f468f3bee6176ad25075605495f23568b44f09c812a0",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-bozor",
+      "status": "validated",
+      "sourceHash": "2d8d0d0beeea621e219b5632f09d3ad248a13fe700ed65fe9f7ab09584bdc3d6",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    },
+    {
+      "id": "still-hovli",
+      "status": "validated",
+      "sourceHash": "50634627212fbcda65e5ddb973d6ebdf8c3e5a715578dc7428ec2be57d5c1d9d",
+      "model": "flow-image",
+      "deliveredModel": "Nano Banana 2.1",
+      "credits": 0
+    }
+  ],
+  "candidateShorts": [
+    {
+      "id": "short-palov",
+      "durationSec": 45.447,
+      "hook": "Palovmi yoki somsa? Besh soniyada tanlang.",
+      "scenes": [
+        "r1-choice",
+        "r1-count",
+        "r1-fact"
+      ],
+      "note": "Standalone. The round's first sentence is replaced by the hook. The round's closing transition is replaced by the ending. The choice, the countdown, and the fact stay. sourceHash is assigned at import and is not regenerated.",
+      "assets": [
+        {
+          "packetId": "still-palov",
+          "sourceHash": null,
+          "sourceHashAssignedAt": "import",
+          "regenerated": false
+        },
+        {
+          "packetId": "still-somsa",
+          "sourceHash": null,
+          "sourceHashAssignedAt": "import",
+          "regenerated": false
+        }
+      ],
+      "ending": "Shu tanlov sizniki. Kanal: Qani, tanlang!"
+    },
+    {
+      "id": "short-shahar",
+      "durationSec": 43.318,
+      "hook": "Samarqandmi yoki Buxoro? Qarang va tanlang.",
+      "scenes": [
+        "r3-choice",
+        "r3-count",
+        "r3-fact"
+      ],
+      "note": "Standalone. The round's first sentence is replaced by the hook. The round's closing transition is replaced by the ending. The choice, the countdown, and the fact stay. sourceHash is assigned at import and is not regenerated.",
+      "assets": [
+        {
+          "packetId": "still-samarqand",
+          "sourceHash": null,
+          "sourceHashAssignedAt": "import",
+          "regenerated": false
+        },
+        {
+          "packetId": "still-buxoro",
+          "sourceHash": null,
+          "sourceHashAssignedAt": "import",
+          "regenerated": false
+        }
+      ],
+      "ending": "Shu tanlov sizniki. Kanal: Qani, tanlang!"
+    },
+    {
+      "id": "short-yetti",
+      "durationSec": 43.746,
+      "hook": "Erta bozormi yoki kechki hovli? Oxirigacha qoling.",
+      "scenes": [
+        "r7-choice",
+        "r7-count",
+        "r7-fact"
+      ],
+      "note": "Standalone. The round's first sentence is replaced by the hook. The round's closing transition is replaced by the ending. The choice, the countdown, and the fact stay. sourceHash is assigned at import and is not regenerated.",
+      "assets": [
+        {
+          "packetId": "still-bozor",
+          "sourceHash": null,
+          "sourceHashAssignedAt": "import",
+          "regenerated": false
+        },
+        {
+          "packetId": "still-hovli",
+          "sourceHash": null,
+          "sourceHashAssignedAt": "import",
+          "regenerated": false
+        }
+      ],
+      "ending": "Shu tanlov sizniki. Kanal: Qani, tanlang!"
+    }
+  ],
+  "creditEstimates": {
+    "label": "Estimate only. Verify the current price in Flow before approval.",
+    "a_stills": {
+      "videoCredits": 0,
+      "stills": 14,
+      "stillUnitCredits": null
+    },
+    "b_omni_flash_720p": {
+      "credits": 168,
+      "assumption": "14 clips x 4 seconds x 3 credits per second"
+    },
+    "c_veo_31_lite": {
+      "credits": 140,
+      "assumption": "14 generations x 10 credits"
+    },
+    "recommend": "a"
+  }
+}

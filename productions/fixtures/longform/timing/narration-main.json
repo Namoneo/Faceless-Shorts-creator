@@ -1,0 +1,12 @@
+{
+  "assetId": "narration-main",
+  "language": "uz-Latn",
+  "audioContentHash": null,
+  "lines": [
+    {"sceneId": "scene-open", "text": "Uzoq fixture. O\u02bbzbekcha kirish.", "state": "unaligned"},
+    {"sceneId": "scene-flow", "text": "Naqsh. Qo\u02bblda olingan tasvir.", "state": "unaligned"},
+    {"sceneId": "scene-mid", "text": "O\u02bbrta sahna. Alohida turadi.", "state": "unaligned"},
+    {"sceneId": "scene-close", "text": "Yakun. Qayta ishlatiladi.", "state": "unaligned"}
+  ],
+  "corrections": []
+}

@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "id": "still-iphone",
+  "sceneId": "r3-choice",
+  "status": "validated",
+  "prompt": "A family-friendly photorealistic 16:9 photograph of a modern smartphone lying face-up on a light wooden table beside a small porcelain piyola of tea, simple black glass screen with a blurred logo-free wallpaper and no app icons, narrow bezels, no manufacturer mark, no apple, no lettering, soft indoor morning light. No people. No written text. No logo.",
+  "referenceAssetIds": [],
+  "referenceFiles": [],
+  "requestedModel": "flow-image",
+  "ratio": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "durationSec": 46.2,
+  "fps": 30,
+  "audio": "none",
+  "focal": {
+    "x": 0.5,
+    "y": 0.55
+  },
+  "safe": {
+    "top": 0.08,
+    "bottom": 0.18,
+    "left": 0.06,
+    "right": 0.06
+  },
+  "dualFormat": {
+    "reuseMasterFor": [
+      "portrait"
+    ],
+    "separateVariantReason": null
+  },
+  "creditEstimate": {
+    "known": true,
+    "amount": 0,
+    "currency": "credits",
+    "model": "Nano Banana 2.1",
+    "tableId": "delivered-receipt",
+    "label": "Delivered still. 0 Flow credits.",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits."
+  },
+  "provenance": {
+    "tool": "Flow",
+    "origin": "uzbekajon.com",
+    "note": "Nano Banana 2.1 still, 16:9, imported locally. 0 credits.",
+    "model": "Nano Banana 2.1",
+    "credits": 0
+  },
+  "sourceHash": "d21470fee5baa47c6d8d522cd845c9630bb52e70a2d07754886579048c3a4955",
+  "cachedPath": null,
+  "cacheAction": "stored",
+  "variantOf": null,
+  "history": [
+    "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated"
+  ],
+  "mediaKind": "still",
+  "focalGuidance": "Keep the phone face central, no logo in a portrait crop.",
+  "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
+  "sourceFile": "still-iphone.jpg",
+  "deliveredWidth": 1376,
+  "deliveredHeight": 768
+}

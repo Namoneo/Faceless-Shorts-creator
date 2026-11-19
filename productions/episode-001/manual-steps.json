@@ -1,0 +1,7 @@
+[
+  "Review the outline, script, and storyboard. This command does not render them.",
+  "For each Flow scene, generate the clip yourself in Flow and keep the receipt. This runner does not open Flow.",
+  "Move the packet to awaiting import only after that file exists, then import and approve it.",
+  "Import the narration file. VoiceStudio stays fail-closed until the Mac runner is approved.",
+  "Assemble the 16:9 export only after those approvals."
+]

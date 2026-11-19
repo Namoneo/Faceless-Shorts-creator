@@ -1,0 +1,42 @@
+{
+  "language": "uz-Latn",
+  "label": "OFFLINE FIXTURE",
+  "scenes": [
+    {
+      "id": "scene-hook",
+      "startSec": 0,
+      "durationSec": 2,
+      "focal": {"x": 0.5, "y": 0.4},
+      "safe": {"top": 0.08, "bottom": 0.18, "left": 0.06, "right": 0.06},
+      "text": "Qani, tanla! O\u02bbzbekcha g\u02bbalaba.",
+      "captionFontScale": 0.045,
+      "captionMaxLines": 2,
+      "line": {
+        "sceneId": "scene-hook",
+        "state": "review",
+        "text": "Qani, tanla! O\u02bbzbekcha g\u02bbalaba.",
+        "words": [
+          {"w": "Qani,", "start": 0.1, "end": 0.4, "state": "review"},
+          {"w": "tanla!", "start": 0.45, "end": 0.9, "state": "review"},
+          {"w": "O\u02bbzbekcha", "start": 1.0, "end": 1.4, "state": "manual"},
+          {"w": "g\u02bbalaba.", "start": 1.45, "end": 1.9, "state": "review"}
+        ]
+      }
+    },
+    {
+      "id": "scene-hold",
+      "startSec": 2,
+      "durationSec": 2,
+      "focal": {"x": 0.5, "y": 0.55},
+      "safe": {"top": 0.08, "bottom": 0.18, "left": 0.06, "right": 0.06},
+      "text": "o\u2018g\u2018 varianti: g\u2018alaba.",
+      "captionFontScale": 0.045,
+      "captionMaxLines": 2,
+      "line": {
+        "sceneId": "scene-hold",
+        "state": "unaligned",
+        "text": "o\u2018g\u2018 varianti: g\u2018alaba."
+      }
+    }
+  ]
+}
