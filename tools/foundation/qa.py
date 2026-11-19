@@ -32,6 +32,7 @@ def check_episode(
     checks.extend(check_uzbek_apostrophes(manifest))
     checks.extend(check_caption_straight_apostrophe(manifest))
     checks.extend(check_distinct_plates(manifest))
+    checks.extend(check_countdown_digits(manifest))
     checks.extend(check_uzbek_address(manifest))
     checks.extend(check_timing_binding(manifest, timing_by_asset))
     for fmt in manifest["formats"]:
@@ -278,6 +279,45 @@ def check_uzbek_apostrophes(manifest: dict[str, Any]) -> list[dict[str, Any]]:
                 "uzbek-apostrophe",
                 not hits,
                 {"sceneId": scene["id"], "hits": hits, "marks": pairs},
+            )
+        )
+    return items
+
+
+def check_countdown_digits(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    """5, 4, 3, 2, 1 each start once. Digit 1 stays through the hold and is not repeated."""
+    items = []
+    for scene in manifest.get("scenes") or []:
+        beats = scene.get("countdownBeats")
+        if not beats:
+            continue
+        digits = [str(beat.get("digit")) for beat in beats]
+        starts = [float(beat.get("start", 0)) for beat in beats]
+        ends = [float(beat.get("end", 0)) for beat in beats]
+        ordered = digits == ["5", "4", "3", "2", "1"]
+        increasing = all(starts[index] < starts[index + 1] for index in range(4))
+        once = all(ends[index] <= starts[index + 1] + 0.02 for index in range(4))
+        window = scene.get("countdown") or {}
+        onsets = scene.get("countdownOnsets")
+        matched = True
+        hold = True
+        if onsets and window:
+            base = float(window.get("start", 0))
+            expected = [base + float(onset) for onset in onsets]
+            matched = len(expected) == 5 and all(abs(starts[index] - expected[index]) <= 0.05 for index in range(5))
+            hold = ends[-1] - expected[-1] >= 1.5
+        items.append(
+            _item(
+                "countdown-digits",
+                ordered and increasing and once and matched and hold,
+                {
+                    "sceneId": scene.get("id"),
+                    "digits": digits,
+                    "starts": starts,
+                    "ends": ends,
+                    "wordStarts": matched,
+                    "holdSec": round(ends[-1] - starts[-1], 3) if starts else None,
+                },
             )
         )
     return items

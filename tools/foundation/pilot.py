@@ -109,6 +109,7 @@ def make_pilot(episode_dir: Path, narration_dir: Path, stills_dir: Path, out_dir
         if abs(source_duration - float(timings["duration"])) > 1.0:
             raise PilotError("narration.wav duration does not match timings.json")
     aligned = _align(scenes, timings, by_id, stills_dir, source_duration)
+    apply_spoken_countdown(aligned, timings, narration_dir)
     episode_duration = sum(scene["duration"] for scene in aligned)
     if source_duration is not None and abs(episode_duration - source_duration) > 1.0:
         raise PilotError("assembly would cut or stretch the narration")
@@ -507,7 +508,7 @@ def _plates(
 
 
 def countdown_beats(start: float, end: float, hold_end: float) -> list[dict[str, Any]]:
-    """Five spoken beats, then keep 1 on screen through the hold so YOKI cannot replace it."""
+    """Five equal beats, then keep 1 on screen through the hold so YOKI cannot replace it."""
     span = max(0.2, float(end) - float(start))
     beats = []
     for step, digit in enumerate(COUNT_DIGITS):
@@ -520,6 +521,103 @@ def countdown_beats(start: float, end: float, hold_end: float) -> list[dict[str,
         )
     beats[-1]["end"] = round(max(beats[-1]["end"], float(hold_end)), 3)
     return beats
+
+
+def beats_from_onsets(starts: list[float], hold_end: float) -> list[dict[str, Any]]:
+    """One digit per spoken onset. Digit 1 stays through the hold and is not shown twice."""
+    if len(starts) != 5:
+        raise PilotError(f"countdown needs 5 word starts, got {len(starts)}")
+    beats = []
+    for index, digit in enumerate(COUNT_DIGITS):
+        start = float(starts[index])
+        end = float(starts[index + 1]) if index < 4 else float(hold_end)
+        beats.append({"digit": digit, "start": round(start, 3), "end": round(max(end, start + 0.05), 3)})
+    beats[-1]["end"] = round(max(beats[-1]["end"], float(hold_end)), 3)
+    return beats
+
+
+def five_onsets(path: Path) -> list[float]:
+    """Five spoken-word starts inside one countdown chunk, in seconds from the file start."""
+    with wave.open(str(path)) as handle:
+        rate = handle.getframerate()
+        width = handle.getsampwidth()
+        channels = handle.getnchannels()
+        frames = handle.getnframes()
+        raw = handle.readframes(frames)
+    if width != 2 or channels < 1 or frames <= 0:
+        raise PilotError(f"{path.name} is not 16-bit PCM")
+    samples = array.array("h")
+    samples.frombytes(raw)
+    if channels > 1:
+        samples = array.array("h", (samples[index] for index in range(0, len(samples), channels)))
+    window = max(1, int(rate * 0.02))
+    rms: list[float] = []
+    for index in range(0, len(samples) - window + 1, window):
+        block = samples[index : index + window]
+        energy = sum(value * value for value in block) / len(block)
+        rms.append(energy ** 0.5)
+    if not rms:
+        raise PilotError(f"{path.name} has no countdown audio")
+    peak = max(rms)
+    threshold = max(180.0, peak * 0.2)
+    islands: list[list[float]] = []
+    cursor = 0
+    while cursor < len(rms):
+        if rms[cursor] >= threshold:
+            end = cursor
+            while end < len(rms) and rms[end] >= threshold:
+                end += 1
+            islands.append([cursor * 0.02, end * 0.02])
+            cursor = end
+        else:
+            cursor += 1
+    merged: list[list[float]] = []
+    for start, end in islands:
+        if merged and start - merged[-1][1] < 0.32:
+            merged[-1][1] = end
+        else:
+            merged.append([start, end])
+    while len(merged) > 5:
+        gap_at = min(range(len(merged) - 1), key=lambda item: merged[item + 1][0] - merged[item][1])
+        merged[gap_at][1] = merged[gap_at + 1][1]
+        del merged[gap_at + 1]
+    if len(merged) != 5:
+        raise PilotError(f"{path.name} has {len(merged)} countdown words, not 5")
+    return [round(start, 3) for start, _end in merged]
+
+
+def apply_spoken_countdown(aligned: list[dict[str, Any]], timings: dict[str, Any], narration_dir: Path) -> None:
+    """Place 5, 4, 3, 2, 1 on the spoken word starts. Digit 1 then holds."""
+    chunks_dir = narration_dir / "chunks"
+    if not chunks_dir.is_dir():
+        return
+    by_start = {
+        round(float(chunk["start"]), 3): chunk
+        for chunk in timings.get("chunks") or []
+        if chunk.get("countdown")
+    }
+    for scene in aligned:
+        window = scene.get("countdown")
+        beats = scene.get("countdownBeats")
+        if not window or not beats:
+            continue
+        abs_start = float(scene["start"]) + float(window["start"])
+        chunk = None
+        for candidate in by_start.values():
+            if abs(float(candidate["start"]) - abs_start) <= (1 / FPS) + 0.002:
+                chunk = candidate
+                break
+        if chunk is None:
+            continue
+        wav = chunks_dir / f"{chunk['id']}.wav"
+        if not wav.is_file():
+            raise PilotError(f"countdown chunk {chunk['id']} has no wav")
+        onsets = five_onsets(wav)
+        scene["countdownOnsets"] = onsets
+        scene["countdownBeats"] = beats_from_onsets(
+            [float(window["start"]) + onset for onset in onsets],
+            float(beats[-1]["end"]),
+        )
 
 
 def digit_at(beats: list[dict[str, Any]], moment: float) -> str | None:
@@ -769,7 +867,11 @@ def _mix_show(
             continue
         span = max(0.2, float(window["end"]) - float(window["start"]))
         origin = float(scene["start"]) + float(window["start"])
-        ticks.extend(origin + span * step / 5 for step in range(5))
+        onsets = scene.get("countdownOnsets")
+        if onsets:
+            ticks.extend(origin + float(onset) for onset in onsets)
+        else:
+            ticks.extend(origin + span * step / 5 for step in range(5))
     mixed = out_dir / "audio" / "mix.wav"
     _mix_tracks(voice, bed, mixed, duration, whooshes, ticks)
     return mixed, _measure_lufs(mixed)
@@ -1051,6 +1153,55 @@ def _speech_spans(scenes: list[dict[str, Any]], start: float, end: float) -> lis
     return merged
 
 
+def _gapless_duration(
+    speech: list[tuple[float, float]],
+    holds: list[tuple[float, float]],
+    lead_start: float,
+    in_sec: float,
+    out_sec: float,
+) -> float:
+    """Length if every pause except the countdown hold is removed."""
+    total = max(0.0, in_sec - lead_start)
+    cursor = in_sec
+
+    def kept_gap(opening: float, closing: float) -> bool:
+        return any(not (closing <= begin + 0.05 or opening >= stop - 0.05) for begin, stop in holds)
+
+    for opening, closing in speech:
+        if opening > cursor + 0.001 and kept_gap(cursor, opening):
+            total += opening - cursor
+        total += closing - opening
+        cursor = max(cursor, closing)
+    if out_sec > cursor + 0.001 and kept_gap(cursor, out_sec):
+        total += out_sec - cursor
+    return total
+
+
+def _center_cuts(
+    spans: list[tuple[float, float]],
+    pauses: list[tuple[float, float]],
+    amount: float,
+) -> list[tuple[float, float]]:
+    """Remove `amount` seconds from the longest pauses, from the middle of each one."""
+    cuts = []
+    left = float(amount)
+    for opening, closing in sorted(pauses, key=lambda item: item[1] - item[0], reverse=True):
+        if left <= 0.001:
+            break
+        for span_start, span_end in spans:
+            cut_start = max(opening + PAUSE_INSET_SEC, span_start + 0.02)
+            cut_end = min(closing - PAUSE_INSET_SEC, span_end - 0.02)
+            room = cut_end - cut_start
+            if room < 0.05:
+                continue
+            take = min(room, left)
+            middle = (cut_start + cut_end) / 2
+            cuts.append((middle - take / 2, middle + take / 2))
+            left -= take
+            break
+    return cuts
+
+
 def _shrink_gaps(lengths: list[float], excess: float, floor: float) -> list[float]:
     """Shorten the longest pauses first. Speech is not in this list."""
     shrunk = [float(item) for item in lengths]
@@ -1088,6 +1239,30 @@ def _time_map(pieces: list[tuple[float, float]]) -> tuple[Any, float]:
     return map_time, dest
 
 
+def _hold_intervals(scenes: list[dict[str, Any]], start: float, end: float) -> list[tuple[float, float]]:
+    """The planned 2 s pause after the countdown words. Question pauses may shrink. This one stays."""
+    holds = []
+    for scene in scenes:
+        window = scene.get("countdown")
+        if not window:
+            continue
+        origin = float(scene["start"])
+        hold_open = origin + float(window["end"])
+        next_cue = None
+        for cue in scene.get("cues") or []:
+            cue_at = origin + float(cue["start"])
+            if cue_at >= hold_open - 0.05:
+                next_cue = cue_at
+                break
+        if next_cue is None or next_cue <= hold_open:
+            continue
+        opening = max(hold_open, start)
+        closing = min(next_cue, end)
+        if closing > opening:
+            holds.append((opening, closing))
+    return holds
+
+
 def _kept_intervals(scenes: list[dict[str, Any]], start: float, end: float) -> list[tuple[float, float]]:
     """Countdown audio and the whole fact stay. Pauses inside the question may be shortened."""
     kept = []
@@ -1099,6 +1274,16 @@ def _kept_intervals(scenes: list[dict[str, Any]], start: float, end: float) -> l
             closing = origin + float(window["end"])
             if closing > start and opening < end:
                 kept.append((max(opening, start), min(closing, end)))
+        if window:
+            hold_open = origin + float(window["end"])
+            next_cue = None
+            for cue in scene.get("cues") or []:
+                cue_at = origin + float(cue["start"])
+                if cue_at >= hold_open - 0.05:
+                    next_cue = cue_at
+                    break
+            if next_cue is not None and next_cue > hold_open:
+                kept.append((max(hold_open, start), min(next_cue, end)))
         if scene.get("role") == "reveal":
             opening = float(scene["start"])
             closing = float(scene["end"])
@@ -1172,15 +1357,29 @@ def _pack_short(
 ) -> tuple[list[dict[str, Any]], list[tuple[float, float]], float]:
     """Open 0.3 s before the question, then drop pauses until the short is at most 55 s.
 
-    Inter-chunk gaps go first. If the question is still too long, pauses inside the
-    question are shortened. The countdown and the fact are not cut.
+    Inter-chunk gaps go first. Pauses inside the question are shortened next.
+    The countdown words and the 2 s hold stay. A breath inside the fact is shortened
+    only when the short would still pass 55 s.
     """
     lead_start = max(0.0, in_sec - SHORT_LEAD_SEC)
     speech = _speech_spans(scenes, in_sec, out_sec)
     if not speech:
         raise PilotError("short window has no recorded speech")
+    kept = _kept_intervals(scenes, in_sec, out_sec)
     found = pauses if pauses is not None else _voice_pauses(voice, in_sec, out_sec)
-    speech = _split_speech(speech, _pause_cuts(speech, found, _kept_intervals(scenes, in_sec, out_sec)))
+    speech = _split_speech(speech, _pause_cuts(speech, found, kept))
+    holds = _hold_intervals(scenes, in_sec, out_sec)
+    overflow = _gapless_duration(speech, holds, lead_start, in_sec, out_sec) - SHORT_TARGET_SEC
+    if overflow > 0.001:
+        reveal_pauses = []
+        for opening, closing in found:
+            for scene in scenes:
+                if scene.get("role") != "reveal":
+                    continue
+                if opening < min(float(scene["end"]), out_sec) and closing > max(float(scene["start"]), in_sec):
+                    reveal_pauses.append((opening, closing))
+                    break
+        speech = _split_speech(speech, _center_cuts(speech, reveal_pauses, overflow + 0.05))
     gaps: list[tuple[float, float]] = []
     cursor = in_sec
     for opening, closing in speech:
@@ -1190,9 +1389,17 @@ def _pack_short(
     if out_sec > cursor + 0.001:
         gaps.append((cursor, out_sec))
     lengths = [closing - opening for opening, closing in gaps]
+    hold_gap = [
+        index
+        for index, (opening, closing) in enumerate(gaps)
+        if any(not (closing <= begin + 0.05 or opening >= stop - 0.05) for begin, stop in holds)
+    ]
     excess = (out_sec - lead_start) - SHORT_TARGET_SEC
-    if excess > 0 and lengths:
-        lengths = _shrink_gaps(lengths, excess, SHORT_MIN_GAP_SEC)
+    shrinkable = [index for index in range(len(lengths)) if index not in hold_gap]
+    if excess > 0 and shrinkable:
+        shrunk = _shrink_gaps([lengths[index] for index in shrinkable], excess, SHORT_MIN_GAP_SEC)
+        for index, value in zip(shrinkable, shrunk):
+            lengths[index] = value
     pieces: list[tuple[float, float]] = []
     if in_sec - lead_start > 0.001:
         pieces.append((lead_start, in_sec))
@@ -1250,7 +1457,11 @@ def _pack_short(
         beats = None
         if countdown:
             hold_end = cues[0]["start"] if cues else countdown["end"]
-            beats = countdown_beats(countdown["start"], countdown["end"], hold_end)
+            onsets = scene.get("countdownOnsets")
+            if onsets:
+                beats = beats_from_onsets([countdown["start"] + float(onset) for onset in onsets], hold_end)
+            else:
+                beats = countdown_beats(countdown["start"], countdown["end"], hold_end)
         whole = abs(src_start - float(scene["start"])) < 0.02 and abs(src_end - float(scene["end"])) < 0.02
         if whole:
             text = scene["text"]
@@ -1730,6 +1941,21 @@ def _base_manifest(
                     "maxLines": 2,
                 },
                 "captionCues": scene["cues"],
+                **(
+                    {"countdown": scene["countdown"]}
+                    if scene.get("countdown")
+                    else {}
+                ),
+                **(
+                    {"countdownBeats": scene["countdownBeats"]}
+                    if scene.get("countdownBeats")
+                    else {}
+                ),
+                **(
+                    {"countdownOnsets": scene["countdownOnsets"]}
+                    if scene.get("countdownOnsets")
+                    else {}
+                ),
                 "plates": [
                     {"id": str(plate["id"]), "sha256": sha256_file(Path(plate["path"]))}
                     for plate in scene.get("plates") or []

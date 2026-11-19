@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import json
+import math
 import shutil
+import struct
 import subprocess
 import tempfile
 import unittest
+import wave
 from pathlib import Path
 from typing import Any
 
@@ -15,9 +18,10 @@ from tools.foundation.ffmpeg import frame_luma, volume_detect
 from tools.foundation.hashutil import sha256_file
 from tools.foundation.manifest import ManifestError, load_manifest
 from tools.foundation.narration import prepare_narration, prepare_one
-from tools.foundation.pilot import countdown_beats, digit_at, _pack_short
+from tools.foundation.pilot import beats_from_onsets, countdown_beats, digit_at, five_onsets, _pack_short
 from tools.foundation.qa import (
     check_black_span,
+    check_countdown_digits,
     check_caption_straight_apostrophe,
     check_distinct_plates,
     check_levels,
@@ -373,6 +377,45 @@ class QaNegativeTests(unittest.TestCase):
 
 
 class EpisodeReviewTests(unittest.TestCase):
+    def test_countdown_digits_follow_the_spoken_words(self) -> None:
+        rate = 24000
+        starts = [0.12, 1.10, 1.95, 2.80, 3.70]
+        samples = [0] * int(rate * 4.2)
+        for start in starts:
+            at = int(start * rate)
+            for step in range(int(rate * 0.18)):
+                samples[at + step] = int(8000 * math.sin(2 * math.pi * 180 * step / rate))
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "count.wav"
+            with wave.open(str(path), "w") as handle:
+                handle.setnchannels(1)
+                handle.setsampwidth(2)
+                handle.setframerate(rate)
+                handle.writeframes(struct.pack("<" + "h" * len(samples), *samples))
+            found = five_onsets(path)
+        self.assertEqual(len(found), 5)
+        for actual, expected in zip(found, starts):
+            self.assertAlmostEqual(actual, expected, delta=0.06)
+        beats = beats_from_onsets(found, 5.8)
+        self.assertEqual([item["digit"] for item in beats], ["5", "4", "3", "2", "1"])
+        self.assertEqual(digit_at(beats, found[0] + 0.05), "5")
+        self.assertEqual(digit_at(beats, found[4] + 0.05), "1")
+        self.assertEqual(digit_at(beats, 5.4), "1")
+        self.assertEqual(digit_at(beats, found[4] - 0.05), "2")
+        checked = check_countdown_digits(
+            {
+                "scenes": [
+                    {
+                        "id": "r1-count",
+                        "countdown": {"start": 0.0, "end": 4.2},
+                        "countdownOnsets": found,
+                        "countdownBeats": beats,
+                    }
+                ]
+            }
+        )
+        self.assertTrue(checked[0]["pass"])
+
     def test_countdown_shows_one_through_the_hold(self) -> None:
         beats = countdown_beats(0.0, 3.32, 5.32)
         self.assertEqual([item["digit"] for item in beats], ["5", "4", "3", "2", "1"])
