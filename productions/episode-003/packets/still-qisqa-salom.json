@@ -45,12 +45,15 @@
     "model": "Nano Banana 2.1",
     "credits": 0
   },
-  "sourceHash": "8b7dc749d1d25d3d0ddd97c7e85e1754c772b7f2d893cc2effa2e9f446cf3540",
+  "sourceHash": "697558d2d5ac6262a4228478a0fa26099c1e208b50f7ee062304e8789883fd28",
   "cachedPath": null,
   "cacheAction": "stored",
   "variantOf": null,
   "history": [
     "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated",
     "awaiting_manual_generation",
     "awaiting_import",
     "validated"
@@ -59,6 +62,6 @@
   "focalGuidance": "Keep the small indoor greeting group central, faces turned away.",
   "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
   "sourceFile": "still-qisqa-salom.jpg",
-  "deliveredWidth": 1376,
-  "deliveredHeight": 768
+  "deliveredWidth": 1344,
+  "deliveredHeight": 756
 }

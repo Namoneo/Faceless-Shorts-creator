@@ -45,12 +45,15 @@
     "model": "Nano Banana 2.1",
     "credits": 0
   },
-  "sourceHash": "74d934f120dbf94cb981ebb7fc07f032dd88e9994b95478f5bb290d62a3c32c9",
+  "sourceHash": "0d35918adc959b62974704114b219c14e4158bff3a895d628e3e2ff65e34d4ba",
   "cachedPath": null,
   "cacheAction": "stored",
   "variantOf": null,
   "history": [
     "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated",
     "awaiting_manual_generation",
     "awaiting_import",
     "validated"
@@ -59,6 +62,6 @@
   "focalGuidance": "Keep the compact sedan body central so a portrait crop still holds the car.",
   "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
   "sourceFile": "still-nexia.jpg",
-  "deliveredWidth": 1376,
-  "deliveredHeight": 768
+  "deliveredWidth": 1344,
+  "deliveredHeight": 756
 }

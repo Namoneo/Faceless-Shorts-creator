@@ -45,12 +45,15 @@
     "model": "Nano Banana 2.1",
     "credits": 0
   },
-  "sourceHash": "b12951d4b80c3b644608e482ae95532cdd02205f62b7397765f5e0ca3824f83f",
+  "sourceHash": "584ca9d4bdfac67aafd4fb869810e7474bcd5662e7b8714f1e671944761cc93f",
   "cachedPath": null,
   "cacheAction": "stored",
   "variantOf": null,
   "history": [
     "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated",
     "awaiting_manual_generation",
     "awaiting_import",
     "validated"
@@ -59,6 +62,6 @@
   "focalGuidance": "Keep the winter festive table and warm lamps central.",
   "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
   "sourceFile": "still-yangi-yil.jpg",
-  "deliveredWidth": 1376,
-  "deliveredHeight": 768
+  "deliveredWidth": 1344,
+  "deliveredHeight": 756
 }

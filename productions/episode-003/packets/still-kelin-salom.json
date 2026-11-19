@@ -45,12 +45,15 @@
     "model": "Nano Banana 2.1",
     "credits": 0
   },
-  "sourceHash": "779e6c4e35dba6dd27c78e638acbd4fda71f371f221518a0e8988c54b8920cb7",
+  "sourceHash": "8f4d4c0f7d39f7d6176cedc5dcc49fd33555df14aa31eaa56d0d9a86f3515229",
   "cachedPath": null,
   "cacheAction": "stored",
   "variantOf": null,
   "history": [
     "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated",
     "awaiting_manual_generation",
     "awaiting_import",
     "validated"
@@ -59,6 +62,6 @@
   "focalGuidance": "Keep the bowing figure and nearest guests in the centre, faces unreadable.",
   "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
   "sourceFile": "still-kelin-salom.jpg",
-  "deliveredWidth": 1376,
-  "deliveredHeight": 768
+  "deliveredWidth": 1344,
+  "deliveredHeight": 756
 }

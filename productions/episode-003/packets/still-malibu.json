@@ -45,12 +45,15 @@
     "model": "Nano Banana 2.1",
     "credits": 0
   },
-  "sourceHash": "6c5c3880c68f1a4868a2015c39c30a6732a27bfcee4615f0da7bd62a607d0879",
+  "sourceHash": "133b87235837a1d6aa7c4281197718a60edb2b36391aeb5bba25caa5259a5fcc",
   "cachedPath": null,
   "cacheAction": "stored",
   "variantOf": null,
   "history": [
     "planned",
+    "awaiting_manual_generation",
+    "awaiting_import",
+    "validated",
     "awaiting_manual_generation",
     "awaiting_import",
     "validated"
@@ -59,6 +62,6 @@
   "focalGuidance": "Keep the longer midsize sedan body central.",
   "portrait": "Derived later from this 16:9 master. Not a second Flow generation.",
   "sourceFile": "still-malibu.jpg",
-  "deliveredWidth": 1376,
-  "deliveredHeight": 768
+  "deliveredWidth": 1344,
+  "deliveredHeight": 756
 }
